@@ -5,10 +5,16 @@
  */
 package draft_kit_builder.gui;
 
+import javafx.stage.Stage;
+
 /**
  *
  * @author MatthewLuce
  */
 public class YesNoCancelDialog {
+
+    YesNoCancelDialog(Stage primaryStage) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -10,5 +10,13 @@ package draft_kit_builder.data;
  * @author MatthewLuce
  */
 public class Player {
-    
+    String contractStatus;
+    String firstName;
+    String lastName;
+    String team;
+    String PlayerType;
+    double salary;
+    boolean availability;
+    Statistics stats;
 }
+
