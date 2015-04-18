@@ -9,6 +9,6 @@ package WBDK.gui;
  *
  * @author MatthewLuce
  */
-public class Player_Fantasy_Teams_GUI {
+public class MLB_GUI {
     
 }

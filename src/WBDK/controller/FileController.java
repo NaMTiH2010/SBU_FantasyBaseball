@@ -118,7 +118,7 @@ public class FileController {
             if (continueToMakeNew) {
                 // RESET THE DATA, WHICH SHOULD TRIGGER A RESET OF THE UI
                 WBDK_DataManager dataManager = gui.getDataManager();
-                dataManager.reset();
+                dataManager.reset(gui);
                 saved = false;
 
                 // REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
