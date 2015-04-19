@@ -15,6 +15,8 @@ import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -86,18 +88,20 @@ public class PlayersPage_GUI extends WBDK_DataView {
     }
     
     @Override
-    public void initGUI(String windowTitle, ArrayList<String> subjects) throws IOException {
+    public void initGUI(String windowTitle) throws IOException {
         // INIT THE DIALOGS
         initDialogs();
+        
+        initBottomNavbar();
         
         // INIT THE TOOLBAR
         initFileToolbar();
 
         // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
         // TO THE WINDOW YET
-        this.initWorkspace(subjects);
+        this.initWorkspace();
         
-        initBottomNavbar();
+        
 
         // NOW SETUP THE EVENT HANDLERS
         initEventHandlers();
@@ -107,7 +111,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
     }
     
     // CREATES AND SETS UP ALL THE CONTROLS TO GO IN THE APP WORKSPACE
-    private void initWorkspace(ArrayList<String> subjects) throws IOException {
+    @Override
+    public void initWorkspace() throws IOException {
         // THE WORKSPACE HAS A FEW REGIONS, THIS 
         // IS FOR BASIC COURSE EDITING CONTROLS
       
@@ -151,7 +156,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         
 
         // HERE'S THE LABEL
-        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.COURSE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.PLAYERS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
         add_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, true);
         remove_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
         searchBar = initGridTextField(topGridPane, 60, "", true, 3, 1, 1, 1);
@@ -173,6 +178,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         topWorkspacePane.getChildren().add(radioButtonHPane);
 
     }
+    /*
     // INIT A LABEL AND PUT IT IN A TOOLBAR
     private Label initChildLabel(Pane container, WBDK_PropertyType labelProperty, String styleClass) {
         Label label = initLabel(labelProperty, styleClass);
@@ -186,7 +192,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         Label label = new Label(labelText);
         label.getStyleClass().add(styleClass);
         return label;
-    }
+    }*/
     
     private void initPlayerTable(){
         // SET UP TABLE
@@ -299,19 +305,39 @@ public class PlayersPage_GUI extends WBDK_DataView {
         
         // BOTTOMTOOLBAR
         draftPage_Button.setOnAction(e -> {
-            fileController.handleDraftPageRequest(this);
+            try {
+                fileController.handleDraftPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         mlbPage_Button.setOnAction(e -> {
-            fileController.handleMLB_PageRequest(this);
+            try {
+                fileController.handleMLBPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         fantasyTeamsPage_Button.setOnAction(e -> {
-            fileController.handleFantasyTeamsPageRequest(this);
+            try {
+                fileController.handleFantasyTeamsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         fantasyStandingsPage_Button.setOnAction(e -> {
-            fileController.handleFantasyStandingPageRequest(this);
+            try {
+                fileController.handleFantasyStandingsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         playersPage_Button.setOnAction(e -> {
-            fileController.handlePlayersPageRequest(this);
+            try {
+                fileController.handlePlayersPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         // AND NOW THE NOTES ITEM ADDING AND EDITING CONTROLS

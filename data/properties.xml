@@ -21,12 +21,30 @@
         <property name="MOVE_UP_ICON"       value="MoveUp.png"></property>
         <property name="MOVE_DOWN_ICON"     value="MoveDown.png"></property>
         
+        <property name="STAR_ICON"     value="star.png"></property>
+        <property name="CROWN_ICON"     value="crown.png"></property>
+        <property name="MONEY_ICON"     value="money.png"></property>
+        <property name="PAWN_ICON"     value="pawn.png"></property>
+        <property name="BASEBALL_ICON"     value="baseballbat.png"></property>
+        
         <!-- TOOLTIPS FOR BUTTONS -->
+        
+        <property name="NEW_DRAFT_TOOLTIP"         value="Create a New Course"></property>
+        <property name="LOAD_DRAFT_TOOLTIP"        value="Load and Existing Course"></property>
+        <property name="SAVE_DRAFT_TOOLTIP"        value="Save this Course"></property>
+        
+        <property name="MLB_PAGE_TOOLTIP"                   value="MLB Page"></property>
+        <property name="PLAYER_PAGE_TOOLTIP"               value="Players Page"></property>
+        <property name="FANTASY_TEAMS_PAGE_TOOLTIP"         value="Fantasy Teams Page"></property>
+        <property name="FANTASY_STANDINGS_PAGE_TOOLTIP"     value="Fantasy Standings Page"></property>
+        <property name="DRAFT_PAGE_TOOLTIP"                 value="Draft Page"></property>
+        
+        
         <property name="NEW_COURSE_TOOLTIP"         value="Create a New Course"></property>
         <property name="LOAD_COURSE_TOOLTIP"        value="Load and Existing Course"></property>
         <property name="SAVE_COURSE_TOOLTIP"        value="Save this Course"></property>
         <property name="VIEW_SCHEDULE_TOOLTIP"      value="View the Schedule Page"></property>
-        <property name="EXPORT_PAGE_TOOLTIP"        value="Export the Schedule Page"></property>
+        <property name="EXPORT_PAGE_TOOLTIP"        value="Export"></property>
         <property name="DELETE_TOOLTIP"             value="Delete this Course"></property>
         <property name="EXIT_TOOLTIP"               value="Exit the Application"></property>
         <property name="ADD_ITEM_TOOLTIP"           value="Add Schedule Item"></property>
@@ -39,7 +57,14 @@
         <property name="REMOVE_HW_TOOLTIP"          value="Remove Assignment"></property>
         
         <!-- GUI LABELS -->
-        <property name="COURSE_HEADING_LABEL"           value="Course Site Details"></property>
+        <property name="COURSE_HEADING_LABEL"                   value="Course Site Details"></property>
+        
+        <property name="PLAYERS_PAGE_HEADING_LABEL"              value="Available Players"></property>
+        <property name="MLB_PAGE_HEADING_LABEL"                 value="MLB Teams"></property>
+        <property name="FANTASY_TEAMS_PAGE_HEADING_LABEL"       value="Fantasy Teams"></property>
+        <property name="FANTASY_STANDINGS_PAGE_HEADING_LABEL"   value="Fantasy Standings"></property>
+        <property name="DRAFT_PAGE_HEADING_LABEL"               value="Draft Summary"></property>
+        
         <property name="COURSE_INFO_LABEL"              value="Course Information"></property>
         <property name="COURSE_SUBJECT_LABEL"           value="Subject:"></property>
         <property name="COURSE_NUMBER_LABEL"            value="Number:"></property>

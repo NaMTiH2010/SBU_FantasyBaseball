@@ -52,17 +52,27 @@ public class WBDK_DataManager {
         draft.playersPage.setFileManager(gui.getCourseFileManager());
         draft.playersPage.setSiteExporter(gui.getSiteExporter());
         // INITIALIZE THE DRAFT PAGE
+        draft.draftPage.setDataManager(gui.getDataManager());
+        draft.draftPage.setFileManager(gui.getCourseFileManager());
+        draft.draftPage.setSiteExporter(gui.getSiteExporter());
         // INITIALIZE THE MLB PAGE
+        draft.mlb_Page.setDataManager(gui.getDataManager());
+        draft.mlb_Page.setFileManager(gui.getCourseFileManager());
+        draft.mlb_Page.setSiteExporter(gui.getSiteExporter());
         // INITIALIZE THE FANTASY TEAMS PAGE
+        draft.fantasyTeamsPage.setDataManager(gui.getDataManager());
+        draft.fantasyTeamsPage.setFileManager(gui.getCourseFileManager());
+        draft.fantasyTeamsPage.setSiteExporter(gui.getSiteExporter());
         // INITIALIZE THE FANTASY STANDINGS PAGE
+        draft.fantasyStandingsPage.setDataManager(gui.getDataManager());
+        draft.fantasyStandingsPage.setFileManager(gui.getCourseFileManager());
+        draft.fantasyStandingsPage.setSiteExporter(gui.getSiteExporter());
         
-        ArrayList<String> subjects= new ArrayList();
-                subjects.add("car");
-                subjects.add("bus");
         
-        draft.playersPage.initGUI("TESTING",subjects);
+        
+        draft.fantasyTeamsPage.initGUI("WolfieBall Draft Kit");
         
         // RELOAD ALL THE PAGES
-        draft.playersPage.reloadDraft(draft);
+        draft.fantasyTeamsPage.reloadDraft(draft);
     }
 }

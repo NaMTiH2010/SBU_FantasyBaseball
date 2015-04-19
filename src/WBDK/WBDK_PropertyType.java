@@ -28,7 +28,26 @@ public enum WBDK_PropertyType {
         MOVE_UP_ICON,
         MOVE_DOWN_ICON,
         
+        CROWN_ICON,
+        MONEY_ICON,
+        PAWN_ICON,
+        STAR_ICON,
+        BASEBALL_ICON,
+        
         // APPLICATION TOOLTIPS FOR BUTTONS
+        
+        NEW_DRAFT_TOOLTIP,
+        LOAD_DRAFT_TOOLTIP,
+        SAVE_DRAFT_TOOLTIP,
+        
+        MLB_PAGE_TOOLTIP,
+        DRAFT_PAGE_TOOLTIP,
+        FANTASY_TEAMS_PAGE_TOOLTIP,
+        PLAYER_PAGE_TOOLTIP,
+        FANTASY_STANDINGS_PAGE_TOOLTIP,
+        
+        
+        
         NEW_COURSE_TOOLTIP,
         LOAD_COURSE_TOOLTIP,
         SAVE_COURSE_TOOLTIP,
@@ -44,7 +63,12 @@ public enum WBDK_PropertyType {
         MOVE_DOWN_LECTURE_TOOLTIP,
         ADD_HW_TOOLTIP,
         REMOVE_HW_TOOLTIP,        
-
+        // FOR HEADING LABELS
+        MLB_PAGE_HEADING_LABEL,
+        PLAYERS_PAGE_HEADING_LABEL,
+        FANTASY_TEAMS_PAGE_HEADING_LABEL,
+        FANTASY_STANDINGS_PAGE_HEADING_LABEL,
+        DRAFT_PAGE_HEADING_LABEL,
         // FOR COURSE EDIT WORKSPACE
         COURSE_HEADING_LABEL,
         COURSE_INFO_LABEL,

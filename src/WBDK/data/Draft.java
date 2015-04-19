@@ -32,10 +32,10 @@ public class Draft {
     
     public Draft(WBDK_DataView tempGUI,ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray){
         playersPage = new PlayersPage_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
-        draftPage = new Draft_GUI();
-        fantasyStandingsPage = new FantasyStandings_GUI();
-        fantasyTeamsPage = new FantasyTeams_GUI();
-        mlb_Page = new MLB_GUI();
+        draftPage = new Draft_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
+        fantasyStandingsPage = new FantasyStandings_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
+        fantasyTeamsPage = new FantasyTeams_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
+        mlb_Page = new MLB_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
         hitters = hitterArray;
         pitchers = pitcherArray;
         players = FXCollections.observableArrayList();
@@ -75,5 +75,20 @@ public class Draft {
                 players.add(pitchers.get(i));
             }
     }
-    
+   
+    public PlayersPage_GUI getPlayersPage(){
+        return playersPage;
+    }
+    public Draft_GUI getDraftPage(){
+        return draftPage;
+    }
+    public FantasyStandings_GUI getFantasyStandingsPage(){
+        return fantasyStandingsPage;
+    }
+    public FantasyTeams_GUI getFantasyTeamsPage(){
+        return fantasyTeamsPage;
+    }
+    public MLB_GUI getMLB_Page(){
+        return mlb_Page;
+    }
 }

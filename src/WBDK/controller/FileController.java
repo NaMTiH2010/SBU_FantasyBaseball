@@ -133,6 +133,42 @@ public class FileController {
             errorHandler.handleNewCourseError();
         }
     }
+    public void handleMLBPageRequest(WBDK_DataView gui) throws IOException{
+                WBDK_DataManager dataManager = gui.getDataManager();
+                //dataManager.reset(gui);
+                //gui.updateToolbarControls(saved);
+                dataManager.getDraft().getMLB_Page().initGUI("WolfieBall Draft Kit");
+                dataManager.getDraft().getMLB_Page().reloadDraft(dataManager.getDraft());
+    }
+    public void handleFantasyTeamsPageRequest(WBDK_DataView gui) throws IOException {
+                WBDK_DataManager dataManager = gui.getDataManager();
+                //dataManager.reset(gui);
+                //gui.updateToolbarControls(saved);
+                dataManager.getDraft().getFantasyTeamsPage().initGUI("WolfieBall Draft Kit");
+                dataManager.getDraft().getFantasyTeamsPage().reloadDraft(dataManager.getDraft());
+    }
+    public void handlePlayersPageRequest(WBDK_DataView gui) throws IOException {
+                WBDK_DataManager dataManager = gui.getDataManager();
+                //dataManager.reset(gui);
+                //gui.updateToolbarControls(saved);
+                dataManager.getDraft().getPlayersPage().initGUI("WolfieBall Draft Kit");
+                dataManager.getDraft().getPlayersPage().reloadDraft(dataManager.getDraft());
+    }
+    public void handleFantasyStandingsPageRequest(WBDK_DataView gui) throws IOException {
+                WBDK_DataManager dataManager = gui.getDataManager();
+                //dataManager.reset(gui);
+                //gui.updateToolbarControls(saved);
+                dataManager.getDraft().getFantasyStandingsPage().initGUI("WolfieBall Draft Kit");
+                dataManager.getDraft().getFantasyStandingsPage().reloadDraft(dataManager.getDraft());
+    }
+    
+    public void handleDraftPageRequest(WBDK_DataView gui) throws IOException {
+                WBDK_DataManager dataManager = gui.getDataManager();
+                //dataManager.reset(gui);
+                //gui.updateToolbarControls(saved);
+                dataManager.getDraft().getDraftPage().initGUI("WolfieBall Draft Kit");
+                dataManager.getDraft().getDraftPage().reloadDraft(dataManager.getDraft());
+    }
     /**
      * This method will exit the application, making sure the user doesn't lose
      * any data first.
@@ -158,117 +194,7 @@ public class FileController {
             eH.handleExitError();
         }
     }
-    ///////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
     
-    
-    public void handlePlayersPageRequest(WBDK_DataView gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandler eH = ErrorHandler.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-    
-    public void handleFantasyTeamsPageRequest(WBDK_DataView gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandler eH = ErrorHandler.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-    
-    public void handleDraftPageRequest(WBDK_DataView gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandler eH = ErrorHandler.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-    
-    public void handleMLB_PageRequest(WBDK_DataView gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandler eH = ErrorHandler.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-    
-    /**
-     *
-     * @param gui
-     */
-    public void handleFantasyStandingPageRequest(WBDK_DataView gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandler eH = ErrorHandler.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-
     /**
      * This helper method verifies that the user really wants to save their
      * unsaved work, which they might not want to do. Note that it could be used

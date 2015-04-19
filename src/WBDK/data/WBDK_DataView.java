@@ -21,6 +21,8 @@ import WBDK.gui.MessageDialog;
 import WBDK.gui.YesNoCancelDialog;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -195,16 +197,19 @@ public abstract class WBDK_DataView {
     public void setDataManager(WBDK_DataManager dataManager) {
         this.dataManager = dataManager;    }
 
-    public void initGUI(String windowTitle, ArrayList<String> subjects) throws IOException {
+    public void initGUI(String windowTitle) throws IOException {
         // INIT THE DIALOGS
         initDialogs();
+        
+        
+        initBottomNavbar();
         
         // INIT THE TOOLBAR
         initFileToolbar();
 
         // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
         // TO THE WINDOW YET
-        initWorkspace(subjects);
+        initWorkspace();
 
         // NOW SETUP THE EVENT HANDLERS
         initEventHandlers();
@@ -293,15 +298,15 @@ public abstract class WBDK_DataView {
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-        newDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
-        loadDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
-        saveDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_COURSE_TOOLTIP, true);
+        newDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
+        loadDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_DRAFT_TOOLTIP, true);
+        saveDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_DRAFT_TOOLTIP, true);
         exportSiteButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, true);
         exitButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXIT_ICON, WBDK_PropertyType.EXIT_TOOLTIP, false);
     }
     
     // CREATES AND SETS UP ALL THE CONTROLS TO GO IN THE APP WORKSPACE
-    private void initWorkspace(ArrayList<String> subjects) throws IOException {
+    public void initWorkspace() throws IOException {
         // THE WORKSPACE HAS A FEW REGIONS, THIS 
         // IS FOR BASIC COURSE EDITING CONTROLS
       
@@ -409,19 +414,39 @@ public abstract class WBDK_DataView {
         
         // BOTTOMTOOLBAR
         draftPage_Button.setOnAction(e -> {
-            fileController.handleExitRequest(this);
+            try {
+                fileController.handleDraftPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(WBDK_DataView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         mlbPage_Button.setOnAction(e -> {
-            fileController.handleExitRequest(this);
+            try {
+                fileController.handleMLBPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(WBDK_DataView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         fantasyTeamsPage_Button.setOnAction(e -> {
-            fileController.handleExitRequest(this);
+            try {
+                fileController.handleFantasyTeamsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(WBDK_DataView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         fantasyStandingsPage_Button.setOnAction(e -> {
-            fileController.handleExitRequest(this);
+            try {
+                fileController.handleFantasyStandingsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(WBDK_DataView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         playersPage_Button.setOnAction(e -> {
-            fileController.handleExitRequest(this);
+            try {
+                fileController.handlePlayersPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(WBDK_DataView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
        
         
@@ -452,15 +477,29 @@ public abstract class WBDK_DataView {
 
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-        draftPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
-        mlbPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
-        fantasyTeamsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_COURSE_TOOLTIP, false);
-        fantasyStandingsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, false);
-        playersPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.EXIT_ICON, WBDK_PropertyType.EXIT_TOOLTIP, false);
+        //System.out.println("Inside initBOTTOMNAVBAR" );
+        draftPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.MONEY_ICON, WBDK_PropertyType.DRAFT_PAGE_TOOLTIP, false);
+        mlbPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.STAR_ICON, WBDK_PropertyType.MLB_PAGE_TOOLTIP, false);
+        fantasyTeamsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.BASEBALL_ICON, WBDK_PropertyType.FANTASY_TEAMS_PAGE_TOOLTIP, false);
+        fantasyStandingsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.CROWN_ICON, WBDK_PropertyType.FANTASY_STANDINGS_PAGE_TOOLTIP, false);
+        playersPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.PAWN_ICON, WBDK_PropertyType.PLAYER_PAGE_TOOLTIP, false);
     
     }
     
-    
+    // INIT A LABEL AND PUT IT IN A TOOLBAR
+    public Label initChildLabel(Pane container, WBDK_PropertyType labelProperty, String styleClass) {
+        Label label = initLabel(labelProperty, styleClass);
+        container.getChildren().add(label);
+        return label;
+    }
+    // INIT A LABEL AND SET IT'S STYLESHEET CLASS
+    public Label initLabel(WBDK_PropertyType labelProperty, String styleClass) {
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        String labelText = props.getProperty(labelProperty);
+        Label label = new Label(labelText);
+        label.getStyleClass().add(styleClass);
+        return label;
+    }
     
     ////////////////////////////////////////////////////////////
    

@@ -106,7 +106,7 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
 
                 // FINALLY, START UP THE USER INTERFACE WINDOW AFTER ALL
                 // REMAINING INITIALIZATION
-                gui.initGUI(appTitle, subjects);                
+                gui.initGUI(appTitle);                
             }
             catch(IOException ioe) {
                 eH = ErrorHandler.getErrorHandler();
