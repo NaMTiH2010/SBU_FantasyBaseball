@@ -129,7 +129,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         
         si.setLastName(jso.getString("LAST_NAME"));
         si.setFirstName(jso.getString("FIRST_NAME"));
-        si.setQP(jso.getString("QP"));
+        si.setQp(jso.getString("QP"));
         si.setAB(jso.getString("AB"));
         si.setH(jso.getString("H"));
         si.setR_W(jso.getString("R"));
@@ -276,7 +276,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         
         si.setLastName(jso.getString("LAST_NAME"));
         si.setFirstName(jso.getString("FIRST_NAME"));
-        si.setQP(jso.getString("QP"));
+        si.setQp(jso.getString("QP"));
         si.setAB(jso.getString("AB"));
         si.setR_W(jso.getString("R"));
         si.setH(jso.getString("H"));

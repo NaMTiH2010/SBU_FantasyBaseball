@@ -14,6 +14,7 @@ import WBDK.controller.FantasyStandingsEditController;
 import WBDK.controller.FantasyTeamsEditController;
 import WBDK.controller.FileController;
 import WBDK.controller.PlayersAndFantasyTeamsEditController;
+import WBDK.controller.PlayersEditController;
 import WBDK.file.WBDK_FileManager;
 import WBDK.file.WBDK_SiteExporter;
 import WBDK.gui.MessageDialog;
@@ -46,8 +47,8 @@ import properties_manager.PropertiesManager;
  */
 public abstract class WBDK_DataView {
         
-    static final String PRIMARY_STYLE_SHEET = PATH_CSS + "wbdk_style.css";
-   public static final String CLASS_BORDERED_PANE = "bordered_pane";
+    public static final String PRIMARY_STYLE_SHEET = PATH_CSS + "wbdk_style.css";
+    public static final String CLASS_BORDERED_PANE = "bordered_pane";
     static final String CLASS_SUBJECT_PANE = "subject_pane";
     public static final String CLASS_HEADING_LABEL = "heading_label";
     static final String CLASS_SUBHEADING_LABEL = "subheading_label";
@@ -62,54 +63,56 @@ public abstract class WBDK_DataView {
     public WBDK_DataManager dataManager;
 
     // THIS MANAGES COURSE FILE I/O
-    WBDK_FileManager fileManager;
+   public  WBDK_FileManager fileManager;
 
     // THIS MANAGES EXPORTING OUR SITE PAGES
-    WBDK_SiteExporter siteExporter;
+   public WBDK_SiteExporter siteExporter;
 
     // THIS HANDLES INTERACTIONS WITH FILE-RELATED CONTROLS
-    FileController fileController;
+    public FileController fileController;
 
     // THIS HANDLES INTERACTIONS WITH COURSE INFO CONTROLS
-    DraftEditController draftController;
+   public DraftEditController draftController;
     
     // THIS HANDLES REQUESTS TO ADD OR EDIT SCHEDULE STUFF
-    FantasyTeamsEditController scheduleController;
+    public FantasyTeamsEditController scheduleController;
     
     //THIS HANDLES REQUESTS TO ADD OR EDIT LECTURE STUFF
-    FantasyStandingsEditController lectureController;
+   public  FantasyStandingsEditController lectureController;
     
     //THIS HANDLES REQUESTS TO ADD OR EDIT ASSIGNMENT STUFF
-    PlayersAndFantasyTeamsEditController assignmentController;
+   public PlayersAndFantasyTeamsEditController assignmentController;
+   
+   public PlayersEditController playersController;
     
     //THIS HANDLES REQUESTS TO ADD OR EDIT 
 
     // THIS IS THE APPLICATION WINDOW
-    Stage primaryStage;
-    Stage secondaryStage;
+   public Stage primaryStage;
+   public Stage secondaryStage;
 
     // THIS IS THE STAGE'S SCENE GRAPH
-    Scene primaryScene;
+   public Scene primaryScene;
 
     // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
     public BorderPane wbdkPane;
     
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
-    FlowPane fileToolbarPane;
-    FlowPane bottomToolbarPane;
-    Button newDraftButton;
-    Button loadDraftButton;
-    Button saveDraftButton;
-    Button exportSiteButton;
-    Button exitButton;
+   public FlowPane fileToolbarPane;
+   public FlowPane bottomToolbarPane;
+   public Button newDraftButton;
+   public Button loadDraftButton;
+   public Button saveDraftButton;
+   public Button exportSiteButton;
+   public Button exitButton;
     
     // BOTTOM BUTTONS FOR NAVBAR
-    Button draftPage_Button;
-    Button mlbPage_Button;
-    Button fantasyTeamsPage_Button;
-    Button fantasyStandingsPage_Button;
-    Button playersPage_Button;
+   public Button draftPage_Button;
+   public Button mlbPage_Button;
+   public Button fantasyTeamsPage_Button;
+   public Button fantasyStandingsPage_Button;
+   public Button playersPage_Button;
 
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     public BorderPane workspacePane;
@@ -385,6 +388,7 @@ public abstract class WBDK_DataView {
     public void initEventHandlers() throws IOException {
         // FIRST THE FILE CONTROLS
         fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
+        
         newDraftButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
@@ -402,6 +406,27 @@ public abstract class WBDK_DataView {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest(this);
         });
+        
+        // BOTTOMTOOLBAR
+        draftPage_Button.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        mlbPage_Button.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        fantasyTeamsPage_Button.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        fantasyStandingsPage_Button.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        playersPage_Button.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+       
+        
+        
+        
     }      
 
      // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
@@ -428,9 +453,9 @@ public abstract class WBDK_DataView {
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
         draftPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
-        mlbPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
-        fantasyTeamsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_COURSE_TOOLTIP, true);
-        fantasyStandingsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, true);
+        mlbPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        fantasyTeamsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_COURSE_TOOLTIP, false);
+        fantasyStandingsPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, false);
         playersPage_Button = initChildButton(bottomToolbarPane, WBDK_PropertyType.EXIT_ICON, WBDK_PropertyType.EXIT_TOOLTIP, false);
     
     }

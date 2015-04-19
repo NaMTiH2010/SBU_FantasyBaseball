@@ -158,6 +158,116 @@ public class FileController {
             eH.handleExitError();
         }
     }
+    ///////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    
+    
+    public void handlePlayersPageRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToExit = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE
+                continueToExit = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO EXIT THE APP
+            if (continueToExit) {
+                // EXIT THE APPLICATION
+                System.exit(0);
+            }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ErrorHandler.getErrorHandler();
+            eH.handleExitError();
+        }
+    }
+    
+    public void handleFantasyTeamsPageRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToExit = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE
+                continueToExit = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO EXIT THE APP
+            if (continueToExit) {
+                // EXIT THE APPLICATION
+                System.exit(0);
+            }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ErrorHandler.getErrorHandler();
+            eH.handleExitError();
+        }
+    }
+    
+    public void handleDraftPageRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToExit = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE
+                continueToExit = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO EXIT THE APP
+            if (continueToExit) {
+                // EXIT THE APPLICATION
+                System.exit(0);
+            }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ErrorHandler.getErrorHandler();
+            eH.handleExitError();
+        }
+    }
+    
+    public void handleMLB_PageRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToExit = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE
+                continueToExit = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO EXIT THE APP
+            if (continueToExit) {
+                // EXIT THE APPLICATION
+                System.exit(0);
+            }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ErrorHandler.getErrorHandler();
+            eH.handleExitError();
+        }
+    }
+    
+    /**
+     *
+     * @param gui
+     */
+    public void handleFantasyStandingPageRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToExit = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE
+                continueToExit = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO EXIT THE APP
+            if (continueToExit) {
+                // EXIT THE APPLICATION
+                System.exit(0);
+            }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ErrorHandler.getErrorHandler();
+            eH.handleExitError();
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
 
     /**
      * This helper method verifies that the user really wants to save their

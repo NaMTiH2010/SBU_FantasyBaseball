@@ -26,11 +26,13 @@ public class Player {
     public static final String DEFAULT_LAST_NAME = "<ENTER LAST NAME>";
     final StringProperty yearOfBirth;
     public static final String DEFAULT_YEAR_OF_BIRTH = "<ENTER YEAR OF BIRTH>";
-    final StringProperty notes;
-    public static final String DEFAULT_NOTES = "<ENTER NOTES>";
+     StringProperty notes;
+     public static String default_notes = "ENTER NOTES";
+   // public static final String DEFAULT_NOTES = "<ENTER NOTES>";
     final StringProperty placeOfBirth;
     public static final String DEFAULT_PLACE_OF_BIRTH = "<ENTER PLACE OF BIRTH>";
-    
+    final StringProperty qp;
+    public static final String DEFAULT_QP= "<ENTER QP>";
     final StringProperty r_w;
     public static final String DEFAULT_R_W = "<ENTER R_W>";
     final StringProperty hr_sv;
@@ -62,7 +64,7 @@ public class Player {
     String k;
     */
     //////////// Hitter /////////////
-    String qp;
+    //String qp;
     String ab;
     String h;
     /*
@@ -78,8 +80,9 @@ public class Player {
         team = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
+        qp = new SimpleStringProperty(DEFAULT_QP);
         yearOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        notes = new SimpleStringProperty(DEFAULT_TEAM_NAME);
+        notes = new SimpleStringProperty(default_notes);
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         r_w = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         hr_sv = new SimpleStringProperty(DEFAULT_TEAM_NAME);
@@ -168,6 +171,12 @@ public class Player {
     public StringProperty hr_svProperty(){
         return hr_sv;
     }
+    public void setQp(String qp){
+        this.qp.set(qp);
+    }
+    public StringProperty qpProperty(){
+        return qp;
+    }
     public void setRbi_k(String rbi_k){
         this.rbi_k.set(rbi_k);
     }
@@ -229,10 +238,10 @@ public class Player {
         return k;
     }
     //////////////////////////////////////////_Hitter_////////////////////////
-    */public void setQP(String qp){
+    public void setQP(String qp){
         this.qp=qp;
     }
-    
+    */
     public void setAB(String ab){
         this.ab=ab;
     }/*

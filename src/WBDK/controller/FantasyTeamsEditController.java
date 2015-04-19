@@ -5,10 +5,17 @@
  */
 package WBDK.controller;
 
+import WBDK.data.Player;
+import WBDK.gui.PlayersPage_GUI;
+
 /**
  *
  * @author MatthewLuce
  */
 public class FantasyTeamsEditController {
+
+    public void handleEditPlayerItemRequest(PlayersPage_GUI aThis, Player si) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

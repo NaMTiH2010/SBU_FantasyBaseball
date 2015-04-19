@@ -6,6 +6,8 @@
 package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
+import WBDK.controller.FileController;
+import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.Players;
@@ -58,8 +60,11 @@ public class PlayersPage_GUI extends WBDK_DataView {
     RadioButton mi;
     RadioButton ci;
     GridPane topGridPane;
-    TableView<Player> playersTable;
-    TableColumn firstNameColumn;
+   
+    // for creating a our Table in Players page
+        TableView<Player> playersTable;
+        TableColumn firstNameColumn;
+        TableColumn positions;
         TableColumn lastNameColumn;
         TableColumn proTeamColumn;
         TableColumn positionsColumn;
@@ -73,6 +78,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
         TableColumn notesColumn;
         
         static final String COL_TEAM_NAME = "Team";
+        
+        PlayersEditController playerController;
     
     public PlayersPage_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -189,6 +196,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         firstNameColumn = new TableColumn("First");
         lastNameColumn = new TableColumn("Last");
         proTeamColumn = new TableColumn("Pro Team");
+        positionsColumn = new TableColumn("Positions");
         yearOfBirthColumn = new TableColumn("Year Of Birth");
         r_w_Column = new TableColumn("R/W");
         hr_sv_Column = new TableColumn("HR/SV");
@@ -205,6 +213,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
         yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<String, String>("yearOfBirth"));
+        positionsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
         r_w_Column.setCellValueFactory(new PropertyValueFactory<String, String>("r_w"));
         hr_sv_Column.setCellValueFactory(new PropertyValueFactory<String, String>("hr_sv"));
         rbi_k_Column.setCellValueFactory(new PropertyValueFactory<String, String>("rbi_k"));
@@ -213,11 +222,15 @@ public class PlayersPage_GUI extends WBDK_DataView {
         //estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estimatedValue"));
         notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
        
+        notesColumn.setEditable(true);
+        
+        //playersTable.getOnMouseClicked();
         
         // ADD COLUMNS TO TABLE
         playersTable.getColumns().add(firstNameColumn);
         playersTable.getColumns().add(lastNameColumn);
         playersTable.getColumns().add(proTeamColumn);
+        playersTable.getColumns().add(positionsColumn);
         playersTable.getColumns().add(yearOfBirthColumn);
         playersTable.getColumns().add(r_w_Column);
         playersTable.getColumns().add(hr_sv_Column);
@@ -230,6 +243,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         playersTable.setItems(getDataManager().getDraft().getPlayers());
         
     }
+    
     
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {
@@ -257,5 +271,68 @@ public class PlayersPage_GUI extends WBDK_DataView {
         RadioButton cB = new RadioButton(text);
         container.getChildren().add(cB);
         return cB;
+    }
+    
+    // INIT ALL THE EVENT HANDLERS
+    @Override
+    public void initEventHandlers() throws IOException {
+        // FIRST THE FILE CONTROLS
+        fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
+        
+        newDraftButton.setOnAction(e -> {
+            fileController.handleNewDraftRequest(this);
+        });
+        /*
+        loadDraftButton.setOnAction(e -> {
+            fileController.handleLoadDraftRequest(this);
+        });
+        saveDraftButton.setOnAction(e -> {
+            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
+        });
+        exportSiteButton.setOnAction(e -> {
+            fileController.handleExportDraftRequest(this,secondaryStage);
+        }); 
+        */
+        exitButton.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        
+        // BOTTOMTOOLBAR
+        draftPage_Button.setOnAction(e -> {
+            fileController.handleDraftPageRequest(this);
+        });
+        mlbPage_Button.setOnAction(e -> {
+            fileController.handleMLB_PageRequest(this);
+        });
+        fantasyTeamsPage_Button.setOnAction(e -> {
+            fileController.handleFantasyTeamsPageRequest(this);
+        });
+        fantasyStandingsPage_Button.setOnAction(e -> {
+            fileController.handleFantasyStandingPageRequest(this);
+        });
+        playersPage_Button.setOnAction(e -> {
+            fileController.handlePlayersPageRequest(this);
+        });
+        
+        // AND NOW THE NOTES ITEM ADDING AND EDITING CONTROLS
+        playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+       /* addScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleAddScheduleItemRequest(this);
+        });
+        removeScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleRemoveScheduleItemRequest(this, scheduleItemsTable.getSelectionModel().getSelectedItem());
+        });
+        */
+        // AND NOW THE SCHEDULE ITEMS TABLE
+        playersTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                // OPEN UP THE PLAYER EDITOR
+                Player si = playersTable.getSelectionModel().getSelectedItem();
+                
+                System.out.println("scheduleItems = "+ si.notesProperty()+" Player Name = "+ si.firstNameProperty().toString());
+                playersController.handleEditPlayerItemRequest(this, si);
+                //System.out.println("scheduleItems = "+ si.getDescription());
+            }
+        });
     }
 }
