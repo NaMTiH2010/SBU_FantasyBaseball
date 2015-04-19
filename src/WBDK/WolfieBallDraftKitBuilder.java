@@ -15,6 +15,7 @@ import static WBDK.WBDK_StartupConstants.PATH_DATA;
 import static WBDK.WBDK_StartupConstants.PATH_DRAFTS;
 import static WBDK.WBDK_StartupConstants.PROPERTIES_FILE_NAME;
 import static WBDK.WBDK_StartupConstants.PROPERTIES_SCHEMA_FILE_NAME;
+import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
 import WBDK.data.Team;
 import WBDK.error.ErrorHandler;
@@ -81,7 +82,11 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
                 // AND THIS ONE WILL DO THE COURSE WEB PAGE EXPORTING
                 WBDK_SiteExporter exporter = new WBDK_SiteExporter(PATH_BASE, PATH_DRAFTS);
                 
-                //ArrayList<String> lastInstructor = jsonFileManager.loadPitchers(JSON_FILE_PATH_PITCHERS);
+                //Player player = jsonFileManager.loadPlayer(JSON_FILE_PATH_HITTERS);
+                
+                //System.out.println(player.getLastName()+" "+player.getFirstName());
+                ArrayList<Player> jsonHitters = jsonFileManager.loadTheHitters(JSON_FILE_PATH_HITTERS);
+                ArrayList<Player> jsonPitchers = jsonFileManager.loadThePitchers(JSON_FILE_PATH_PITCHERS);
                 Team teamA = new Team();
                 ArrayList<String> subjects= new ArrayList();
                 subjects.add("car");
@@ -95,7 +100,7 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
                 gui.setSiteExporter(exporter);
                 
                 // CONSTRUCT THE DATA MANAGER AND GIVE IT TO THE GUI
-                WBDK_DataManager dataManager = new WBDK_DataManager(gui); 
+                WBDK_DataManager dataManager = new WBDK_DataManager(gui, jsonFileManager); 
                 gui.setDataManager(dataManager);
 
                 // FINALLY, START UP THE USER INTERFACE WINDOW AFTER ALL

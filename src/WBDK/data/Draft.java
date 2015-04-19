@@ -10,6 +10,8 @@ import WBDK.gui.FantasyStandings_GUI;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MLB_GUI;
 import WBDK.gui.PlayersPage_GUI;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -34,6 +36,8 @@ public class Draft {
         fantasyStandingsPage = new FantasyStandings_GUI();
         fantasyTeamsPage = new FantasyTeams_GUI();
         mlb_Page = new MLB_GUI();
+        hitters = FXCollections.observableArrayList();
+        hitters.add(player);
         
     }
     
@@ -52,4 +56,8 @@ public class Draft {
     public void setTitle(String title) {
         this.title = title;
     }
+    public void loadPlayers(){
+        
+    }
+    
 }

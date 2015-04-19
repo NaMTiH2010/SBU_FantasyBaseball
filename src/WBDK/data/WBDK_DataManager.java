@@ -5,10 +5,12 @@
  */
 package WBDK.data;
 
+import WBDK.file.Json_WBDK_FileManager;
 import WBDK.file.WBDK_FileManager;
 import WBDK.gui.DefaultPage_GUI;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -26,9 +28,10 @@ public class WBDK_DataManager {
     // THIS HELPS US LOAD THINGS FOR OUR COURSE
     WBDK_FileManager fileManager;
     
-    public WBDK_DataManager(WBDK_DataView initGui) {
+    public WBDK_DataManager(WBDK_DataView initGui, Json_WBDK_FileManager jsonFileManager) throws IOException {
         view = initGui;
         draft = new Draft(initGui);
+        //jsonFileManager.loadDraft(draft,"./data/hitters.json");
     }
     public Draft getDraft(){
         return this.draft;

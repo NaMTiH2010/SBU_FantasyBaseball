@@ -7,6 +7,7 @@ package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
 import WBDK.data.Draft;
+import WBDK.data.Players;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -53,6 +56,19 @@ public class PlayersPage_GUI extends WBDK_DataView {
     RadioButton mi;
     RadioButton ci;
     GridPane topGridPane;
+    TableView<Players> playersTable;
+    TableColumn firstNameColumn;
+        TableColumn lastNameColumn;
+        TableColumn proTeamColumn;
+        TableColumn positionsColumn;
+        TableColumn yearOfBirthColumn;
+        TableColumn r_w_Column;
+        TableColumn hr_sv_Column;
+        TableColumn rbi_k_Column;
+        TableColumn sb_era_Column;
+        TableColumn ba_whip_Column;
+        TableColumn estimatedValueColumn;
+        TableColumn notesColumn;
     
     public PlayersPage_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -86,12 +102,17 @@ public class PlayersPage_GUI extends WBDK_DataView {
       
 // THE TOP WORKSPACE HOLDS BOTH THE BASIC COURSE INFO
         // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
+        
         initTopWorkspace();
+        
+        // CREATE TABLE FOR PLAYERS
+        initPlayerTable();
         
         // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
         // ADD THE COMPONENTS WE'VE JUST INITIALIZED
         workspacePane = new BorderPane();
         workspacePane.setTop(topWorkspacePane);
+        workspacePane.setCenter(playersTable);
         workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
         
         // AND NOW PUT IT IN THE WORKSPACE
@@ -116,6 +137,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         topWorkspaceH2Pane = new HBox();
         radioButtonHPane = new HBox();
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
+        
 
         // HERE'S THE LABEL
         draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.COURSE_HEADING_LABEL, CLASS_HEADING_LABEL);
@@ -154,7 +176,39 @@ public class PlayersPage_GUI extends WBDK_DataView {
         label.getStyleClass().add(styleClass);
         return label;
     }
-
+    
+    private void initPlayerTable(){
+        // SET UP TABLE
+        playersTable = new TableView();
+        
+        // SET UP COLUMNS
+        firstNameColumn = new TableColumn("First");
+        lastNameColumn = new TableColumn("Last");
+        proTeamColumn = new TableColumn("Pro Team");
+        yearOfBirthColumn = new TableColumn("Year Of Birth");
+        r_w_Column = new TableColumn("R/W");
+        hr_sv_Column = new TableColumn("HR/SV");
+        rbi_k_Column = new TableColumn("RBI/K");
+        sb_era_Column = new TableColumn("SB/ERA");
+        ba_whip_Column = new TableColumn("BA/WHIP");
+        estimatedValueColumn = new TableColumn("Estimated Value");
+        notesColumn = new TableColumn("Notes");
+        
+        // ADD COLUMNS TO TABLE
+        playersTable.getColumns().add(firstNameColumn);
+        playersTable.getColumns().add(lastNameColumn);
+        playersTable.getColumns().add(proTeamColumn);
+        playersTable.getColumns().add(yearOfBirthColumn);
+        playersTable.getColumns().add(r_w_Column);
+        playersTable.getColumns().add(hr_sv_Column);
+        playersTable.getColumns().add(rbi_k_Column);
+        playersTable.getColumns().add(sb_era_Column);
+        playersTable.getColumns().add(ba_whip_Column);
+        playersTable.getColumns().add(estimatedValueColumn);
+        playersTable.getColumns().add(notesColumn);
+        
+    }
+    
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {
             activateWorkspace();
