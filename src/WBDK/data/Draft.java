@@ -30,15 +30,16 @@ public class Draft {
     ObservableList<Player> pitchers;
     ObservableList<Player> players;
     
-    public Draft(WBDK_DataView tempGUI){
+    public Draft(WBDK_DataView tempGUI,ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray){
         playersPage = new PlayersPage_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
         draftPage = new Draft_GUI();
         fantasyStandingsPage = new FantasyStandings_GUI();
         fantasyTeamsPage = new FantasyTeams_GUI();
         mlb_Page = new MLB_GUI();
-        hitters = FXCollections.observableArrayList();
-        hitters.add(player);
-        
+        hitters = hitterArray;
+        pitchers = pitcherArray;
+        players = FXCollections.observableArrayList();
+        initPlayers(players,hitters,pitchers);
     }
     
     public void removePlayer(){
@@ -47,9 +48,9 @@ public class Draft {
     public void addPlayer(){
         
     }
-    public ObservableList getPlayers(){
-       return players;
-    }
+   // public ObservableList getPlayers(){
+     //  return players;
+    //}
     public void resetPlayers(){
         
     }
@@ -58,6 +59,21 @@ public class Draft {
     }
     public void loadPlayers(){
         
+    }
+    public ObservableList<Player> getHitters(){
+        return hitters;
+    }
+    public ObservableList<Player> getPlayers(){
+        return players;
+    }
+
+    private void initPlayers(ObservableList<Player> players,ObservableList<Player> hitters, ObservableList<Player> pitchers) {
+        for(int i =0; i<hitters.size();i++){
+            players.add(hitters.get(i));
+        }
+        for(int i =0; i<pitchers.size();i++){
+                players.add(pitchers.get(i));
+            }
     }
     
 }

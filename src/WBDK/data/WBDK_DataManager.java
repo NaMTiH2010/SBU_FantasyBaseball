@@ -28,9 +28,10 @@ public class WBDK_DataManager {
     // THIS HELPS US LOAD THINGS FOR OUR COURSE
     WBDK_FileManager fileManager;
     
-    public WBDK_DataManager(WBDK_DataView initGui, Json_WBDK_FileManager jsonFileManager) throws IOException {
+    public WBDK_DataManager(WBDK_DataView initGui, ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray) throws IOException {
         view = initGui;
-        draft = new Draft(initGui);
+        draft = new Draft(initGui, hitterArray,pitcherArray);
+        
         //jsonFileManager.loadDraft(draft,"./data/hitters.json");
     }
     public Draft getDraft(){

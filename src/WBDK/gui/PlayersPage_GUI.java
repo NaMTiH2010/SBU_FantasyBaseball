@@ -7,6 +7,7 @@ package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
 import WBDK.data.Draft;
+import WBDK.data.Player;
 import WBDK.data.Players;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
@@ -20,6 +21,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -56,7 +58,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
     RadioButton mi;
     RadioButton ci;
     GridPane topGridPane;
-    TableView<Players> playersTable;
+    TableView<Player> playersTable;
     TableColumn firstNameColumn;
         TableColumn lastNameColumn;
         TableColumn proTeamColumn;
@@ -69,6 +71,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
         TableColumn ba_whip_Column;
         TableColumn estimatedValueColumn;
         TableColumn notesColumn;
+        
+        static final String COL_TEAM_NAME = "Team";
     
     public PlayersPage_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -193,6 +197,22 @@ public class PlayersPage_GUI extends WBDK_DataView {
         ba_whip_Column = new TableColumn("BA/WHIP");
         estimatedValueColumn = new TableColumn("Estimated Value");
         notesColumn = new TableColumn("Notes");
+       
+        
+        // AND LINK THE COLUMNS TO THE DATA
+        proTeamColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
+        
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
+        yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<String, String>("yearOfBirth"));
+        r_w_Column.setCellValueFactory(new PropertyValueFactory<String, String>("r_w"));
+        hr_sv_Column.setCellValueFactory(new PropertyValueFactory<String, String>("hr_sv"));
+        rbi_k_Column.setCellValueFactory(new PropertyValueFactory<String, String>("rbi_k"));
+        sb_era_Column.setCellValueFactory(new PropertyValueFactory<String, String>("sb_era"));
+        ba_whip_Column.setCellValueFactory(new PropertyValueFactory<String, String>("ba_whip"));
+        //estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estimatedValue"));
+        notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
+       
         
         // ADD COLUMNS TO TABLE
         playersTable.getColumns().add(firstNameColumn);
@@ -206,6 +226,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
         playersTable.getColumns().add(ba_whip_Column);
         playersTable.getColumns().add(estimatedValueColumn);
         playersTable.getColumns().add(notesColumn);
+        
+        playersTable.setItems(getDataManager().getDraft().getPlayers());
         
     }
     

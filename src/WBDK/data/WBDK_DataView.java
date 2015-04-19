@@ -59,7 +59,7 @@ public abstract class WBDK_DataView {
     
 
     // THIS MANAGES ALL OF THE APPLICATION'S DATA
-    WBDK_DataManager dataManager;
+    public WBDK_DataManager dataManager;
 
     // THIS MANAGES COURSE FILE I/O
     WBDK_FileManager fileManager;

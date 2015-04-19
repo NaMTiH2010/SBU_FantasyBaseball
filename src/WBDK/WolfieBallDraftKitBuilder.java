@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -85,8 +86,8 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
                 //Player player = jsonFileManager.loadPlayer(JSON_FILE_PATH_HITTERS);
                 
                 //System.out.println(player.getLastName()+" "+player.getFirstName());
-                ArrayList<Player> jsonHitters = jsonFileManager.loadTheHitters(JSON_FILE_PATH_HITTERS);
-                ArrayList<Player> jsonPitchers = jsonFileManager.loadThePitchers(JSON_FILE_PATH_PITCHERS);
+                ObservableList<Player> jsonHitters = jsonFileManager.loadTheHitters(JSON_FILE_PATH_HITTERS);
+                ObservableList<Player> jsonPitchers = jsonFileManager.loadThePitchers(JSON_FILE_PATH_PITCHERS);
                 Team teamA = new Team();
                 ArrayList<String> subjects= new ArrayList();
                 subjects.add("car");
@@ -100,7 +101,7 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
                 gui.setSiteExporter(exporter);
                 
                 // CONSTRUCT THE DATA MANAGER AND GIVE IT TO THE GUI
-                WBDK_DataManager dataManager = new WBDK_DataManager(gui, jsonFileManager); 
+                WBDK_DataManager dataManager = new WBDK_DataManager(gui, jsonHitters,jsonPitchers); 
                 gui.setDataManager(dataManager);
 
                 // FINALLY, START UP THE USER INTERFACE WINDOW AFTER ALL

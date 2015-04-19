@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -111,10 +112,10 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
 
     
     
-    public ArrayList<Player> loadTheHitters(String jsonFilePath) throws IOException {
+    public ObservableList<Player> loadTheHitters(String jsonFilePath) throws IOException {
         // LOAD THE JSON FILE WITH ALL THE DATA
             JsonObject json = loadJSONFile(jsonFilePath);
-            ArrayList<Player> playerList = new ArrayList();
+            ObservableList<Player> playerList = FXCollections.observableArrayList();
             // GET THE SCHEDULE ITEMS
         //draftToLoad.clearScheduleItems();
         JsonArray jsonHittersArray = json.getJsonArray("Hitters");
@@ -130,11 +131,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setQP(jso.getString("QP"));
         si.setAB(jso.getString("AB"));
-        si.setR(jso.getString("R"));
         si.setH(jso.getString("H"));
-        si.setHR(jso.getString("HR"));
-        si.setRBI(jso.getString("RBI"));
-        si.setSB(jso.getString("SB"));
+        si.setR_W(jso.getString("R"));
+        si.setHr_sv(jso.getString("HR"));
+        si.setRbi_k(jso.getString("RBI"));
+        si.setSb_era(jso.getString("SB"));
+        
+        
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
@@ -146,10 +149,10 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         
     }
     
-    public ArrayList<Player> loadThePitchers(String jsonFilePath) throws IOException {
+    public ObservableList<Player> loadThePitchers(String jsonFilePath) throws IOException {
         // LOAD THE JSON FILE WITH ALL THE DATA
             JsonObject json = loadJSONFile(jsonFilePath);
-            ArrayList<Player> playerList = new ArrayList();
+            ObservableList<Player> playerList = FXCollections.observableArrayList();
             // GET THE SCHEDULE ITEMS
         //draftToLoad.clearScheduleItems();
         JsonArray jsonHittersArray = json.getJsonArray("Pitchers");
@@ -165,11 +168,14 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setIP(jso.getString("IP"));
         si.setER(jso.getString("ER"));
-        si.setW(jso.getString("W"));
-        si.setSV(jso.getString("SV"));
-        si.setH(jso.getString("H"));
         si.setBB(jso.getString("BB"));
-        si.setK(jso.getString("K"));
+        
+        si.setR_W(jso.getString("W"));
+        si.setH(jso.getString("H"));
+        si.setHr_sv(jso.getString("SV"));
+        si.setRbi_k(jso.getString("K"));
+        //si.setSb_era(jso.getString("SB"));
+        
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
@@ -263,26 +269,26 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             JsonObject jso = jsonHittersArray.getJsonObject(i);
             Player si = new Player();
             si.setNotes("test");
-            System.out.println(si.getNotes()+" notes are thisSSSSSS");
+            //System.out.println(si.getNotes()+" notes are thisSSSSSS");
             
         si.setTeam(jso.getString("TEAM"));
-        System.out.println(si.getTeam()+" team name");
+        //System.out.println(si.getTeam()+" team name");
         
         si.setLastName(jso.getString("LAST_NAME"));
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setQP(jso.getString("QP"));
         si.setAB(jso.getString("AB"));
-        si.setR(jso.getString("R"));
+        si.setR_W(jso.getString("R"));
         si.setH(jso.getString("H"));
-        si.setHR(jso.getString("HR"));
-        si.setRBI(jso.getString("RBI"));
-        si.setSB(jso.getString("SB"));
+        si.setHr_sv(jso.getString("HR"));
+        si.setRbi_k(jso.getString("RBI"));
+        si.setSb_era(jso.getString("SB"));
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
 
             // ADD IT TO THE COURSE
-            draftToLoad.getPlayers().add(si);
+            //draftToLoad.getPlayers().add(si);
         }
             
         }
