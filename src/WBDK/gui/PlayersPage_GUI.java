@@ -139,6 +139,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         
         // AND NOW PUT IT IN THE WORKSPACE
         workspaceScrollPane = new ScrollPane();
+        workspaceScrollPane.getStyleClass().add(CLASS_BORDERED_PANE);
         workspaceScrollPane.setContent(workspacePane);
         workspaceScrollPane.setFitToWidth(true);
 
@@ -224,13 +225,13 @@ public class PlayersPage_GUI extends WBDK_DataView {
         
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
-        yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<String, String>("yearOfBirth"));
+        yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("yearOfBirth"));
         positionsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
-        r_w_Column.setCellValueFactory(new PropertyValueFactory<String, String>("r_w"));
-        hr_sv_Column.setCellValueFactory(new PropertyValueFactory<String, String>("hr_sv"));
-        rbi_k_Column.setCellValueFactory(new PropertyValueFactory<String, String>("rbi_k"));
-        sb_era_Column.setCellValueFactory(new PropertyValueFactory<String, String>("sb_era"));
-        ba_whip_Column.setCellValueFactory(new PropertyValueFactory<String, String>("ba_whip"));
+        r_w_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("r_w"));
+        hr_sv_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("hr_sv"));
+        rbi_k_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("rbi_k"));
+        sb_era_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("sb_era"));
+        ba_whip_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("ba_whip"));
         //estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estimatedValue"));
         notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
        
@@ -290,6 +291,12 @@ public class PlayersPage_GUI extends WBDK_DataView {
     // INIT ALL THE EVENT HANDLERS
     @Override
     public void initEventHandlers() throws IOException {
+        /*
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            //newValue
+            System.out.println("THE NEW VALUE IS:  "+newValue);
+            dataManager.getDraft().searchIT(newValue);
+        });*/
         // RADIO BUTTONS
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
       public void changed(ObservableValue<? extends Toggle> ov,
@@ -374,13 +381,13 @@ public class PlayersPage_GUI extends WBDK_DataView {
                 // OPEN UP THE PLAYER EDITOR
                 Player si = playersTable.getSelectionModel().getSelectedItem();
                 
-                System.out.println("scheduleItems = "+ si.notesProperty()+" Player Name = "+ si.firstNameProperty().toString());
+                //System.out.println("scheduleItems = "+ si.notesProperty()+" Player Name = "+ si.firstNameProperty().toString());
                 playersController.handleEditPlayerItemRequest(this, si);
                 //System.out.println("scheduleItems = "+ si.getDescription());
             }
         });
         
-        registerTextFieldController(searchBar);
+        //registerTextFieldController(searchBar);
         
     }
     // REGISTER THE EVENT LISTENER FOR A TEXT FIELD

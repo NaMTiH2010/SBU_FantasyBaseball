@@ -329,4 +329,61 @@ public class Draft {
     public ObservableList<Player> getAvailablePlayers(){
         return availablePlayers;
     }
+
+    public void searchIT(String newValue) {
+        boolean testFirst = false;
+        boolean testLast = false;
+        
+        for(int i = 0; i < availablePlayers.size();i++){
+            
+            ///// newValue is too Long for first and last
+            if(newValue.length()>availablePlayers.get(i).getFirstName().length() &&
+                    newValue.length()>availablePlayers.get(i).getLastName().length()){
+                availablePlayers.get(i).setAvailability(false);
+            }
+            // new value is too long for first name
+            else if(newValue.length()>availablePlayers.get(i).getFirstName().length()){
+                for(int j = 0; j < newValue.length();j++){
+                
+                    if(!(newValue.charAt(j)==availablePlayers.get(i).getLastName().charAt(j))){
+                        availablePlayers.get(i).setAvailability(false);
+                        break;
+                    }                
+                }
+            }
+            // newvalue is too long for last name
+            else if(newValue.length()>availablePlayers.get(i).getLastName().length()){
+                for(int j = 0; j < newValue.length();j++){
+                
+                    if(!(newValue.charAt(j)==availablePlayers.get(i).getFirstName().charAt(j))){
+                    availablePlayers.get(i).setAvailability(false);
+                    break;
+                    }                
+                }
+            }
+            // newvalue is not too long for either
+            else{
+                for(int j = 0; j < newValue.length();j++){
+                
+                    if(!(newValue.charAt(j)==availablePlayers.get(i).getLastName().charAt(j))){
+                        testFirst = false;
+                        break;
+                    }
+                }
+                for(int j = 0; j < newValue.length();j++){
+                    if(!(newValue.charAt(j)==availablePlayers.get(i).getFirstName().charAt(j))){
+                        testLast = false;
+                        break;
+                    }
+                }
+                    if(testFirst==false || testLast==false){
+                        availablePlayers.get(i).setAvailability(false);
+                    }
+                
+                
+                }
+             
+        }
+        updateAvailableList();
+    }
 }

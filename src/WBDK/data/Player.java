@@ -6,6 +6,8 @@
 package WBDK.data;
 
 import java.util.ArrayList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -27,8 +29,8 @@ public class Player {
     public static final String DEFAULT_FIRST_NAME = "<ENTER FIRST NAME>";
     final StringProperty lastName;
     public static final String DEFAULT_LAST_NAME = "<ENTER LAST NAME>";
-    final StringProperty yearOfBirth;
-    public static final String DEFAULT_YEAR_OF_BIRTH = "<ENTER YEAR OF BIRTH>";
+    final IntegerProperty yearOfBirth;
+    //public static final String DEFAULT_YEAR_OF_BIRTH = "<ENTER YEAR OF BIRTH>";
      StringProperty notes;
      //public static String default_notes = "ENTER NOTES";
    // public static final String DEFAULT_NOTES = "<ENTER NOTES>";
@@ -36,16 +38,16 @@ public class Player {
     public static final String DEFAULT_PLACE_OF_BIRTH = "<ENTER PLACE OF BIRTH>";
     final StringProperty qp;
     public static final String DEFAULT_QP= "<ENTER QP>";
-    final StringProperty r_w;
-    public static final String DEFAULT_R_W = "<ENTER R_W>";
-    final StringProperty hr_sv;
-    public static final String DEFAULT_HR_SV = "<ENTER HR_SV>";
-    final StringProperty rbi_k;
-    public static final String DEFAULT_RBI_K = "<ENTER RBI_K>";
-    final StringProperty sb_era;
-    public static final String DEFAULT_SB_ERA = "<ENTER SB_ERA>";
-    final StringProperty ba_whip;
-    public static final String DEFAULT_BA_WHIP = "<ENTER BA_WHIP>";
+    final IntegerProperty r_w;
+   // public static final String DEFAULT_R_W = "<ENTER R_W>";
+    final IntegerProperty hr_sv;
+    //public static final String DEFAULT_HR_SV = "<ENTER HR_SV>";
+    final IntegerProperty rbi_k;
+    //public static final String DEFAULT_RBI_K = "<ENTER RBI_K>";
+    final IntegerProperty sb_era;
+    //public static final String DEFAULT_SB_ERA = "<ENTER SB_ERA>";
+    final IntegerProperty ba_whip;
+   // public static final String DEFAULT_BA_WHIP = "<ENTER BA_WHIP>";
     
     String playerType;
     //String yearOfBirth;
@@ -85,14 +87,14 @@ public class Player {
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         qp = new SimpleStringProperty(DEFAULT_QP);
-        yearOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
+        yearOfBirth = new SimpleIntegerProperty();;
         notes = new SimpleStringProperty();
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        r_w = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        hr_sv = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        rbi_k = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        sb_era = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        ba_whip = new SimpleStringProperty(DEFAULT_TEAM_NAME);
+        r_w = new SimpleIntegerProperty();
+        hr_sv = new SimpleIntegerProperty();;
+        rbi_k = new SimpleIntegerProperty();;
+        sb_era = new SimpleIntegerProperty();;
+        ba_whip = new SimpleIntegerProperty();;
     }
     /////////////////////////////////////////////_Both_/////////////////////////
     public void setFirstName(String firstName){
@@ -101,15 +103,15 @@ public class Player {
     public String getNotes(){
         return notes.get();
     }
-    public StringProperty firstNameProperty(){
-        return firstName;
+    public String getFirstName(){
+        return firstName.get();
     }
     
     public void setLastName(String lastName){
         this.lastName.set(lastName);
     }
-    public StringProperty lastNameProperty(){
-        return lastName;
+    public String getLastName(){
+        return lastName.get();
     }
     
     public void setContractStatus(String contractStatus){
@@ -127,9 +129,9 @@ public class Player {
     }
     
     public void setYearOfBirth(String yearOfBirth ){
-        this.yearOfBirth.set(yearOfBirth); 
+        this.yearOfBirth.set(Integer.parseInt(yearOfBirth)); 
     }
-    public StringProperty yearOfBirthProperty(){
+    public IntegerProperty yearOfBirthProperty(){
         return yearOfBirth;
     }
     
@@ -167,15 +169,15 @@ public class Player {
         return team;
     }
     public void setR_W(String r_w){
-        this.r_w.set(r_w);
+        this.r_w.set(Integer.parseInt(r_w));
     }
-    public StringProperty r_wProperty(){
+    public IntegerProperty r_wProperty(){
         return r_w;
     }
     public void setHr_sv(String hr_sv){
-        this.hr_sv.set(hr_sv);
+        this.hr_sv.set(Integer.parseInt(hr_sv));
     }
-    public StringProperty hr_svProperty(){
+    public IntegerProperty hr_svProperty(){
         return hr_sv;
     }
     public void setQp(String qp){
@@ -185,19 +187,22 @@ public class Player {
         return qp;
     }
     public void setRbi_k(String rbi_k){
-        this.rbi_k.set(rbi_k);
+        this.rbi_k.set(Integer.parseInt(rbi_k));
     }
-    public StringProperty rbi_kProperty(){
+    public IntegerProperty rbi_kProperty(){
         return rbi_k;
     }
     public void setSb_era(String sb_era){
-        this.sb_era.set(sb_era);
+        this.sb_era.set(Integer.parseInt(sb_era));
     }
-    public StringProperty sb_eraProperty(){
+    public IntegerProperty sb_eraProperty(){
         return sb_era;
     }
     public void setBa_whip(String ba_whip){
-        this.ba_whip.set(ba_whip);
+        this.ba_whip.set(Integer.parseInt(ba_whip));
+    }
+    public IntegerProperty ba_WhipProperty(){
+        return ba_whip;
     }
     
     public void setIP(String ip){

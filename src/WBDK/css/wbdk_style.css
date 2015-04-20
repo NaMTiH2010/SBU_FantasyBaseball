@@ -23,12 +23,12 @@
 
 // CSS CLASS FOR OUR BIG PANES
 .bordered_pane {
-    -fx-background-color: #aaaaff;
+    -fx-background-color: #b30000;
     -fx-background-radius: 5.0;
     -fx-padding: 15;
     -fx-spacing: 10;
-    -fx-border-width: 2px;
-    -fx-border-color: #7777dd;
+    -fx-border-width: 5px;
+    -fx-border-color: #7b6b6b;
 }
 
 // CSS CLASS FOR LABELS HEADING LARGE SECTIONS IN THE GUI
