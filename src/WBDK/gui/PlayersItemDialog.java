@@ -11,7 +11,6 @@ import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
 import static WBDK.data.WBDK_DataView.CLASS_PROMPT_LABEL;
 import static WBDK.data.WBDK_DataView.PRIMARY_STYLE_SHEET;
 import static WBDK.gui.YesNoCancelDialog.CANCEL;
-import static java.awt.MediaTracker.COMPLETE;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +30,7 @@ import properties_manager.PropertiesManager;
  * @author MatthewLuce
  */
 public class PlayersItemDialog extends Stage{
+    public static final String COMPLETE = "Complete";
     Player playerItem;
     GridPane gridPane;
     Scene dialogScene;
@@ -109,7 +109,7 @@ public class PlayersItemDialog extends Stage{
         playerItem = new Player();
         
         // LOAD THE UI STUFF
-        descriptionTextField.setText(playerItem.notesProperty().toString());
+        descriptionTextField.setText(playerItem.getNotes());
         
         
         // AND OPEN IT UP

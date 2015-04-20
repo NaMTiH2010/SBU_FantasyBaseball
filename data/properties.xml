@@ -59,6 +59,7 @@
         <!-- GUI LABELS -->
         <property name="COURSE_HEADING_LABEL"                   value="Course Site Details"></property>
         
+        <property name="SEARCH_LABEL"                           value="Search: "></property>
         <property name="PLAYERS_PAGE_HEADING_LABEL"              value="Available Players"></property>
         <property name="MLB_PAGE_HEADING_LABEL"                 value="MLB Teams"></property>
         <property name="FANTASY_TEAMS_PAGE_HEADING_LABEL"       value="Fantasy Teams"></property>
@@ -91,6 +92,8 @@
 
         <!-- VERIFICATION MESSAGES -->
         <property name="NEW_COURSE_CREATED_MESSAGE"     value="New Course Created but not yet Saved"></property>
+        <property name="NEW_DRAFT_CREATED_MESSAGE"      value="New Draft Created but not yet Saved"></property>
+        
         <property name="COURSE_LOADED_MESSAGE"          value="The Course has been Loaded"></property>
         <property name="COURSE_SAVED_MESSAGE"           value="The Course has been Saved"></property>
         <property name="SITE_EXPORTED_MESSAGE"          value="The Course Site has been Exported"></property>

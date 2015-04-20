@@ -136,8 +136,12 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setHr_sv(jso.getString("HR"));
         si.setRbi_k(jso.getString("RBI"));
         si.setSb_era(jso.getString("SB"));
-        
-        
+        si.setPlayerType("hitter");
+        if(jso.getString("QP").contains("_")){
+            si.setPositions(jso.getString("QP").split("_"));
+        }
+        else{si.setPositions(new String[]{jso.getString("QP")});}
+        si.setPositions(jso.getString("QP").split("_"));
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
@@ -169,11 +173,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setIP(jso.getString("IP"));
         si.setER(jso.getString("ER"));
         si.setBB(jso.getString("BB"));
-        
+        si.setPlayerType("pitcher");
         si.setR_W(jso.getString("W"));
         si.setH(jso.getString("H"));
         si.setHr_sv(jso.getString("SV"));
         si.setRbi_k(jso.getString("K"));
+        si.setQp("P");
+        //si.setPositions(null);
         //si.setSb_era(jso.getString("SB"));
         
         si.setNotes(jso.getString("NOTES"));

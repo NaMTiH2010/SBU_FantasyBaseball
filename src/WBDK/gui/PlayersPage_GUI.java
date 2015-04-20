@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -25,6 +28,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -41,6 +46,7 @@ import properties_manager.PropertiesManager;
 public class PlayersPage_GUI extends WBDK_DataView {
     // THESE ARE THE CONTROLS FOR THE BASIC SCHEDULE PAGE HEADER INFO
     
+    final ToggleGroup group = new ToggleGroup();
     GridPane playersInfoPane;
     Label playersInfoLabel;
     Button add_Button;
@@ -160,7 +166,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         add_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, true);
         remove_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
         searchBar = initGridTextField(topGridPane, 60, "", true, 3, 1, 1, 1);
-        searchLabel =  initGridLabel(topGridPane, WBDK_PropertyType.ENDING_FRIDAY_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
+        searchLabel =  initGridLabel(topGridPane, WBDK_PropertyType.SEARCH_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
         topWorkspaceH2Pane.getChildren().add(topGridPane);
         all = initChildRadioButton(radioButtonHPane,"All  ");
         catchers = initChildRadioButton(radioButtonHPane,"C  ");
@@ -246,7 +252,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         playersTable.getColumns().add(estimatedValueColumn);
         playersTable.getColumns().add(notesColumn);
         
-        playersTable.setItems(getDataManager().getDraft().getPlayers());
+        playersTable.setItems(getDataManager().getDraft().getAvailablePlayers()); //getPlayers());
         
     }
     
@@ -275,6 +281,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
     // INIT A CheckBox AND PUT IT IN A TOOLBAR
     private RadioButton initChildRadioButton(Pane container, String text) {
         RadioButton cB = new RadioButton(text);
+        cB.setToggleGroup(group);
+        cB.setUserData(text);
         container.getChildren().add(cB);
         return cB;
     }
@@ -282,6 +290,17 @@ public class PlayersPage_GUI extends WBDK_DataView {
     // INIT ALL THE EVENT HANDLERS
     @Override
     public void initEventHandlers() throws IOException {
+        // RADIO BUTTONS
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+      public void changed(ObservableValue<? extends Toggle> ov,
+          Toggle old_toggle, Toggle new_toggle) {
+        if (group.getSelectedToggle() != null) {
+            
+            updateDraftUsingRadioButton(dataManager.getDraft(),group.getSelectedToggle().getUserData().toString());
+          //System.out.println(group.getSelectedToggle().getUserData().toString());
+        }
+      }
+    });
         // FIRST THE FILE CONTROLS
         fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
         
@@ -360,5 +379,42 @@ public class PlayersPage_GUI extends WBDK_DataView {
                 //System.out.println("scheduleItems = "+ si.getDescription());
             }
         });
+        
+        registerTextFieldController(searchBar);
+        
+    }
+    // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
+    private void registerTextFieldController(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            draftController.handleDraftChangeRequest(this);
+        });
+    }
+    
+    /**
+     * This function loads all the values currently in the user interface
+     * into the course argument.
+     * 
+     * @param course The course to be updated using the data from the UI controls.
+     */
+    public void updateDraftInfo(Draft theDraft) {
+        
+        /*
+        updateDraftUsingRadioButton(theDraft,all);
+        updateDraftUsingRadioButton(theDraft,pitchers);
+        updateDraftUsingRadioButton(theDraft,catchers);
+        updateDraftUsingRadioButton(theDraft,secondBase);
+        updateDraftUsingRadioButton(theDraft,thirdBase);
+        updateDraftUsingRadioButton(theDraft,shortstop);
+        updateDraftUsingRadioButton(theDraft,of);
+        updateDraftUsingRadioButton(theDraft,u);
+        updateDraftUsingRadioButton(theDraft,mi);
+        updateDraftUsingRadioButton(theDraft,ci);
+        updateDraftUsingRadioButton(theDraft,firstBaseman);
+                */
+        //initPlayerTable();
+    }
+
+    private void updateDraftUsingRadioButton(Draft tempDraft, String rb) {
+       tempDraft.radioButtonSort(rb);
     }
 }

@@ -16,6 +16,7 @@ import WBDK.gui.MessageDialog;
 import WBDK.gui.YesNoCancelDialog;
 import static WBDK.WBDK_PropertyType.COURSE_SAVED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_COURSE_CREATED_MESSAGE;
+import static WBDK.WBDK_PropertyType.NEW_DRAFT_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +127,7 @@ public class FileController {
                 gui.updateToolbarControls(saved);
 
                 // TELL THE USER THE COURSE HAS BEEN CREATED
-                messageDialog.show(properties.getProperty(NEW_COURSE_CREATED_MESSAGE));
+                messageDialog.show(properties.getProperty(NEW_DRAFT_CREATED_MESSAGE));
             }
         } catch (IOException ioe) {
             // SOMETHING WENT WRONG, PROVIDE FEEDBACK

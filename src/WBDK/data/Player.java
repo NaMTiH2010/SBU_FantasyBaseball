@@ -5,14 +5,17 @@
  */
 package WBDK.data;
 
+import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 /**
  *
  * @author MatthewLuce
  */
 public class Player {
+    String[] positions;
     String contractStatus;
     //String firstName;
     //String lastName;
@@ -27,7 +30,7 @@ public class Player {
     final StringProperty yearOfBirth;
     public static final String DEFAULT_YEAR_OF_BIRTH = "<ENTER YEAR OF BIRTH>";
      StringProperty notes;
-     public static String default_notes = "ENTER NOTES";
+     //public static String default_notes = "ENTER NOTES";
    // public static final String DEFAULT_NOTES = "<ENTER NOTES>";
     final StringProperty placeOfBirth;
     public static final String DEFAULT_PLACE_OF_BIRTH = "<ENTER PLACE OF BIRTH>";
@@ -49,7 +52,7 @@ public class Player {
     //String placeOfBirth;
     //String notes;
     double salary;
-    boolean availability;
+    boolean availability = true;
     //Statistics stats;
     //////////// Pitcher //////////// 
     
@@ -77,12 +80,13 @@ public class Player {
     */
     public Player(){
         
+        
         team = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         qp = new SimpleStringProperty(DEFAULT_QP);
         yearOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        notes = new SimpleStringProperty(default_notes);
+        notes = new SimpleStringProperty();
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         r_w = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         hr_sv = new SimpleStringProperty(DEFAULT_TEAM_NAME);
@@ -93,6 +97,9 @@ public class Player {
     /////////////////////////////////////////////_Both_/////////////////////////
     public void setFirstName(String firstName){
         this.firstName.set(firstName);
+    }
+    public String getNotes(){
+        return notes.get();
     }
     public StringProperty firstNameProperty(){
         return firstName;
@@ -276,5 +283,11 @@ public class Player {
     public String getSB(){
         return sb;
     }*/
+    public void setPositions(String[] array){
+        positions = array;
+    }
+    public String[] getPositions(){
+        return positions;
+    }
 }
 

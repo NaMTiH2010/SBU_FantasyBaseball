@@ -38,10 +38,11 @@ public class PlayersEditController {
             // UPDATE THE SCHEDULE ITEM
             Player si = sid.getPlayerItem();
             System.out.println(si.notesProperty().toString()+" asdfasdfasdflj;sajflsadjf");
-            itemToEdit.setNotes(si.notesProperty().toString());
-                    
+            //itemToEdit.setNotes(si.notesProperty().toString());
+             itemToEdit.setNotes(si.getNotes());
         }
         else {
+            System.out.println("THIS SHOULDNT BE HAPPENING");
             // THE USER MUST HAVE PRESSED CANCEL, SO
             // WE DO NOTHING
         }        

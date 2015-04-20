@@ -13,6 +13,7 @@ import WBDK.gui.PlayersPage_GUI;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.RadioButton;
 
 /**
  *
@@ -29,6 +30,7 @@ public class Draft {
     ObservableList<Player> hitters;
     ObservableList<Player> pitchers;
     ObservableList<Player> players;
+    ObservableList<Player> availablePlayers;
     
     public Draft(WBDK_DataView tempGUI,ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray){
         playersPage = new PlayersPage_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
@@ -40,6 +42,9 @@ public class Draft {
         pitchers = pitcherArray;
         players = FXCollections.observableArrayList();
         initPlayers(players,hitters,pitchers);
+        availablePlayers = FXCollections.observableArrayList();
+        updateAvailableList();
+        
     }
     
     public void removePlayer(){
@@ -90,5 +95,238 @@ public class Draft {
     }
     public MLB_GUI getMLB_Page(){
         return mlb_Page;
+    }
+    //ObservableList
+    public void radioButtonSort(String rb){
+        
+        int i,j;
+        // RESET ALL THE PLAYERS TO AVAILABLE
+        for(i =0;i<players.size();i++){
+            players.get(i).setAvailability(true);
+        }
+        boolean test = false;
+        ObservableList sorted = FXCollections.observableArrayList();
+         System.out.println("rb EQUALS "+rb+"  "+rb.compareToIgnoreCase("All  "));
+         
+        if(rb.equalsIgnoreCase("All  ")){
+            for(i = 0;i<players.size();i++){
+                players.get(i).setAvailability(true);
+            }
+             System.out.println("got into All");
+        }
+        else if(rb.equals("P  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("hitter")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        players.get(i).setAvailability(true);
+                    }
+                }
+                 System.out.println("PITCHERssss");
+        }
+        else if(rb.equals("C  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("C")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                    
+                }
+        }
+        else if(rb.equals("2B  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("2B")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else if(rb.equals("3B  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("3B")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else if(rb.equals("SS  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("SS")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else if(rb.equals("OF  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("OF")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else if(rb.equals("U  ")){
+            System.out.println("rb EQUALS "+rb+"  "+rb.compareToIgnoreCase("U  "));
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    /*else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("U")){
+                                System.out.println("Player EQUALS "+players.get(i).getPositions()[j]+"  "+players.get(i).getPositions()[j].compareToIgnoreCase("U"));
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }*/
+                }
+        }
+        else if(rb.equals("MI  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("2B") || players.get(i).getPositions()[j].equals("SS")){
+                                test = true;
+                            }
+                        }
+                        if(test == true){
+                            players.get(i).setAvailability(true);
+                        }
+                        else{
+                            players.get(i).setAvailability(false);
+                        }
+                    }
+                }
+        }
+        else if(rb.equalsIgnoreCase("CI  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("1B") || players.get(i).getPositions()[j].equals("3B")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else if(rb.equals("1B  ")){
+                for(i = 0;i<players.size();i++){
+                    if(players.get(i).getPlayerType().equalsIgnoreCase("pitcher")){
+                        players.get(i).setAvailability(false);
+                    }
+                    else{
+                        
+                        test = false;
+                        for(j=0;j<players.get(i).getPositions().length;j++){
+                            if(players.get(i).getPositions()[j].equals("1B")){
+                                test = true;
+                            }
+                        }
+                        if(test == true)
+                            players.get(i).setAvailability(true);
+                        else
+                            players.get(i).setAvailability(false);
+                    }
+                }
+        }
+        else{
+            //for(i = 0;i<players.size();i++){
+              //  players.get(i).setAvailability(false);
+            //}
+            System.out.println("NOT SUPPOSE TO HAPPEN AVAIL PLAYERS");
+        }
+        
+        //return sorted;
+        updateAvailableList();
+    }
+    public void updateAvailableList(){
+        availablePlayers.clear();
+        for(int i = 0; i < players.size();i++){
+            if(players.get(i).getAvailability()==true)
+            availablePlayers.add(players.get(i));
+        }
+    }
+    public ObservableList<Player> getAvailablePlayers(){
+        return availablePlayers;
     }
 }
