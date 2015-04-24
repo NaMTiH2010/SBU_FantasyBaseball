@@ -26,14 +26,19 @@ import java.util.logging.Logger;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -51,13 +56,13 @@ public abstract class WBDK_DataView {
         
     public static final String PRIMARY_STYLE_SHEET = PATH_CSS + "wbdk_style.css";
     public static final String CLASS_BORDERED_PANE = "bordered_pane";
-    static final String CLASS_SUBJECT_PANE = "subject_pane";
+    public static final String CLASS_SUBJECT_PANE = "subject_pane";
     public static final String CLASS_HEADING_LABEL = "heading_label";
-    static final String CLASS_SUBHEADING_LABEL = "subheading_label";
+    public static final String CLASS_SUBHEADING_LABEL = "subheading_label";
     public static final String CLASS_PROMPT_LABEL = "prompt_label";
-    static final String EMPTY_TEXT = "";
-    static final int LARGE_TEXT_FIELD_LENGTH = 20;
-    static final int SMALL_TEXT_FIELD_LENGTH = 5;
+    public static final String EMPTY_TEXT = "";
+    public static final int LARGE_TEXT_FIELD_LENGTH = 20;
+    public static final int SMALL_TEXT_FIELD_LENGTH = 5;
     
     
 
@@ -499,6 +504,35 @@ public abstract class WBDK_DataView {
         Label label = new Label(labelText);
         label.getStyleClass().add(styleClass);
         return label;
+    }
+    // INIT A TEXT FIELD AND PUT IT IN A GridPane
+    public TextField initGridTextField(GridPane container, int size, String initText, boolean editable, int col, int row, int colSpan, int rowSpan) {
+        TextField tf = new TextField();
+        tf.setPrefColumnCount(size);
+        tf.setText(initText);
+        tf.setEditable(editable);
+        container.add(tf, col, row, colSpan, rowSpan);
+        return tf;
+    }
+     // INIT A LABEL AND PLACE IT IN A GridPane INIT ITS PROPER PLACE
+    public Label initGridLabel(GridPane container, WBDK_PropertyType labelProperty, String styleClass, int col, int row, int colSpan, int rowSpan) {
+        Label label = initLabel(labelProperty, styleClass);
+        container.add(label, col, row, colSpan, rowSpan);
+        return label;
+    }
+    // INIT A CheckBox AND PUT IT IN A TOOLBAR
+    public RadioButton initChildRadioButton(Pane container, String text, ToggleGroup group) {
+        RadioButton cB = new RadioButton(text);
+        cB.setToggleGroup(group);
+        cB.setUserData(text);
+        container.getChildren().add(cB);
+        return cB;
+    }
+    // INIT A COMBO BOX AND PUT IT IN A GridPane
+    public ComboBox initGridComboBox(GridPane container, int col, int row, int colSpan, int rowSpan) throws IOException {
+        ComboBox comboBox = new ComboBox();
+        container.add(comboBox, col, row, colSpan, rowSpan);
+        return comboBox;
     }
     
     ////////////////////////////////////////////////////////////

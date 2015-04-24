@@ -7,15 +7,25 @@ package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
 import WBDK.data.Draft;
+import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
+import static WBDK.data.WBDK_DataView.CLASS_SUBHEADING_LABEL;
 import WBDK.file.WBDK_FileManager;
 import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,6 +35,36 @@ import javafx.stage.Stage;
  * @author MatthewLuce
  */
 public class FantasyTeams_GUI extends WBDK_DataView {
+    Button addTeamButton;
+    Button removeTeamButton;
+    Button editTeamButton;
+    TextField draftNameTextbox;
+    Label draftTextboxLabel;
+    Label startingLineUpLabel;
+    Label taxiSquadLabel;
+    Label teamsComboBoxLabel;
+    ComboBox teamsDropDown;
+    GridPane topGridPane;
+    GridPane topGridPane2; 
+    
+    // for creating a our Table in Players page
+    TableView<Player> startingLineUpTable;
+    TableView<Player> taxiSquadTable;
+    TableColumn firstNameColumn;
+    TableColumn positions;
+    TableColumn lastNameColumn;
+    TableColumn proTeamColumn;
+    TableColumn positionsColumn;
+    TableColumn yearOfBirthColumn;
+    TableColumn r_w_Column;
+    TableColumn hr_sv_Column;
+    TableColumn rbi_k_Column;
+    TableColumn sb_era_Column;
+    TableColumn ba_whip_Column;
+    TableColumn estimatedValueColumn;
+    TableColumn notesColumn;
+    TableColumn setPositionColumn;
+    
     public FantasyTeams_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
     }
@@ -33,6 +73,8 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     public void initGUI(String windowTitle) throws IOException {
         // INIT THE DIALOGS
         initDialogs();
+        
+        initFantasyTeamsTablesTable();
         
         initBottomNavbar();
         
@@ -61,13 +103,12 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
         
         initTopWorkspace();
-        
-        
-        
+
         // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
         // ADD THE COMPONENTS WE'VE JUST INITIALIZED
         workspacePane = new BorderPane();
         workspacePane.setTop(topWorkspacePane);
+        //workspacePane.setCenter();
         workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
         
         // AND NOW PUT IT IN THE WORKSPACE
@@ -81,18 +122,100 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         workspaceActivated = false;
     }
     
-    private void initTopWorkspace() {
+    private void initTopWorkspace() throws IOException {
         topWorkspacePane = new VBox();
         HBox topWorkspaceH1Pane = new HBox();
+        HBox topWorkspaceH2Pane = new HBox();
+        topGridPane = new GridPane();
+        topGridPane2 = new GridPane();
+        
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
-        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.FANTASY_TEAMS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.FANTASY_TEAMS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        
+        
+        
+        addTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
+        removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        draftTextboxLabel = initGridLabel(topGridPane, WBDK_PropertyType.DRAFT_NAME_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
+        teamsComboBoxLabel = initGridLabel(topGridPane2, WBDK_PropertyType.SELECT_FANTASY_TEAM_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1); 
+        draftNameTextbox = initGridTextField(topGridPane, 30, "", true, 3, 1, 1, 1);
+        teamsDropDown = initGridComboBox(topGridPane2, 1, 1, 1, 1);
+        
+        topWorkspaceH1Pane.getChildren().add(topGridPane2);
+       
+        topWorkspacePane.getChildren().add(topGridPane);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
+        topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
+        
+        startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);
+        topWorkspacePane.getChildren().add(startingLineUpTable);
+        taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
     }
     
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {
             activateWorkspace();
         }
+        
+    }
+        private void initFantasyTeamsTablesTable(){
+        // SET UP TABLE
+        startingLineUpTable = new TableView();
+        taxiSquadTable = new TableView();
+        
+        // SET UP COLUMNS
+        setPositionColumn = new TableColumn("Position");
+        
+        firstNameColumn = new TableColumn("First");
+        lastNameColumn = new TableColumn("Last");
+        proTeamColumn = new TableColumn("Pro Team");
+        positionsColumn = new TableColumn("Positions");
+        yearOfBirthColumn = new TableColumn("Year Of Birth");
+        r_w_Column = new TableColumn("R/W");
+        hr_sv_Column = new TableColumn("HR/SV");
+        rbi_k_Column = new TableColumn("RBI/K");
+        sb_era_Column = new TableColumn("SB/ERA");
+        ba_whip_Column = new TableColumn("BA/WHIP");
+        estimatedValueColumn = new TableColumn("Estimated Value");
+        notesColumn = new TableColumn("Notes");
+       
+        
+        // AND LINK THE COLUMNS TO THE DATA
+        proTeamColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
+        
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
+        yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("yearOfBirth"));
+        positionsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
+        r_w_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("r_w"));
+        hr_sv_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("hr_sv"));
+        rbi_k_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("rbi_k"));
+        sb_era_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("sb_era"));
+        ba_whip_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("ba_whip"));
+        //estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estimatedValue"));
+        notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
+       
+        notesColumn.setEditable(true);
+        
+        //playersTable.getOnMouseClicked();
+        
+        // ADD COLUMNS TO TABLE
+        startingLineUpTable.getColumns().add(setPositionColumn); 
+        startingLineUpTable.getColumns().add(firstNameColumn);
+        startingLineUpTable.getColumns().add(lastNameColumn);
+        startingLineUpTable.getColumns().add(proTeamColumn);
+        startingLineUpTable.getColumns().add(positionsColumn);
+        startingLineUpTable.getColumns().add(yearOfBirthColumn);
+        startingLineUpTable.getColumns().add(r_w_Column);
+        startingLineUpTable.getColumns().add(hr_sv_Column);
+        startingLineUpTable.getColumns().add(rbi_k_Column);
+        startingLineUpTable.getColumns().add(sb_era_Column);
+        startingLineUpTable.getColumns().add(ba_whip_Column);
+        startingLineUpTable.getColumns().add(estimatedValueColumn);
+        startingLineUpTable.getColumns().add(notesColumn);
+        
+        startingLineUpTable.setItems(getDataManager().getDraft().getAvailablePlayers()); //getPlayers());
         
     }
     

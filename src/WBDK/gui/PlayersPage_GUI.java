@@ -156,31 +156,31 @@ public class PlayersPage_GUI extends WBDK_DataView {
         // AND A SPLIT PANE, WHICH WILL HOLD 2 ADDITIONAL GROUPS OF CONTROLS
         topGridPane = new GridPane();
         topWorkspacePane = new VBox();
-        topWorkspaceH1Pane = new HBox();
+        //topWorkspaceH1Pane = new HBox();
         topWorkspaceH2Pane = new HBox();
         radioButtonHPane = new HBox();
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
         
 
         // HERE'S THE LABEL
-        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.PLAYERS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.PLAYERS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
         add_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, true);
         remove_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
         searchBar = initGridTextField(topGridPane, 60, "", true, 3, 1, 1, 1);
         searchLabel =  initGridLabel(topGridPane, WBDK_PropertyType.SEARCH_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
         topWorkspaceH2Pane.getChildren().add(topGridPane);
-        all = initChildRadioButton(radioButtonHPane,"All  ");
-        catchers = initChildRadioButton(radioButtonHPane,"C  ");
-        firstBaseman = initChildRadioButton(radioButtonHPane,"1B  ");
-        ci = initChildRadioButton(radioButtonHPane,"CI  ");
-        thirdBase = initChildRadioButton(radioButtonHPane,"3B  ");
-        secondBase = initChildRadioButton(radioButtonHPane,"2B  ");
-        mi = initChildRadioButton(radioButtonHPane,"MI  ");
-        shortstop = initChildRadioButton(radioButtonHPane,"SS  ");
-        of = initChildRadioButton(radioButtonHPane,"OF  ");
-        u = initChildRadioButton(radioButtonHPane,"U  ");
-        pitchers = initChildRadioButton(radioButtonHPane,"P  ");
-        topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
+        all = initChildRadioButton(radioButtonHPane,"All  ", group);
+        catchers = initChildRadioButton(radioButtonHPane,"C  ", group);
+        firstBaseman = initChildRadioButton(radioButtonHPane,"1B  ", group);
+        ci = initChildRadioButton(radioButtonHPane,"CI  ", group);
+        thirdBase = initChildRadioButton(radioButtonHPane,"3B  ", group);
+        secondBase = initChildRadioButton(radioButtonHPane,"2B  ", group);
+        mi = initChildRadioButton(radioButtonHPane,"MI  ", group);
+        shortstop = initChildRadioButton(radioButtonHPane,"SS  ", group);
+        of = initChildRadioButton(radioButtonHPane,"OF  ", group);
+        u = initChildRadioButton(radioButtonHPane,"U  ", group);
+        pitchers = initChildRadioButton(radioButtonHPane,"P  ", group);
+        //topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
         topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
         topWorkspacePane.getChildren().add(radioButtonHPane);
 
@@ -264,29 +264,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         }
         
     }
-    // INIT A TEXT FIELD AND PUT IT IN A GridPane
-    private TextField initGridTextField(GridPane container, int size, String initText, boolean editable, int col, int row, int colSpan, int rowSpan) {
-        TextField tf = new TextField();
-        tf.setPrefColumnCount(size);
-        tf.setText(initText);
-        tf.setEditable(editable);
-        container.add(tf, col, row, colSpan, rowSpan);
-        return tf;
-    }
-     // INIT A LABEL AND PLACE IT IN A GridPane INIT ITS PROPER PLACE
-    private Label initGridLabel(GridPane container, WBDK_PropertyType labelProperty, String styleClass, int col, int row, int colSpan, int rowSpan) {
-        Label label = initLabel(labelProperty, styleClass);
-        container.add(label, col, row, colSpan, rowSpan);
-        return label;
-    }
-    // INIT A CheckBox AND PUT IT IN A TOOLBAR
-    private RadioButton initChildRadioButton(Pane container, String text) {
-        RadioButton cB = new RadioButton(text);
-        cB.setToggleGroup(group);
-        cB.setUserData(text);
-        container.getChildren().add(cB);
-        return cB;
-    }
+    
     
     // INIT ALL THE EVENT HANDLERS
     @Override

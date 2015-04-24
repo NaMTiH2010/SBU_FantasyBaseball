@@ -15,7 +15,8 @@
         <property name="VIEW_SCHEDULE_ICON" value="View.png"></property>
         <property name="EXPORT_PAGE_ICON"   value="Export.png"></property>
         <property name="DELETE_ICON"        value="Delete.png"></property>
-        <property name="EXIT_ICON"          value="Exit.png"></property>        
+        <property name="EXIT_ICON"          value="Exit.png"></property>
+        <property name="EDIT_ICON"          value="edit.png"></property>        
         <property name="ADD_ICON"           value="Add.png"></property>
         <property name="MINUS_ICON"         value="Minus.png"></property>
         <property name="MOVE_UP_ICON"       value="MoveUp.png"></property>
@@ -58,9 +59,12 @@
         
         <!-- GUI LABELS -->
         <property name="COURSE_HEADING_LABEL"                   value="Course Site Details"></property>
-        
-        <property name="SEARCH_LABEL"                           value="Search: "></property>
-        <property name="PLAYERS_PAGE_HEADING_LABEL"              value="Available Players"></property>
+        <property name="STARTING_LINEUP_LABEL"                  value="Starting Lineup"></property>
+        <property name="TAXI_SQUAD_LABEL"                       value="Taxi Squad"></property>
+        <property name="DRAFT_NAME_LABEL"                       value=" Draft Name: "></property>
+        <property name="SELECT_FANTASY_TEAM_LABEL"              value=" Select Fantasy Team: "></property>
+        <property name="SEARCH_LABEL"                           value=" Search: "></property>
+        <property name="PLAYERS_PAGE_HEADING_LABEL"             value="Available Players"></property>
         <property name="MLB_PAGE_HEADING_LABEL"                 value="MLB Teams"></property>
         <property name="FANTASY_TEAMS_PAGE_HEADING_LABEL"       value="Fantasy Teams"></property>
         <property name="FANTASY_STANDINGS_PAGE_HEADING_LABEL"   value="Fantasy Standings"></property>
