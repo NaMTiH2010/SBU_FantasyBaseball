@@ -5,10 +5,12 @@
  */
 package WBDK.file;
 
+import static WBDK.WBDK_StartupConstants.PATH_DRAFTS;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.Players;
 import WBDK.data.Team;
+import static WBDK.file.WBDK_SiteExporter.SLASH;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,13 +32,65 @@ import javax.json.JsonValue;
  * @author MatthewLuce
  */
 public class Json_WBDK_FileManager implements WBDK_FileManager{
-
-    @Override
+    String JSON_EXT = ".json";
+    // TEAM VARIABLES TO SAVE
+    String JSON_TEAM_NAME = "team_name";
+    String JSON_TEAM_STARTING_LINEUP_ARRAY = "starting_lineup";
+    String JSON_TEAM_TAXI_SQUAD_ARRAY = "taxi_squad";
+    String JSON_TEAM_OWNER = "owner";
+    String JSON_P_NEEDED = "p_Needed";
+    String JSON_C_NEEDED = "c_Needed";
+    String JSON_FIRSTBASE_NEEDED = "f_BaseNeeded";
+    String JSON_SECONDBASE_NEEDED = "s_BaseNeeded";
+    String JSON_THIRDBASE_NEEDED = "t_BaseNeeded";
+    String JSON_CI_NEEDED = "ci_Needed";
+    String JSON_MI_NEEDED = "mi_Needed";
+    String JSON_U_NEEDED = "u_Needed";
+    String JSON_SS_NEEDED = "ss_Needed";
+    String JSON_OF_NEEDED = "of_Needed";
+    // PLAYER VARIABLES TO BE SAVED
+    String JSON_POSITIONS_ARRAY = "positions_array";
+    String JSON_POSSIBLE_POSITIONS ="possiblePositions";
+    String JSON_TEAM ="team";
+    String JSON_FIRST_NAME ="firstName";
+    String JSON_LAST_NAME ="lastName";
+    String JSON_NOTES ="notes";
+    String JSON_YEAR_OF_BIRTH ="yearOfBirth";
+    String JSON_PLACE_OF_BIRTH ="placeOfBirth";
+    String JSON_QP ="qp";
+    String JSON_R ="r";
+    String JSON_W ="w";
+    String JSON_HR ="hr";
+    String JSON_SV ="sv";
+    String JSON_RBI ="rbi";
+    String JSON_K ="k";
+    String JSON_SB ="sb";
+    String JSON_ERA ="era";
+    String JSON_BA ="ba";
+    //String JSON_WHIP ="whip";
+    String JSON_BB ="bb";
+    String JSON_ER ="er";
+    String JSON_IP ="ip";
+    String JSON_AB ="ab";
+    String JSON_H ="h";
+    String JSON_SALARY ="salary";
+    String JSON_AVAILABILITY ="availability";
+    String JSON_PLAYER_TYPE ="playerType";
+    String JSON_CURRENT_POSITION ="currentPosition";
+    String JSON_TAKEN ="taken";
+    
+    // DRAFT VARIABLES TO BE SAVED
+    String JSON_HITTERS_ARRAY ="hitters";
+    String JSON_PITCHERS_ARRAY ="pitchers";
+    String JSON_PLAYERS_ARRAY ="players";
+    String JSON_AVAILABLE_PLAYERS_ARRAY ="availablePlayers";
+    String JSON_TEAMS_ARRAY ="teams";
+    String JSON_DRAFT_TITLE = "title";
+    
     public void saveTeam(Team TeamToSave) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public void loadTeam(Team TeamToLoad, String coursePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -195,15 +249,6 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         
     }
 
-    @Override
-    public void saveDraft(Draft draft, String filePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void saveDraft(Draft draftToSave) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     
    
@@ -325,7 +370,6 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             courseToLoad.addScheduleItem(si);
         }*/
 
-    @Override
     public Draft loadDraft(String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -334,4 +378,197 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
     public ArrayList<String> loadHitters(String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    /**
+     * This method saves all the data associated with a course to
+     * a JSON file.
+     * 
+     * @param courseToSave The course whose data we are saving.
+     * 
+     * @throws IOException Thrown when there are issues writing
+     * to the JSON file.
+     */
+    //@Override
+    public void saveDraft(Draft draftToSave) throws IOException {
+        // BUILD THE FILE PATH
+        String courseListing = "" + draftToSave.getTitle();
+        String jsonFilePath = PATH_DRAFTS + SLASH + courseListing + JSON_EXT;
+        
+        // INIT THE WRITER
+        OutputStream os = new FileOutputStream(jsonFilePath);
+        JsonWriter jsonWriter = Json.createWriter(os);  
+        
+        // MAKE A JSON ARRAY FOR THE PAGES ARRAY
+        JsonArray hittersJsonArray = makePlayerJsonArray(draftToSave.getHitters());
+        
+        // AND AN OBJECT FOR THE INSTRUCTOR
+        //JsonObject instructorJsonObject = makeInstructorJsonObject(draftToSave.getInstructor());
+        
+        
+        // THE LECTURE DAYS ARRAY
+        JsonArray pitchersJsonArray = makePlayerJsonArray(draftToSave.getPitchers());
+        
+        // THE SCHEDULE ITEMS ARRAY
+        //JsonArray playersJsonArray = makeScheduleItemsJsonArray(courseToSave.getScheduleItems());
+        
+        // THE LECTURES ARRAY
+        JsonArray teamsJsonArray = makeTeamJsonArray(draftToSave.getTeams());
+        
+        // THE HWS ARRAY
+        JsonArray availablePlayersJsonArray = makePlayerJsonArray(draftToSave.getAvailablePlayers());
+        
+        // NOW BUILD THE COURSE USING EVERYTHING WE'VE ALREADY MADE
+        JsonObject courseJsonObject = Json.createObjectBuilder()
+                                    // DRAFT ITEMS
+                                    .add(JSON_DRAFT_TITLE, draftToSave.getTitle())
+                                    .add(JSON_HITTERS_ARRAY, draftToSave.getTitle())
+                                    .add(JSON_PITCHERS_ARRAY, draftToSave.getTitle())
+                                    .add(JSON_PLAYERS_ARRAY, draftToSave.getTitle())
+                                    .add(JSON_AVAILABLE_PLAYERS_ARRAY, draftToSave.getTitle())
+                                    .add(JSON_TEAMS_ARRAY, draftToSave.getTitle())
+
+                .build();
+        
+        // AND SAVE EVERYTHING AT ONCE
+        jsonWriter.writeObject(courseJsonObject);
+    }
+    
+    /**
+     * Saves the subjects list to a json file.
+     * @param subjects List of Subjects to save.
+     * @param jsonFilePath Path of json file.
+     * @throws IOException Thrown when I/O fails.
+     */
+    /*
+    @Override
+    public void saveSubjects(List<Object> subjects, String jsonFilePath) throws IOException {
+        JsonObject arrayObject = buildJsonArrayObject(subjects);
+        OutputStream os = new FileOutputStream(jsonFilePath);
+        JsonWriter jsonWriter = Json.createWriter(os);  
+        jsonWriter.writeObject(arrayObject);        
+    }*/
+    
+    // MAKE AN ARRAY OF ASSIGNMENTS
+    public JsonArray makeTeamJsonArray(ObservableList<Team> data) {
+        JsonArrayBuilder jsb = Json.createArrayBuilder();
+        for (Team a : data) {
+            jsb.add(this.makeTeamJsonObject(a));
+        }
+        JsonArray jA = jsb.build();
+        return jA;
+    }
+    // MAKES AND RETURNS A JSON OBJECT FOR THE PROVIDED ASSIGNMENT
+    private JsonObject makeTeamJsonObject(Team team) {
+        
+        JsonArray startingLineupJsonArray = makePlayerJsonArray(team.getStartingLineup());
+        JsonArray taxiSquadJsonArray = makePlayerJsonArray(team.getTaxiSquad());
+        
+        JsonObject jso = Json.createObjectBuilder()
+                .add(JSON_TEAM_NAME, team.getName())
+                .add(JSON_TEAM_OWNER, team.getOwner())
+                .add(JSON_P_NEEDED, team.getP_Needed())
+                .add(JSON_C_NEEDED, team.getP_Needed())
+                .add(JSON_FIRSTBASE_NEEDED, team.getP_Needed())
+                .add(JSON_SECONDBASE_NEEDED, team.getP_Needed())
+                .add(JSON_THIRDBASE_NEEDED, team.getP_Needed())
+                .add(JSON_CI_NEEDED, team.getP_Needed())
+                .add(JSON_MI_NEEDED, team.getP_Needed())
+                .add(JSON_U_NEEDED, team.getP_Needed())
+                .add(JSON_SS_NEEDED, team.getP_Needed())
+                .add(JSON_OF_NEEDED, team.getP_Needed())
+                .add(JSON_TEAM_STARTING_LINEUP_ARRAY, startingLineupJsonArray)
+                .add(JSON_TEAM_TAXI_SQUAD_ARRAY, taxiSquadJsonArray)
+                  .build();
+        return jso;
+    }      
+     // MAKE AN ARRAY OF Players
+    public JsonArray makePlayerJsonArray(ObservableList<Player> data) {
+        JsonArrayBuilder jsb = Json.createArrayBuilder();
+        for (Player a : data) {
+            jsb.add(this.makePlayerJsonObject(a));
+        }
+        JsonArray jA = jsb.build();
+        return jA;
+    }
+    // MAKES AND RETURNS A JSON OBJECT FOR THE PROVIDED ASSIGNMENT
+    private JsonObject makePlayerJsonObject(Player player) {
+        if(player.getPlayerType().equalsIgnoreCase("pitcher")){
+            JsonObject jso = Json.createObjectBuilder()
+                        .add(JSON_POSSIBLE_POSITIONS, player.getPossiblePositions())
+                        .add(JSON_TAKEN, player.getTaken())
+                        .add(JSON_CURRENT_POSITION, player.getCurrentPosition())
+                        .add(JSON_PLAYER_TYPE, player.getPlayerType())
+                        .add(JSON_AVAILABILITY, player.getAvailability())
+                        .add(JSON_SALARY, player.getSalary())
+                        .add(JSON_H, player.getH())
+                        .add(JSON_IP, player.getIP())
+                        .add(JSON_ER, player.getER())
+                        .add(JSON_BB, player.getBB())
+                        .add(JSON_K, player.getRBI_K())
+                        .add(JSON_SV, player.getHR_SV())
+                        .add(JSON_W, player.getR_W())
+                        .add(JSON_QP, player.getQP())
+                        .add(JSON_PLACE_OF_BIRTH, player.getPlaceOfBirth())
+                        .add(JSON_YEAR_OF_BIRTH, player.getYearOfBirth())
+                        .add(JSON_NOTES, player.getNotes())
+                        .add(JSON_LAST_NAME, player.getLastName())
+                        .add(JSON_FIRST_NAME, player.getFirstName())
+                        .add(JSON_TEAM, player.getTeam())
+                        .build();
+                    return jso;
+        }
+        else{
+                JsonObject jso = Json.createObjectBuilder()
+                        .add(JSON_POSSIBLE_POSITIONS, player.getPossiblePositions())
+                        .add(JSON_TAKEN, player.getTaken())
+                        .add(JSON_CURRENT_POSITION, player.getCurrentPosition())
+                        .add(JSON_PLAYER_TYPE, player.getPlayerType())
+                        .add(JSON_AVAILABILITY, player.getAvailability())
+                        .add(JSON_SALARY, player.getSalary())
+                        .add(JSON_H, player.getH())
+                        .add(JSON_AB, player.getAB())
+                        .add(JSON_SB, player.getSB_ERA())
+                        .add(JSON_RBI, player.getRBI_K())
+                        .add(JSON_HR, player.getHR_SV())
+                        .add(JSON_R, player.getR_W())
+                        .add(JSON_QP, player.getQP())
+                        .add(JSON_PLACE_OF_BIRTH, player.getPlaceOfBirth())
+                        .add(JSON_YEAR_OF_BIRTH, player.getYearOfBirth())
+                        .add(JSON_NOTES, player.getNotes())
+                        .add(JSON_LAST_NAME, player.getLastName())
+                        .add(JSON_FIRST_NAME, player.getFirstName())
+                        .add(JSON_TEAM, player.getTeam())
+                        .build();
+                    return jso;
+        }
+        
+    }
+
+
+    @Override
+    public void saveTeam(Team TeamToSave, String filePath) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Draft loadTeam(String filePath) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private JsonArray makeHittersJsonArray(ObservableList<Player> hitters) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private JsonArray makePitchersJsonArray(ObservableList<Player> pitchers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private JsonArray makeTeamsJsonArray(ObservableList<Team> teams) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private JsonArray makeAvailablePlayersArray(ObservableList<Player> availablePlayers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

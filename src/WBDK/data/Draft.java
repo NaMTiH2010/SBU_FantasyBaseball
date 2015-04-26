@@ -31,6 +31,7 @@ public class Draft {
     ObservableList<Player> pitchers;
     ObservableList<Player> players;
     ObservableList<Player> availablePlayers;
+    ObservableList<Team> teams;
     
     public Draft(WBDK_DataView tempGUI,ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray){
         playersPage = new PlayersPage_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
@@ -62,11 +63,20 @@ public class Draft {
     public void setTitle(String title) {
         this.title = title;
     }
+    public String getTitle(){
+        return title;
+    }
     public void loadPlayers(){
         
     }
     public ObservableList<Player> getHitters(){
         return hitters;
+    }
+    public ObservableList<Player> getPitchers(){
+        return pitchers;
+    }
+    public ObservableList<Team> getTeams(){
+        return teams;
     }
     public ObservableList<Player> getPlayers(){
         return players;
@@ -106,13 +116,11 @@ public class Draft {
         }
         boolean test = false;
         ObservableList sorted = FXCollections.observableArrayList();
-         System.out.println("rb EQUALS "+rb+"  "+rb.compareToIgnoreCase("All  "));
          
         if(rb.equalsIgnoreCase("All  ")){
             for(i = 0;i<players.size();i++){
                 players.get(i).setAvailability(true);
             }
-             System.out.println("got into All");
         }
         else if(rb.equals("P  ")){
                 for(i = 0;i<players.size();i++){
@@ -123,7 +131,6 @@ public class Draft {
                         players.get(i).setAvailability(true);
                     }
                 }
-                 System.out.println("PITCHERssss");
         }
         else if(rb.equals("C  ")){
                 for(i = 0;i<players.size();i++){
@@ -386,4 +393,5 @@ public class Draft {
         }
         updateAvailableList();
     }
+    
 }

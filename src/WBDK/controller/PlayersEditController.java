@@ -37,7 +37,7 @@ public class PlayersEditController {
         if (sid.wasCompleteSelected()) {
             // UPDATE THE SCHEDULE ITEM
             Player si = sid.getPlayerItem();
-            System.out.println(si.notesProperty().toString()+" asdfasdfasdflj;sajflsadjf");
+            System.out.println(si.getNotes()+" asdfasdfasdflj;sajflsadjf");
             //itemToEdit.setNotes(si.notesProperty().toString());
              itemToEdit.setNotes(si.getNotes());
         }

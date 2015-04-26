@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
  * @author MatthewLuce
  */
 public class Team {
-    ObservableList<String> availablePositions;
+    //ObservableList<String> availablePositions;
     ObservableList<Player> startingLineup;
     ObservableList<Player> taxiSquad;
     String name;
@@ -33,6 +33,88 @@ public class Team {
         this.name = name;
         this.owner = owner;
     }
+    public void setOF_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getOF_Needed(){
+        return of_Needed;
+    }    
+    public void setF_BaseNeeded(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getF_BaseNeeded(){
+        return of_Needed;
+    }
+    public void setS_BaseNeeded(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getS_BaseNeeded(){
+        return of_Needed;
+    }
+    public void setT_BaseNeeded(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getT_BaseNeeded(){
+        return of_Needed;
+    }
+    public void setP_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getP_Needed(){
+        return of_Needed;
+    }
+    public void setC_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getC_Needed(){
+        return of_Needed;
+    }
+    public void setMI_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getMI_Needed(){
+        return of_Needed;
+    }
+    public void setCI_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getCI_Needed(){
+        return of_Needed;
+    }
+    public void setU_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getU_Needed(){
+        return of_Needed;
+    }
+    public void setSS_Needed(int of_Needed){
+        this.of_Needed = of_Needed;
+    }
+    public int getSS_Needed(){
+        return of_Needed;
+    }
+    public String getName(){
+        return name;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getOwner(){
+        return owner;
+    }
+    public void setOwner(String owner){
+        this.owner = owner;
+    }
+    public ObservableList<Player> getStartingLineup(){
+        return startingLineup;
+    }
+    public ObservableList<Player> getTaxiSquad(){
+        return taxiSquad;
+    }
+    
+    
+    
+    
     
     public void addStartingLineupPlayer(Player player){
         if(player.getCurrentPosition().equalsIgnoreCase("c")){
