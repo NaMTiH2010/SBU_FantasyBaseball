@@ -45,7 +45,7 @@ import xml_utilities.InvalidXMLFileFormatException;
  *
  * @author MatthewLuce
  */
-public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PROGESS BAR
+public class WBDK extends Application {// ITEMS FOR THE PROGESS BAR
     ProgressBar bar;
     ProgressIndicator indicator;
     Button button;
@@ -88,7 +88,7 @@ public class WolfieBallDraftKitBuilder extends Application {// ITEMS FOR THE PRO
                 //System.out.println(player.getLastName()+" "+player.getFirstName());
                 ObservableList<Player> jsonHitters = jsonFileManager.loadTheHitters(JSON_FILE_PATH_HITTERS);
                 ObservableList<Player> jsonPitchers = jsonFileManager.loadThePitchers(JSON_FILE_PATH_PITCHERS);
-                Team teamA = new Team();
+                //Team teamA = new Team();
                 ArrayList<String> subjects= new ArrayList();
                 subjects.add("car");
                 subjects.add("bus");

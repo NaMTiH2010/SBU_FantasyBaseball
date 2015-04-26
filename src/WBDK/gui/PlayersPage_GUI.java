@@ -19,6 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,11 +28,15 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -88,6 +94,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
         static final String COL_TEAM_NAME = "Team";
         
         PlayersEditController playerController;
+        
+        
     
     public PlayersPage_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -204,7 +212,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
     private void initPlayerTable(){
         // SET UP TABLE
         playersTable = new TableView();
-        
+        playersTable.setEditable(true);
         // SET UP COLUMNS
         firstNameColumn = new TableColumn("First");
         lastNameColumn = new TableColumn("Last");
@@ -236,6 +244,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
        
         notesColumn.setEditable(true);
+        
         
         //playersTable.getOnMouseClicked();
         
@@ -307,6 +316,13 @@ public class PlayersPage_GUI extends WBDK_DataView {
             fileController.handleExitRequest(this);
         });
         
+        add_Button.setOnAction(e -> {
+            fileController.handleAddPlayerRequest(this);
+        });
+        remove_Button.setOnAction(e -> {
+            fileController.handleRemovePlayerRequest(this);
+        });
+        
         // BOTTOMTOOLBAR
         draftPage_Button.setOnAction(e -> {
             try {
@@ -345,7 +361,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
         });
         
         // AND NOW THE NOTES ITEM ADDING AND EDITING CONTROLS
-        playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+        
        /* addScheduleItemButton.setOnAction(e -> {
             scheduleController.handleAddScheduleItemRequest(this);
         });
@@ -353,17 +369,36 @@ public class PlayersPage_GUI extends WBDK_DataView {
             scheduleController.handleRemoveScheduleItemRequest(this, scheduleItemsTable.getSelectionModel().getSelectedItem());
         });
         */
+       
+        //notesColumn.getOnEditStart()
+        
         // AND NOW THE SCHEDULE ITEMS TABLE
         playersTable.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                // OPEN UP THE PLAYER EDITOR
-                Player si = playersTable.getSelectionModel().getSelectedItem();
+                //TablePosition tp;
+                 //OPEN UP THE PLAYER EDITOR
+                //tp = playersTable.getFocusModel().getFocusedCell();
                 
-                //System.out.println("scheduleItems = "+ si.notesProperty()+" Player Name = "+ si.firstNameProperty().toString());
+                
+                Player si = playersTable.getSelectionModel().getSelectedItem();
+               // System.out.println("ANSWER IS: "+tp.getTableColumn().getId());
+                playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
                 playersController.handleEditPlayerItemRequest(this, si);
                 //System.out.println("scheduleItems = "+ si.getDescription());
             }
         });
+        
+        notesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        notesColumn.setOnEditCommit(
+        new EventHandler<CellEditEvent<Player, String>>() {
+        public void handle(CellEditEvent<Player, String> t) {
+            ((Player) t.getTableView().getItems().get(
+                t.getTablePosition().getRow())
+                ).setNotes(t.getNewValue());
+        }
+
+    }
+);
         
         //registerTextFieldController(searchBar);
         
@@ -402,4 +437,5 @@ public class PlayersPage_GUI extends WBDK_DataView {
     private void updateDraftUsingRadioButton(Draft tempDraft, String rb) {
        tempDraft.radioButtonSort(rb);
     }
+    
 }

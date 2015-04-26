@@ -18,6 +18,7 @@ import static WBDK.WBDK_PropertyType.COURSE_SAVED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_COURSE_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_DRAFT_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
+import WBDK.gui.PlayersPage_GUI;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -259,6 +260,14 @@ public class FileController {
      */
     public boolean isSaved() {
         return saved;
+    }
+
+    public void handleAddPlayerRequest(PlayersPage_GUI aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void handleRemovePlayerRequest(PlayersPage_GUI aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

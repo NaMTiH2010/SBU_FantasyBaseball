@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 public class Player {
     String[] positions;
     String contractStatus;
+    String possiblePositions;
     //String firstName;
     //String lastName;
     final StringProperty team;
@@ -49,12 +50,15 @@ public class Player {
     final IntegerProperty ba_whip;
    // public static final String DEFAULT_BA_WHIP = "<ENTER BA_WHIP>";
     
-    String playerType;
+    
     //String yearOfBirth;
     //String placeOfBirth;
     //String notes;
     double salary;
     boolean availability = true;
+    String playerType;
+    String currentPosition;
+    
     //Statistics stats;
     //////////// Pitcher //////////// 
     
@@ -161,6 +165,12 @@ public class Player {
     }
     public boolean getAvailability(){
         return availability;
+    }
+    public void setCurrentPosition(String pos){
+        currentPosition = pos;
+    }
+    public String getCurrentPosition(){
+        return currentPosition;
     }
     public void setTeam(String initTeam){
         team.set(initTeam);
@@ -293,6 +303,16 @@ public class Player {
     }
     public String[] getPositions(){
         return positions;
+    }
+    public String getPlaceOfBirth(){
+        return placeOfBirth.get();
+    }
+
+    public String getPossiblePositions() {
+        return possiblePositions;
+    }
+    public void setPossiblePositions(String possiblePositions){
+        this.possiblePositions = possiblePositions;
     }
 }
 

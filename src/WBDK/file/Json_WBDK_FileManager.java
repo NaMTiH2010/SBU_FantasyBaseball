@@ -137,6 +137,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setRbi_k(jso.getString("RBI"));
         si.setSb_era(jso.getString("SB"));
         si.setPlayerType("hitter");
+        si.setPossiblePositions(jso.getString("QP"));
         if(jso.getString("QP").contains("_")){
             si.setPositions(jso.getString("QP").split("_"));
         }
@@ -179,6 +180,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setHr_sv(jso.getString("SV"));
         si.setRbi_k(jso.getString("K"));
         si.setQp("P");
+        si.setPossiblePositions("P");
         //si.setPositions(null);
         //si.setSb_era(jso.getString("SB"));
         
