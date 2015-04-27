@@ -33,6 +33,10 @@ public class Team {
         this.name = name;
         this.owner = owner;
     }
+
+    public Team() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public void setOF_Needed(int of_Needed){
         this.of_Needed = of_Needed;
     }
@@ -315,7 +319,12 @@ public class Team {
         }
         }
     
-        
+       public void setStartingLineup(ObservableList<Player> temp){
+           startingLineup = temp;
+       }
+       public void setTaxiSquad(ObservableList<Player> temp){
+           taxiSquad = temp;
+       }
     }
     
 

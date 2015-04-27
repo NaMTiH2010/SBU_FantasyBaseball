@@ -393,5 +393,13 @@ public class Draft {
         }
         updateAvailableList();
     }
-    
+    public void setPlayers(ObservableList<Player> players){
+        this.players = players;
+    }
+    public void setTeams(ObservableList<Team> teams){
+        this.teams = teams;
+    }
+    public void setAvailablePlayers(ObservableList<Player> availablePlayers){
+        this.availablePlayers = availablePlayers;
+    }
 }
