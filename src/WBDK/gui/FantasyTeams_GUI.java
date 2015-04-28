@@ -6,6 +6,7 @@
 package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
+import WBDK.controller.FantasyTeamsEditController;
 import WBDK.controller.FileController;
 import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
@@ -68,6 +69,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     TableColumn estimatedValueColumn;
     TableColumn notesColumn;
     TableColumn setPositionColumn;
+    FantasyTeamsEditController teamsController;
     
     public FantasyTeams_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -234,6 +236,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
 
         // FIRST THE FILE CONTROLS
         fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
+        teamsController = new FantasyTeamsEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
         
         newDraftButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
@@ -254,7 +257,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         
         addTeamButton.setOnAction(e -> {
-            fileController.handleAddTeamRequest(this);
+            teamsController.handleAddTeamRequest(this);
         });
         removeTeamButton.setOnAction(e -> {
             fileController.handleRemoveTeamRequest(this);

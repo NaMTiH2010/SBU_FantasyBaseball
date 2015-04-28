@@ -9,6 +9,7 @@ import static WBDK.WBDK_StartupConstants.PATH_IMAGES;
 import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
+import WBDK.data.Team;
 import WBDK.data.WBDK_DataManager;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
 import static WBDK.data.WBDK_DataView.CLASS_PROMPT_LABEL;
@@ -71,8 +72,10 @@ public class PlayersItemDialog extends Stage{
     Label playerNameLabel;
     public static final String EDIT_PLAYER_TITLE = "Edit Player";
     Draft draft;
+    Team fakeTeam;
     
     public PlayersItemDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog) {
+        
         this.draft = draft;
      // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
@@ -91,7 +94,7 @@ public class PlayersItemDialog extends Stage{
         // PUT THE HEADING IN THE GRID, NOTE THAT THE TEXT WILL DEPEND
         // ON WHETHER WE'RE ADDING OR EDITING
         headingLabel = new Label("Player Details");
-        headingLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
+        headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
     
         
         // AND FINALLY, THE BUTTONS
@@ -178,6 +181,8 @@ public class PlayersItemDialog extends Stage{
         
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
         playerItem = new Player();
+        
+        fakeTeam = new Team();
         
         // LOAD THE UI STUFF
         descriptionTextField.setText(playerItem.getNotes());
@@ -321,6 +326,46 @@ public class PlayersItemDialog extends Stage{
         
         
         return playerItem;
+    }
+
+    public Team showAddTeamDialog() {
+        
+        Label teamName = new Label("Name: ");
+        Label ownerName = new Label("Owner: ");
+        TextField teamNameText = new TextField();
+        TextField ownerNameText = new TextField();
+        HBox nameBox = new HBox();
+        HBox ownerBox =  new HBox();
+        HBox completeCancelBox = new HBox();
+        
+        headingLabel.setText("Fantasy Team Details");
+        
+        
+        teamNameText.textProperty().addListener((observable, oldValue, newValue) -> {
+            fakeTeam.setName(newValue);
+        });
+        ownerNameText.textProperty().addListener((observable, oldValue, newValue) -> {
+            fakeTeam.setOwner(newValue);
+        });
+        nameBox.getChildren().add(teamName);
+        nameBox.getChildren().add(teamNameText);
+        ownerBox.getChildren().add(ownerName);
+        ownerBox.getChildren().add(ownerNameText);
+        completeCancelBox.getChildren().add(completeButton);
+        completeCancelBox.getChildren().add(cancelButton);
+        gridPane.add(headingLabel, 0, 0, 1, 1);
+        gridPane.add(nameBox, 0, 1, 1, 1);
+        
+        gridPane.add(ownerBox, 0, 2, 1, 1);
+        gridPane.add(completeCancelBox, 0, 3, 1, 1);
+        
+        // AND OPEN IT UP
+        this.showAndWait();
+        return fakeTeam;
+    }
+
+    public Team getFakeTeam() {
+        return fakeTeam;
     }
     
 

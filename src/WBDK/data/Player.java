@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
  * @author MatthewLuce
  */
 public class Player {
+    final StringProperty fantasyTeam;
     String[] positions;
     String contractStatus;
     String possiblePositions;
@@ -58,7 +59,7 @@ public class Player {
 
     public Player(){
         
-        
+        fantasyTeam = new SimpleStringProperty();
         team = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
@@ -235,6 +236,15 @@ public class Player {
     }
     public boolean getTaken(){
         return taken;
+    }
+    public void setTaken(boolean taken){
+        this.taken = taken;
+    }
+    public String getFantasyTeam(){
+        return fantasyTeam.get();
+    }
+    public void setFantasyTeam(String fantasyTeam){
+        this.fantasyTeam.set(fantasyTeam);
     }
     // Helping the table out
     public StringProperty qpProperty(){
