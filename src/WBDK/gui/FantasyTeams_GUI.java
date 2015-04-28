@@ -254,8 +254,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         
         addTeamButton.setOnAction(e -> {
-            playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
-            //playersController.handleAddTeamRequest(this);
+            fileController.handleAddTeamRequest(this);
         });
         removeTeamButton.setOnAction(e -> {
             fileController.handleRemoveTeamRequest(this);

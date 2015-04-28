@@ -172,8 +172,8 @@ public class PlayersPage_GUI extends WBDK_DataView {
 
         // HERE'S THE LABEL
         draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.PLAYERS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
-        add_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, true);
-        remove_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
+        add_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
+        remove_Button = initChildButton(topWorkspaceH2Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
         searchBar = initGridTextField(topGridPane, 60, "", true, 3, 1, 1, 1);
         searchLabel =  initGridLabel(topGridPane, WBDK_PropertyType.SEARCH_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
         topWorkspaceH2Pane.getChildren().add(topGridPane);
@@ -278,6 +278,7 @@ public class PlayersPage_GUI extends WBDK_DataView {
     // INIT ALL THE EVENT HANDLERS
     @Override
     public void initEventHandlers() throws IOException {
+        playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
         /*
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             //newValue
@@ -315,9 +316,10 @@ public class PlayersPage_GUI extends WBDK_DataView {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest(this);
         });
-        
+        playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+
         add_Button.setOnAction(e -> {
-            fileController.handleAddPlayerRequest(this);
+            playersController.handleAddPlayerRequest(this);
         });
         remove_Button.setOnAction(e -> {
             fileController.handleRemovePlayerRequest(this);

@@ -262,9 +262,7 @@ public class FileController {
         return saved;
     }
 
-    public void handleAddPlayerRequest(PlayersPage_GUI aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     public void handleRemovePlayerRequest(PlayersPage_GUI aThis) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

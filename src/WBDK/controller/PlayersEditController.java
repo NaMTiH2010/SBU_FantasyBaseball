@@ -13,6 +13,7 @@ import WBDK.gui.MessageDialog;
 import WBDK.gui.PlayersItemDialog;
 import WBDK.gui.PlayersPage_GUI;
 import WBDK.gui.YesNoCancelDialog;
+import java.io.IOException;
 import javafx.stage.Stage;
 
 /**
@@ -49,6 +50,25 @@ public class PlayersEditController {
         }        
     }
 
+    public void handleAddPlayerRequest(PlayersPage_GUI gui) {
+       WBDK_DataManager cdm = gui.getDataManager();
+        Draft draft = cdm.getDraft();
+        sid.showAddPlayerDialog();
+        
+        // DID THE USER CONFIRM?
+        if (sid.wasCompleteSelected()) {
+            // GET THE LECTURE ITEM
+            
+            Player si = sid.getPlayerItem();
+            // AND ADD IT AS A ROW TO THE TABLE
+            draft.getPlayers().add(si);
+            draft.updateAvailableList();
+        }
+        else {
+            // THE USER MUST HAVE PRESSED CANCEL, SO
+            // WE DO NOTHING
+        }
+    }
     
     
 }

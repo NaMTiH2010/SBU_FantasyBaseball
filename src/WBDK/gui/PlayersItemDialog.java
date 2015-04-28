@@ -6,20 +6,24 @@
 package WBDK.gui;
 
 import static WBDK.WBDK_StartupConstants.PATH_IMAGES;
+import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
+import WBDK.data.WBDK_DataManager;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
 import static WBDK.data.WBDK_DataView.CLASS_PROMPT_LABEL;
 import static WBDK.data.WBDK_DataView.CLASS_SUBHEADING_LABEL;
 import static WBDK.data.WBDK_DataView.PRIMARY_STYLE_SHEET;
 import static WBDK.gui.YesNoCancelDialog.CANCEL;
 import java.io.File;
+import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -66,8 +70,10 @@ public class PlayersItemDialog extends Stage{
     Label playerPosLabel;
     Label playerNameLabel;
     public static final String EDIT_PLAYER_TITLE = "Edit Player";
+    Draft draft;
     
     public PlayersItemDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog) {
+        this.draft = draft;
      // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -105,6 +111,7 @@ public class PlayersItemDialog extends Stage{
         dialogScene = new Scene(gridPane);
         dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
         this.setScene(dialogScene);
+        
     }
 
     public Player showEditPlayerItemDialog(Player itemToEdit) {
@@ -189,5 +196,133 @@ public class PlayersItemDialog extends Stage{
     public Player getPlayerItem() {
         return playerItem;
     }
+
+  
+
+   
+
+    public Player showAddPlayerDialog(){
+        int count =0;
+        String positionsString = "";
+        // SET THE DIALOG TITLE
+        setTitle("Add New Player ");
+        Label firstNameLabel = new Label("First Name: ");
+        Label lastNameLabel = new Label("Last Name");
+        Label proTeamLabel = new Label("Pro Team");
+        HBox theChecks = new HBox();
+        theChecks.setSpacing(5);
+        CheckBox ss_CB = new CheckBox("SS");
+        CheckBox c_CB = new CheckBox("C");
+        CheckBox p_CB = new CheckBox("P");
+        CheckBox of_CB = new CheckBox("OF");
+        CheckBox firstBase_CB = new CheckBox("1B");
+        CheckBox secondBase_CB = new CheckBox("2B");
+        CheckBox thirdBase_CB = new CheckBox("3B");
+        TextField firstNameText = new TextField();
+        TextField lastNameText = new TextField();
+        ComboBox proTeamComboBox = new ComboBox();
+        //playerNameLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
+        // RESET THE LECTURE ITEM OBJECT WITH DEFAULT VALUES
+        playerItem = new Player();
+        
+        proTeamComboBox.setItems(draft.getTeams());
+        gridPane.add(headingLabel, 0, 0, 1, 1);
+        gridPane.add(firstNameLabel, 0, 1, 1, 1);
+        gridPane.add(firstNameText, 1, 1, 1, 1);
+        gridPane.add(lastNameLabel, 0, 2, 1, 1);
+        gridPane.add(lastNameText, 1, 2, 1, 1);
+        gridPane.add(proTeamLabel, 0, 3, 1, 1);
+        gridPane.add(proTeamComboBox, 1, 3, 1, 1);
+        
+        theChecks.getChildren().add(c_CB);
+        theChecks.getChildren().add(firstBase_CB);
+        theChecks.getChildren().add(thirdBase_CB);
+        theChecks.getChildren().add(secondBase_CB);
+        theChecks.getChildren().add(ss_CB);
+        theChecks.getChildren().add(of_CB);
+        theChecks.getChildren().add(p_CB);
+        gridPane.add(theChecks, 0, 4, 2, 1);
+        gridPane.add(completeButton, 0, 12);
+        gridPane.add(cancelButton, 1, 12);
+        
+        firstNameText.textProperty().addListener((observable, oldValue, newValue) -> {
+            playerItem.setFirstName(newValue);
+        });
+        lastNameText.textProperty().addListener((observable, oldValue, newValue) -> {
+            playerItem.setLastName(newValue);
+        });
+        
+        // AND OPEN IT UP
+        this.showAndWait();
+        
+        
+        if(c_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_C";
+            else
+               positionsString+= "C";
+                
+            count+=1;
+        }
+        if(firstBase_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_1B";
+            else
+               positionsString+= "1B";
+                
+            count+=1;
+        }
+        if(thirdBase_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_3B";
+            else
+               positionsString+= "3B";
+                
+            count+=1;
+        }
+        if(secondBase_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_2B";
+            else
+               positionsString+= "2B";
+                
+            count+=1;
+        }
+        if(ss_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_SS";
+            else
+               positionsString+= "SS";
+                
+            count+=1;
+        }
+        if(of_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_OF";
+            else
+               positionsString+= "OF";
+                
+            count+=1;
+        }
+        if(p_CB.isSelected()){
+            if(count>0)
+               positionsString+= "_P";
+            else
+               positionsString+= "P";
+                
+            count+=1;
+        }
+        
+        playerItem.setQp(positionsString);
+        playerItem.setTeam("fakeTeam");
+        //int theIndex = draft.getTeams().indexOf(proTeamComboBox.getSelectionModel().getSelectedItem());
+                
+        //draft.getTeams().get(theIndex).addStartingLineupPlayer(playerItem);
+        
+        
+        return playerItem;
+    }
+    
+
     
 }
