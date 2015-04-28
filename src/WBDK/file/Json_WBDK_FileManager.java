@@ -189,8 +189,19 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setR_W(jso.getString("R"));
         si.setHr_sv(jso.getString("HR"));
         si.setRbi_k(jso.getString("RBI"));
-        si.setSb_era(jso.getString("SB"));
+        si.setSb_era(Double.parseDouble(jso.getString("SB")));
         si.setPlayerType("hitter");
+        double tempH = Double.parseDouble(jso.getString("H"));
+        double tempAB = Double.parseDouble(jso.getString("AB"));
+        if(tempH <=0 ||tempAB <=0){
+            tempH = 0;
+        }
+        else{
+            tempH/=tempAB;
+        }
+        String s = String.format("%.2f", tempH);
+        Double tempDone = Double.parseDouble(s);
+        si.setBa_whip(tempDone);
         si.setPossiblePositions(jso.getString("QP"));
         if(jso.getString("QP").contains("_")){
             si.setPositions(jso.getString("QP").split("_"));
@@ -227,6 +238,18 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setIP(jso.getString("IP"));
         si.setER(jso.getString("ER"));
+        double tempER = Double.parseDouble(jso.getString("ER"));
+        double tempIP = Double.parseDouble(jso.getString("IP"));
+        tempER*=9;
+        if(tempER <=0 ||tempIP<=0){
+            tempER = 0.0;
+        }
+        else{
+            tempER/=tempIP;
+        }
+        String s = String.format("%.2f", tempER);
+        Double tempDone = Double.parseDouble(s);
+        si.setSb_era(tempDone);
         si.setBB(jso.getString("BB"));
         si.setPlayerType("pitcher");
         si.setR_W(jso.getString("W"));
@@ -235,6 +258,20 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setRbi_k(jso.getString("K"));
         si.setQp("P");
         si.setPossiblePositions("P");
+        Double tempW = Double.parseDouble(jso.getString("W"));
+        Double tempH = Double.parseDouble(jso.getString("H"));
+        
+        tempW+=tempH;
+        
+        if(tempW <=0 ||tempIP<=0){
+            tempW = 0.0;
+        }
+        else{
+            tempW/=tempIP;
+        }
+         s = String.format("%.2f", tempW);
+         tempDone = Double.parseDouble(s);
+        si.setBa_whip(tempDone);
         //si.setPositions(null);
         //si.setSb_era(jso.getString("SB"));
         
@@ -525,7 +562,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         for (int i = 0; i < jsonHittersArray.size(); i++) {
             JsonObject jso = jsonHittersArray.getJsonObject(i);
             Player si = new Player();
-            si.setNotes("test");
+           // si.setNotes("test");
             // IF IT IS A HITTER
             if(jso.getString("playerType").equalsIgnoreCase("hitter")){
                 si.setTeam(jso.getString("TEAM"));
@@ -534,19 +571,21 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setLastName(jso.getString("LAST_NAME"));
                 si.setFirstName(jso.getString("FIRST_NAME"));
                 si.setQp(jso.getString("QP"));
+                //System.out.println(jso.getString("QP"));
                 si.setAB(jso.getString("AB"));
+                //System.out.println(jso.getString("AB"));
                 si.setH(jso.getString("H"));
                 si.setR_W(jso.getString("R"));
                 si.setHr_sv(jso.getString("HR"));
                 si.setRbi_k(jso.getString("RBI"));
-                si.setSb_era(jso.getString("SB"));
+                si.setSb_era(Double.parseDouble(jso.getString("SB")));
                 si.setPlayerType("hitter");
-                si.setPossiblePositions(jso.getString("QP"));
+                //si.setPossiblePositions(jso.getString("QP"));
                 if(jso.getString("QP").contains("_")){
                     si.setPositions(jso.getString("QP").split("_"));
                 }
                 else{si.setPositions(new String[]{jso.getString("QP")});}
-                si.setPositions(jso.getString("QP").split("_"));
+                //si.setPositions(jso.getString("QP").split("_"));
                 si.setNotes(jso.getString("NOTES"));
                 si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
                 si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
@@ -591,7 +630,8 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 playerList.add(si);}
             
         }
-         return playerList;   
+         
+        return playerList;   
         
     }
      // LOADS AN ARRAY OF A SPECIFIC NAME FROM A JSON FILE AND

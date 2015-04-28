@@ -80,17 +80,6 @@ public class PlayersItemDialog extends Stage{
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         
-        // SET UP THE FANTASY HBOX
-        ft_Label = new Label("Fantasy Team: ");
-        ft_ComboBox = new ComboBox();
-        
-        // SET UP THE CONTRACT HBOX
-        contract_Label = new Label("Contract: ");
-        contract_ComboBox = new ComboBox();
-        
-        // SET UP THE POSITION HBOX
-        pos_Label = new Label("Fantasy Team: ");
-        pos_ComboBox = new ComboBox();
       
         
         // PUT THE HEADING IN THE GRID, NOTE THAT THE TEXT WILL DEPEND
@@ -98,6 +87,27 @@ public class PlayersItemDialog extends Stage{
         headingLabel = new Label("Player Details");
         headingLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
     
+        
+        // AND FINALLY, THE BUTTONS
+        completeButton = new Button("Complete");
+        cancelButton = new Button(CANCEL);
+        
+        // REGISTER EVENT HANDLERS FOR OUR BUTTONS
+        EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
+            Button sourceButton = (Button)ae.getSource();
+            PlayersItemDialog.this.selection = sourceButton.getText();
+            PlayersItemDialog.this.hide();
+        };
+        completeButton.setOnAction(completeCancelHandler);
+        cancelButton.setOnAction(completeCancelHandler);
+
+        // AND PUT THE GRID PANE IN THE WINDOW
+        dialogScene = new Scene(gridPane);
+        dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
+        this.setScene(dialogScene);
+    }
+
+    public Player showEditPlayerItemDialog(Player itemToEdit) {
         // NOW THE DESCRIPTION 
         descriptionLabel = new Label("Salary: ");
        // descriptionLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
@@ -113,39 +123,18 @@ public class PlayersItemDialog extends Stage{
         });
         
         
-        // AND FINALLY, THE BUTTONS
-        completeButton = new Button("Complete");
-        cancelButton = new Button(CANCEL);
         
-        // REGISTER EVENT HANDLERS FOR OUR BUTTONS
-        EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
-            Button sourceButton = (Button)ae.getSource();
-            PlayersItemDialog.this.selection = sourceButton.getText();
-            PlayersItemDialog.this.hide();
-        };
-        completeButton.setOnAction(completeCancelHandler);
-        cancelButton.setOnAction(completeCancelHandler);
-
-        // NOW LET'S ARRANGE THEM ALL AT ONCE
-        gridPane.add(headingLabel, 0, 0, 2, 1);
-        gridPane.add(ft_Label, 0, 3, 1, 1);
-        gridPane.add(ft_ComboBox, 1, 3, 1, 1);
-        gridPane.add(pos_Label, 0,4,1,1);
-        gridPane.add(pos_ComboBox, 1,4,1,1);
-        gridPane.add(contract_Label, 0,5,1,1);
-        gridPane.add(contract_ComboBox, 1,5,1,1);
-        gridPane.add(descriptionLabel, 0, 6, 1, 1);
-        gridPane.add(descriptionTextField, 1, 6, 1, 1);
-        gridPane.add(completeButton, 1, 7, 1, 1);
-        gridPane.add(cancelButton, 2, 7, 1, 1);
-                
-        // AND PUT THE GRID PANE IN THE WINDOW
-        dialogScene = new Scene(gridPane);
-        dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
-        this.setScene(dialogScene);
-    }
-
-    public Player showEditPlayerItemDialog(Player itemToEdit) {
+        // SET UP THE FANTASY HBOX
+        ft_Label = new Label("Fantasy Team: ");
+        ft_ComboBox = new ComboBox();
+        
+        // SET UP THE CONTRACT HBOX
+        contract_Label = new Label("Contract: ");
+        contract_ComboBox = new ComboBox();
+        
+        // SET UP THE POSITION HBOX
+        pos_Label = new Label("Fantasy Team: ");
+        pos_ComboBox = new ComboBox();
         // SET THE DIALOG TITLE
         setTitle(EDIT_PLAYER_TITLE);
         ImageView iv = new ImageView();
@@ -164,6 +153,20 @@ public class PlayersItemDialog extends Stage{
         vbox.getChildren().add(playerPosLabel);
         gridPane.add(iv, 0, 1);
         gridPane.add(vbox,1,1);
+                
+        
+        // NOW LET'S ARRANGE THEM ALL AT ONCE
+        gridPane.add(headingLabel, 0, 0, 2, 1);
+        gridPane.add(ft_Label, 0, 3, 1, 1);
+        gridPane.add(ft_ComboBox, 1, 3, 1, 1);
+        gridPane.add(pos_Label, 0,4,1,1);
+        gridPane.add(pos_ComboBox, 1,4,1,1);
+        gridPane.add(contract_Label, 0,5,1,1);
+        gridPane.add(contract_ComboBox, 1,5,1,1);
+        gridPane.add(descriptionLabel, 0, 6, 1, 1);
+        gridPane.add(descriptionTextField, 1, 6, 1, 1);
+        gridPane.add(completeButton, 1, 7, 1, 1);
+        gridPane.add(cancelButton, 2, 7, 1, 1);
                 
         
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES

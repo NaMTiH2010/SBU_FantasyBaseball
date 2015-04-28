@@ -6,6 +6,8 @@
 package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
+import WBDK.controller.FileController;
+import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
@@ -16,6 +18,8 @@ import static WBDK.data.WBDK_DataView.CLASS_SUBHEADING_LABEL;
 import WBDK.file.WBDK_FileManager;
 import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -216,6 +220,114 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         startingLineUpTable.getColumns().add(notesColumn);
         
         startingLineUpTable.setItems(getDataManager().getDraft().getAvailablePlayers()); //getPlayers());
+        
+    }
+        // INIT ALL THE EVENT HANDLERS
+    @Override
+    public void initEventHandlers() throws IOException {
+        /*
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            //newValue
+            System.out.println("THE NEW VALUE IS:  "+newValue);
+            dataManager.getDraft().searchIT(newValue);
+        });*/
+
+        // FIRST THE FILE CONTROLS
+        fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
+        
+        newDraftButton.setOnAction(e -> {
+            fileController.handleNewDraftRequest(this);
+        });
+        /*
+        loadDraftButton.setOnAction(e -> {
+            fileController.handleLoadDraftRequest(this);
+        });
+        saveDraftButton.setOnAction(e -> {
+            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
+        });
+        exportSiteButton.setOnAction(e -> {
+            fileController.handleExportDraftRequest(this,secondaryStage);
+        }); 
+        */
+        exitButton.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        
+        addTeamButton.setOnAction(e -> {
+            playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+            //playersController.handleAddTeamRequest(this);
+        });
+        removeTeamButton.setOnAction(e -> {
+            fileController.handleRemoveTeamRequest(this);
+        });
+        
+        // BOTTOMTOOLBAR
+        draftPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleDraftPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        mlbPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleMLBPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyTeamsPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleFantasyTeamsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyStandingsPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleFantasyStandingsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        playersPage_Button.setOnAction(e -> {
+            try {
+                fileController.handlePlayersPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        // AND NOW THE NOTES ITEM ADDING AND EDITING CONTROLS
+        
+       /* addScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleAddScheduleItemRequest(this);
+        });
+        removeScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleRemoveScheduleItemRequest(this, scheduleItemsTable.getSelectionModel().getSelectedItem());
+        });
+        */
+       
+        //notesColumn.getOnEditStart()
+        /*
+        // AND NOW THE SCHEDULE ITEMS TABLE
+        startingLineUpTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                //TablePosition tp;
+                 //OPEN UP THE PLAYER EDITOR
+                //tp = playersTable.getFocusModel().getFocusedCell();
+                
+                
+                Player si = startingLineUpTable.getSelectionModel().getSelectedItem();
+               // System.out.println("ANSWER IS: "+tp.getTableColumn().getId());
+                playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+                playersController.handleEditPlayerItemRequest(this, si);
+                //System.out.println("scheduleItems = "+ si.getDescription());
+            }
+        }); */
+
+        
+        //registerTextFieldController(searchBar);
         
     }
     

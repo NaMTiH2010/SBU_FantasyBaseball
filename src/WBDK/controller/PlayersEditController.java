@@ -8,6 +8,7 @@ package WBDK.controller;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
+import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MessageDialog;
 import WBDK.gui.PlayersItemDialog;
 import WBDK.gui.PlayersPage_GUI;
@@ -37,7 +38,7 @@ public class PlayersEditController {
         if (sid.wasCompleteSelected()) {
             // UPDATE THE SCHEDULE ITEM
             Player si = sid.getPlayerItem();
-            System.out.println(si.getNotes()+" asdfasdfasdflj;sajflsadjf");
+            //System.out.println(si.getNotes()+" asdfasdfasdflj;sajflsadjf");
             //itemToEdit.setNotes(si.notesProperty().toString());
              itemToEdit.setNotes(si.getNotes());
         }
@@ -47,5 +48,7 @@ public class PlayersEditController {
             // WE DO NOTHING
         }        
     }
+
+    
     
 }

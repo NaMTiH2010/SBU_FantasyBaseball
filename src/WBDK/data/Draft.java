@@ -85,6 +85,7 @@ public class Draft {
     private void initPlayers(ObservableList<Player> players,ObservableList<Player> hitters, ObservableList<Player> pitchers) {
         for(int i =0; i<hitters.size();i++){
             players.add(hitters.get(i));
+            //System.out.println("Hitter: "+ players.get(i).getQP() );
         }
         for(int i =0; i<pitchers.size();i++){
                 players.add(pitchers.get(i));
@@ -334,6 +335,7 @@ public class Draft {
         }
     }
     public ObservableList<Player> getAvailablePlayers(){
+        //System.out.println(" the players array is size: "+players.size()+ " the available array is size "+ availablePlayers.size());
         return availablePlayers;
     }
 

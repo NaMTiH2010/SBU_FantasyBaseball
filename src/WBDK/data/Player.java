@@ -6,7 +6,9 @@
 package WBDK.data;
 
 import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -27,7 +29,7 @@ public class Player {
     public static final String DEFAULT_FIRST_NAME = "<ENTER FIRST NAME>";
     final StringProperty lastName;
     public static final String DEFAULT_LAST_NAME = "<ENTER LAST NAME>";
-    final IntegerProperty yearOfBirth;
+    
      StringProperty notes;
     final StringProperty placeOfBirth;
     public static final String DEFAULT_PLACE_OF_BIRTH = "<ENTER PLACE OF BIRTH>";
@@ -36,9 +38,9 @@ public class Player {
     final IntegerProperty r_w;
     final IntegerProperty hr_sv;
     final IntegerProperty rbi_k;
-    final IntegerProperty sb_era;
-    final IntegerProperty ba_whip;
-    
+    final DoubleProperty sb_era;
+    final DoubleProperty ba_whip;
+    final IntegerProperty yearOfBirth;
     double salary;
     boolean availability = true;
     boolean taken = false;
@@ -61,25 +63,36 @@ public class Player {
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         qp = new SimpleStringProperty(DEFAULT_QP);
-        yearOfBirth = new SimpleIntegerProperty();;
+        yearOfBirth = new SimpleIntegerProperty();
         notes = new SimpleStringProperty();
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         r_w = new SimpleIntegerProperty();
-        hr_sv = new SimpleIntegerProperty();;
+        hr_sv = new SimpleIntegerProperty();
         rbi_k = new SimpleIntegerProperty();;
-        sb_era = new SimpleIntegerProperty();;
-        ba_whip = new SimpleIntegerProperty();;
+        sb_era = new SimpleDoubleProperty();;
+        ba_whip = new SimpleDoubleProperty();
+        
     }
     /////////////////////////////////////////////_Both_/////////////////////////
     public void setFirstName(String firstName){
+        
         this.firstName.set(firstName);
     }
     public String getNotes(){
         return notes.get();
     }
-    public String getFirstName(){
+    public String getFirstName(){        
         return firstName.get();
     }
+    public void setQp(String qp){
+        //System.out.println("qp =:  "+qp);
+        this.qp.set(qp);
+    }
+    public String getQP(){
+         System.out.println("qp =:  "+qp);
+        return qp.get();
+    }
+    
     
     public void setLastName(String lastName){
         this.lastName.set(lastName);
@@ -157,28 +170,23 @@ public class Player {
     public int getHR_SV(){
         return hr_sv.get();
     }
-    public void setQp(String qp){
-        this.qp.set(qp);
-    }
-    public String getQP(){
-        return qp.get();
-    }
+    
     public void setRbi_k(String rbi_k){
         this.rbi_k.set(Integer.parseInt(rbi_k));
     }
     public int getRBI_K(){
         return rbi_k.get();
     }
-    public void setSb_era(String sb_era){
-        this.sb_era.set(Integer.parseInt(sb_era));
+    public void setSb_era(Double sb_era){
+        this.sb_era.set(sb_era);
     }
-    public int getSB_ERA(){
+    public double getSB_ERA(){
         return sb_era.get();
     }
-    public void setBa_whip(String ba_whip){
-        this.ba_whip.set(Integer.parseInt(ba_whip));
+    public void setBa_whip(double ba_whip){
+        this.ba_whip.set(ba_whip);
     }
-    public int getBA_WHIP(){
+    public double getBA_WHIP(){
         return ba_whip.get();
     }
     
@@ -227,6 +235,41 @@ public class Player {
     }
     public boolean getTaken(){
         return taken;
+    }
+    // Helping the table out
+    public StringProperty qpProperty(){
+
+         return qp;
+
+     }
+    public IntegerProperty r_wProperty(){
+
+         return r_w;
+
+     }
+    public IntegerProperty hr_svProperty(){
+
+         return hr_sv;
+
+     }
+    public IntegerProperty rbi_kProperty(){
+
+         return rbi_k;
+
+     }
+    public DoubleProperty sb_eraProperty(){
+
+         return sb_era;
+
+     }
+    public DoubleProperty ba_whipProperty(){
+
+         return ba_whip;
+
+     }
+
+    public void setERA() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

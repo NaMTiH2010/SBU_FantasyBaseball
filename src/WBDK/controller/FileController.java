@@ -18,6 +18,7 @@ import static WBDK.WBDK_PropertyType.COURSE_SAVED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_COURSE_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_DRAFT_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
+import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.PlayersPage_GUI;
 import java.io.File;
 import java.io.IOException;
@@ -36,10 +37,10 @@ public class FileController {
     private boolean saved;
 
     // THIS GUY KNOWS HOW TO READ AND WRITE COURSE DATA
-    private WBDK_FileManager draftIO;
+    private final WBDK_FileManager draftIO;
 
     // THIS GUY KNOWS HOW TO EXPORT COURSE SCHEDULE PAGES
-    private WBDK_SiteExporter exporter;
+    private final WBDK_SiteExporter exporter;
 
     // THIS WILL PROVIDE FEEDBACK TO THE USER WHEN SOMETHING GOES WRONG
     ErrorHandler errorHandler;
@@ -58,10 +59,9 @@ public class FileController {
      * This default constructor starts the program without a course file being
      * edited.
      *
-     * @param primaryStage The primary window for this application, which we
-     * need to set as the owner for our dialogs.
-     * @param initCourseIO The object that will be reading and writing course
-     * data.
+     * @param initMessageDialog
+     * @param initYesNoCancelDialog
+     * @param initDraftIO
      * @param initExporter The object that will be exporting courses to Web
      * sites.
      */
@@ -267,6 +267,14 @@ public class FileController {
     }
 
     public void handleRemovePlayerRequest(PlayersPage_GUI aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void handleAddTeamRequest(FantasyTeams_GUI aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void handleRemoveTeamRequest(FantasyTeams_GUI aThis) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
