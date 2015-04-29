@@ -109,11 +109,11 @@ public class PlayersPage_GUI extends WBDK_DataView {
         initBottomNavbar();
         
         // INIT THE TOOLBAR
-        initFileToolbar();
+        initFileToolbar(false);
 
         // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
         // TO THE WINDOW YET
-        this.initWorkspace();
+        initWorkspace();
         
         
 
@@ -302,13 +302,13 @@ public class PlayersPage_GUI extends WBDK_DataView {
         newDraftButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
-        /*
+        
         loadDraftButton.setOnAction(e -> {
             fileController.handleLoadDraftRequest(this);
         });
         saveDraftButton.setOnAction(e -> {
             fileController.handleSaveDraftRequest(this, dataManager.getDraft());
-        });
+        });/*
         exportSiteButton.setOnAction(e -> {
             fileController.handleExportDraftRequest(this,secondaryStage);
         }); 
@@ -439,5 +439,12 @@ public class PlayersPage_GUI extends WBDK_DataView {
     private void updateDraftUsingRadioButton(Draft tempDraft, String rb) {
        tempDraft.radioButtonSort(rb);
     }
+    /**
+     * This method is used to activate/deactivate toolbar buttons when
+     * they can and cannot be used so as to provide foolproof design.
+     * 
+     * @param saved Describes whether the loaded Course has been saved or not.
+     */
+   
     
 }

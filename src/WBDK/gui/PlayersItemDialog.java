@@ -133,7 +133,7 @@ public class PlayersItemDialog extends Stage{
         salaryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             //StringProperty temp = null;
            // temp.set(newValue);
-            itemToEdit.setSalary(Double.parseDouble(newValue));
+            itemToEdit.setSalary(newValue);
         });
         
         
@@ -147,14 +147,16 @@ public class PlayersItemDialog extends Stage{
         // SET UP THE CONTRACT HBOX
         contract_Label = new Label("Contract: ");
         contract_ComboBox = new ComboBox();
-        
+        contract_ComboBox.setItems(draft.getContracts());
+        contract_ComboBox.setOnAction((event) -> {
+            itemToEdit.setContractStatus((String) contract_ComboBox.getSelectionModel().getSelectedItem());
+            });
         // SET UP THE POSITION HBOX
         pos_Label = new Label("Position: ");
         pos_ComboBox = new ComboBox();
         ft_ComboBox.setOnAction((event) -> {
             fakeTeam = (Team) ft_ComboBox.getSelectionModel().getSelectedItem();
             pos_ComboBox.setItems(fakeTeam.getPositionsNeeded(itemToEdit.getPositions()));
-            System.out.println("AN EVENT IS HAPPENING team name should be"+ fakeTeam.getName() );
             });
         pos_ComboBox.setOnAction((event) -> {
             itemToEdit.setCurrentPosition((String) pos_ComboBox.getSelectionModel().getSelectedItem());
@@ -247,7 +249,7 @@ public class PlayersItemDialog extends Stage{
         // RESET THE LECTURE ITEM OBJECT WITH DEFAULT VALUES
         playerItem = new Player();
         
-        proTeamComboBox.setItems(draft.getTeams());
+        proTeamComboBox.setItems(draft.getProTeams());
         gridPane.add(headingLabel, 0, 0, 1, 1);
         gridPane.add(firstNameLabel, 0, 1, 1, 1);
         gridPane.add(firstNameText, 1, 1, 1, 1);
@@ -336,7 +338,7 @@ public class PlayersItemDialog extends Stage{
         }
         
         playerItem.setQp(positionsString);
-        playerItem.setTeam("fakeTeam");
+        playerItem.setTeam((String) proTeamComboBox.getSelectionModel().getSelectedItem());
         //int theIndex = draft.getTeams().indexOf(proTeamComboBox.getSelectionModel().getSelectedItem());
                 
         //draft.getTeams().get(theIndex).addStartingLineupPlayer(playerItem);

@@ -28,11 +28,13 @@ public class Draft {
     MLB_GUI mlb_Page;
     Player player;
     Team defaultTeam;
+    ObservableList<String> contracts;
     ObservableList<Player> hitters;
     ObservableList<Player> pitchers;
     ObservableList<Player> players;
     ObservableList<Player> availablePlayers;
     ObservableList<Team> teams;
+    ObservableList<String> proTeams;
     
     public Draft(WBDK_DataView tempGUI,ObservableList<Player> hitterArray,ObservableList<Player> pitcherArray){
         playersPage = new PlayersPage_GUI(tempGUI.primaryStage,tempGUI.secondaryStage);
@@ -46,9 +48,13 @@ public class Draft {
         initPlayers(players,hitters,pitchers);
         availablePlayers = FXCollections.observableArrayList();
         teams = FXCollections.observableArrayList();
+        contracts = FXCollections.observableArrayList();
+        contracts.add("S1");
+        contracts.add("S2");
+        contracts.add("X");
         defaultTeam = new Team();
         updateAvailableList();
-        
+        makeProTeamsList();
         
     }
     
@@ -413,5 +419,30 @@ public class Draft {
     }
     public Team getDefaultTeam(){
         return defaultTeam;
+    }
+
+    private void makeProTeamsList() {
+        proTeams = FXCollections.observableArrayList();
+        proTeams.add(players.get(0).getTeam());
+        boolean alreadyHave;
+            for(int i =1; i < players.size();i++){
+                alreadyHave = false;
+                for(int j =0; j < proTeams.size();j++){
+                    if(players.get(i).getTeam().equalsIgnoreCase(proTeams.get(j))){
+                        alreadyHave = true;
+                        break;
+                    }
+                }
+                if(alreadyHave == false)
+                        proTeams.add(players.get(i).getTeam());
+            }
+        
+        System.out.println("Players size = "+ players.size()+" Pro Teams size = "+proTeams.size());
+    }
+    public ObservableList<String> getProTeams(){
+        return proTeams;
+    }
+    public ObservableList<String> getContracts(){
+        return contracts;
     }
 }

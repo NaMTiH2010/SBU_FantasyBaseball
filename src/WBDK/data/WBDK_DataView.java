@@ -304,8 +304,19 @@ public abstract class WBDK_DataView {
         // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
         // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
         newDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
-        loadDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_DRAFT_TOOLTIP, true);
+        loadDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_DRAFT_TOOLTIP, false);
         saveDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_DRAFT_TOOLTIP, true);
+        exportSiteButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, true);
+        exitButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXIT_ICON, WBDK_PropertyType.EXIT_TOOLTIP, false);
+    }
+    public void initFileToolbar(boolean saveIt) {
+        fileToolbarPane = new FlowPane();
+
+        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
+        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
+        newDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.NEW_COURSE_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
+        loadDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.LOAD_COURSE_ICON, WBDK_PropertyType.LOAD_DRAFT_TOOLTIP, false);
+        saveDraftButton = initChildButton(fileToolbarPane, WBDK_PropertyType.SAVE_COURSE_ICON, WBDK_PropertyType.SAVE_DRAFT_TOOLTIP, saveIt);
         exportSiteButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXPORT_PAGE_ICON, WBDK_PropertyType.EXPORT_PAGE_TOOLTIP, true);
         exitButton = initChildButton(fileToolbarPane, WBDK_PropertyType.EXIT_ICON, WBDK_PropertyType.EXIT_TOOLTIP, false);
     }
@@ -402,13 +413,13 @@ public abstract class WBDK_DataView {
         newDraftButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
-        /*
+        
         loadDraftButton.setOnAction(e -> {
             fileController.handleLoadDraftRequest(this);
         });
         saveDraftButton.setOnAction(e -> {
             fileController.handleSaveDraftRequest(this, dataManager.getDraft());
-        });
+        });/*
         exportSiteButton.setOnAction(e -> {
             fileController.handleExportDraftRequest(this,secondaryStage);
         }); 

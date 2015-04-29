@@ -21,7 +21,7 @@ public class WBDK_StartupConstants {
     public static final String PATH_COURSES = PATH_DATA + "courses/";
     public static final String PATH_IMAGES = "./images/";
     public static final String PATH_CSS = "WBDK/css/";
-    public static final String PATH_DRAFTS = "drafts/";
+    public static final String PATH_DRAFTS = PATH_DATA + "drafts/";
     public static final String PATH_BASE = PATH_DRAFTS + "base/";
     public static final String PATH_EMPTY = ".";
 

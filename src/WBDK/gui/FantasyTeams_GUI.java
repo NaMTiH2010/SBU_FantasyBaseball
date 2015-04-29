@@ -86,7 +86,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         initBottomNavbar();
         
         // INIT THE TOOLBAR
-        initFileToolbar();
+        initFileToolbar(false);
 
         // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
         // TO THE WINDOW YET
@@ -155,6 +155,12 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         topWorkspacePane.getChildren().add(topGridPane);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
         topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
+        
+        draftNameTextbox.textProperty().addListener((observable, oldValue, newValue) -> {
+            //newValue
+            System.out.println("THE NEW VALUE IS:  "+newValue);
+            dataManager.getDraft().setTitle(newValue);
+        });
         
        
     }
@@ -249,13 +255,13 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         newDraftButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
-        /*
+        
         loadDraftButton.setOnAction(e -> {
             fileController.handleLoadDraftRequest(this);
         });
         saveDraftButton.setOnAction(e -> {
             fileController.handleSaveDraftRequest(this, dataManager.getDraft());
-        });
+        });/*
         exportSiteButton.setOnAction(e -> {
             fileController.handleExportDraftRequest(this,secondaryStage);
         }); 

@@ -65,13 +65,15 @@ public class Player {
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         qp = new SimpleStringProperty(DEFAULT_QP);
         yearOfBirth = new SimpleIntegerProperty();
-        notes = new SimpleStringProperty();
+        notes = new SimpleStringProperty("default");
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         r_w = new SimpleIntegerProperty();
         hr_sv = new SimpleIntegerProperty();
         rbi_k = new SimpleIntegerProperty();;
         sb_era = new SimpleDoubleProperty();;
         ba_whip = new SimpleDoubleProperty();
+        currentPosition = "default";
+        salary = 0.0;
         
     }
     /////////////////////////////////////////////_Both_/////////////////////////
@@ -90,7 +92,7 @@ public class Player {
         this.qp.set(qp);
     }
     public String getQP(){
-         System.out.println("qp =:  "+qp);
+        // System.out.println("qp =:  "+qp);
         return qp.get();
     }
     
@@ -116,8 +118,8 @@ public class Player {
         return playerType;
     }
     
-    public void setYearOfBirth(String yearOfBirth ){
-        this.yearOfBirth.set(Integer.parseInt(yearOfBirth)); 
+    public void setYearOfBirth(int yearOfBirth ){
+        this.yearOfBirth.set(yearOfBirth); 
     }
     public int getYearOfBirth(){
         return yearOfBirth.get();
@@ -134,11 +136,11 @@ public class Player {
         this.notes.set(notes); 
     }
     
-    public void setSalary(double salary ){
-        this.salary = salary;
+    public void setSalary(String salary ){
+        this.salary = Double.parseDouble(salary);
     }
-    public double getSalary(){
-        return salary;
+    public String getSalary(){
+        return ""+salary;
     }
     
     public void setAvailability(boolean availability ){
@@ -159,33 +161,33 @@ public class Player {
     public String getTeam(){
         return team.get();
     }
-    public void setR_W(String r_w){
-        this.r_w.set(Integer.parseInt(r_w));
+    public void setR_W(int r_w){
+        this.r_w.set(r_w);
     }
     public int getR_W(){
         return r_w.get();
     }
-    public void setHr_sv(String hr_sv){
-        this.hr_sv.set(Integer.parseInt(hr_sv));
+    public void setHr_sv(int hr_sv){
+        this.hr_sv.set(hr_sv);
     }
     public int getHR_SV(){
         return hr_sv.get();
     }
     
-    public void setRbi_k(String rbi_k){
-        this.rbi_k.set(Integer.parseInt(rbi_k));
+    public void setRbi_k(int rbi_k){
+        this.rbi_k.set(rbi_k);
     }
     public int getRBI_K(){
         return rbi_k.get();
     }
-    public void setSb_era(Double sb_era){
-        this.sb_era.set(sb_era);
+    public void setSb_era(String sb_era){
+        this.sb_era.set(Double.parseDouble(sb_era));
     }
-    public double getSB_ERA(){
-        return sb_era.get();
+    public String getSB_ERA(){
+        return ""+sb_era.get();
     }
-    public void setBa_whip(double ba_whip){
-        this.ba_whip.set(ba_whip);
+    public void setBa_whip(String ba_whip){
+        this.ba_whip.set(Double.parseDouble(ba_whip));
     }
     public double getBA_WHIP(){
         return ba_whip.get();
@@ -194,11 +196,11 @@ public class Player {
     public void setIP(String ip){
         this.ip = Double.parseDouble(ip);
     }
-    public Double getIP(){
-        return ip;
+    public String getIP(){
+        return ""+ip;
     }
-    public void setER(String er){
-        this.er = Integer.parseInt(er);
+    public void setER(int er){
+        this.er = er;
     }
     public int getER(){
         return er;
@@ -206,14 +208,14 @@ public class Player {
     public int getBB(){
         return bb;
     }
-    public void setH(String h){
-        this.h = Integer.parseInt(h);
+    public void setH(int h){
+        this.h = h;
     }
     public int getH(){
         return h;
     }
-    public void setBB(String bb){
-        this.bb = Integer.parseInt(bb);
+    public void setBB(int bb){
+        this.bb = bb;
     }
     public void setAB(String ab){
         this.ab = Integer.parseInt(ab);
@@ -290,22 +292,22 @@ public class Player {
         tc.setFirstName(op.getFirstName());
         tc.setLastName(op.getLastName());
         tc.setAB(""+op.getAB());
-        tc.setBB(""+op.getBB());
-        tc.setER(""+op.getER());
-        tc.setH(""+op.getH());
+        tc.setBB(op.getBB());
+        tc.setER(op.getER());
+        tc.setH(op.getH());
         tc.setQp(op.getQP());
         tc.setPositions(op.getPositions());
         tc.setTeam(op.getTeam());
         tc.setPossiblePositions(op.getPossiblePositions());
         tc.setNotes(op.getNotes());
         tc.setPlaceOfBirth(op.getPlaceOfBirth());
-        tc.setR_W(""+op.getR_W());
-        tc.setHr_sv(""+op.getHR_SV());
-        tc.setRbi_k(""+op.getRBI_K());
+        tc.setR_W(op.getR_W());
+        tc.setHr_sv(op.getHR_SV());
+        tc.setRbi_k(op.getRBI_K());
         tc.setSb_era(op.getSB_ERA());
-        tc.setBa_whip(op.getBA_WHIP());
-        tc.setYearOfBirth(""+op.getYearOfBirth());
-        tc.setSalary(op.getSalary());
+        tc.setBa_whip(""+op.getBA_WHIP());
+        tc.setYearOfBirth(op.getYearOfBirth());
+        tc.setSalary(""+op.getSalary());
         tc.setTaken(op.getTaken());
         tc.setPlayerType(op.getPlayerType());
         tc.setIP(""+op.getIP());

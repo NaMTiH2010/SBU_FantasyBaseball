@@ -18,6 +18,7 @@ import static WBDK.WBDK_PropertyType.COURSE_SAVED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_COURSE_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_DRAFT_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
+import static WBDK.WBDK_StartupConstants.PATH_DRAFTS;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.PlayersPage_GUI;
 import java.io.File;
@@ -276,5 +277,77 @@ public class FileController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void handleSaveDraftRequest(WBDK_DataView gui, Draft draft) {
+        try {
+            // SAVE IT TO A FILE
+            draftIO.saveDraft(draft);
+
+            // MARK IT AS SAVED
+            saved = true;
+
+            // TELL THE USER THE FILE HAS BEEN SAVED
+            messageDialog.show(properties.getProperty(COURSE_SAVED_MESSAGE));
+
+            // AND REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
+            // THE APPROPRIATE CONTROLS
+            gui.updateToolbarControls(saved);
+        } catch (IOException ioe) {
+            errorHandler.handleSaveCourseError();
+        }
+    }
+
+    public void handleLoadDraftRequest(WBDK_DataView gui) {
+        try {
+            // WE MAY HAVE TO SAVE CURRENT WORK
+            boolean continueToOpen = true;
+            if (!saved) {
+                // THE USER CAN OPT OUT HERE WITH A CANCEL
+                continueToOpen = promptToSave(gui);
+            }
+
+            // IF THE USER REALLY WANTS TO OPEN A Course
+            if (continueToOpen) {
+                // GO AHEAD AND PROCEED LOADING A Course
+                promptToOpen(gui);
+            }
+        } catch (IOException ioe) {
+            // SOMETHING WENT WRONG
+            errorHandler.handleLoadCourseError();
+        }
+    }
+
+    
+     /**
+     * This helper method asks the user for a file to open. The user-selected
+     * file is then loaded and the GUI updated. Note that if the user cancels
+     * the open process, nothing is done. If an error occurs loading the file, a
+     * message is displayed, but nothing changes.
+     */
+    private void promptToOpen(WBDK_DataView gui) {
+        // AND NOW ASK THE USER FOR THE COURSE TO OPEN
+        FileChooser draftFileChooser = new FileChooser();
+        draftFileChooser.setInitialDirectory(new File(PATH_DRAFTS));
+        File selectedFile = draftFileChooser.showOpenDialog(gui.getWindow());
+
+        // ONLY OPEN A NEW FILE IF THE USER SAYS OK
+        if (selectedFile != null) {
+            try {
+                Draft draftToLoad = gui.getDataManager().getDraft();
+                draftIO.loadDraft(draftToLoad, selectedFile.getAbsolutePath());
+                
+                //gui.reloadCourse(draftToLoad);
+                saved = true;
+                //gui.updateToolbarControls(saved);
+                System.out.println("Make it this far?");
+                draftToLoad.getFantasyTeamsPage().initGUI("WolfieBall Draft Kit");
+                 System.out.println("Make it this far?");
+                draftToLoad.getFantasyTeamsPage().reloadDraft(draftToLoad);
+            } catch (Exception e) {
+                System.out.println("FAIL?");
+                ErrorHandler eH = ErrorHandler.getErrorHandler();
+                eH.handleLoadCourseError();
+            }
+        }
+    }
     
 }

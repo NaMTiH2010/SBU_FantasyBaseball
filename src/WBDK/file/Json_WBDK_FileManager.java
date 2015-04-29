@@ -10,7 +10,7 @@ import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.Players;
 import WBDK.data.Team;
-import static WBDK.file.WBDK_SiteExporter.SLASH;
+//import static WBDK.file.WBDK_SiteExporter.SLASH;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +33,7 @@ import javax.json.JsonValue;
  */
 public class Json_WBDK_FileManager implements WBDK_FileManager{
     String JSON_EXT = ".json";
+    String SLASH = "/";
     // TEAM VARIABLES TO SAVE
     String JSON_TEAM_NAME = "team_name";
     String JSON_TEAM_STARTING_LINEUP_ARRAY = "starting_lineup";
@@ -185,11 +186,11 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setQp(jso.getString("QP"));
         si.setAB(jso.getString("AB"));
-        si.setH(jso.getString("H"));
-        si.setR_W(jso.getString("R"));
-        si.setHr_sv(jso.getString("HR"));
-        si.setRbi_k(jso.getString("RBI"));
-        si.setSb_era(Double.parseDouble(jso.getString("SB")));
+        si.setH(Integer.parseInt(jso.getString("H")));
+        si.setR_W(Integer.parseInt(jso.getString("R")));
+        si.setHr_sv(Integer.parseInt(jso.getString("HR")));
+        si.setRbi_k(Integer.parseInt(jso.getString("RBI")));
+        si.setSb_era(jso.getString("SB"));
         si.setPlayerType("hitter");
         double tempH = Double.parseDouble(jso.getString("H"));
         double tempAB = Double.parseDouble(jso.getString("AB"));
@@ -200,8 +201,8 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             tempH/=tempAB;
         }
         String s = String.format("%.2f", tempH);
-        Double tempDone = Double.parseDouble(s);
-        si.setBa_whip(tempDone);
+        //Double tempDone = Double.parseDouble(s);
+        si.setBa_whip(s);
         si.setPossiblePositions(jso.getString("QP"));
         if(jso.getString("QP").contains("_")){
             si.setPositions(jso.getString("QP").split("_"));
@@ -209,7 +210,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         else{si.setPositions(new String[]{jso.getString("QP")});}
         si.setPositions(jso.getString("QP").split("_"));
         si.setNotes(jso.getString("NOTES"));
-        si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
+        si.setYearOfBirth(Integer.parseInt(jso.getString("YEAR_OF_BIRTH")));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
 
             // ADD IT TO THE COURSE
@@ -237,7 +238,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setLastName(jso.getString("LAST_NAME"));
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setIP(jso.getString("IP"));
-        si.setER(jso.getString("ER"));
+        si.setER(Integer.parseInt(jso.getString("ER")));
         double tempER = Double.parseDouble(jso.getString("ER"));
         double tempIP = Double.parseDouble(jso.getString("IP"));
         tempER*=9;
@@ -248,14 +249,14 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             tempER/=tempIP;
         }
         String s = String.format("%.2f", tempER);
-        Double tempDone = Double.parseDouble(s);
-        si.setSb_era(tempDone);
-        si.setBB(jso.getString("BB"));
+        //Double tempDone = Double.parseDouble(s);
+        si.setSb_era(s);
+        si.setBB(Integer.parseInt(jso.getString("BB")));
         si.setPlayerType("pitcher");
-        si.setR_W(jso.getString("W"));
-        si.setH(jso.getString("H"));
-        si.setHr_sv(jso.getString("SV"));
-        si.setRbi_k(jso.getString("K"));
+        si.setR_W(Integer.parseInt(jso.getString("W")));
+        si.setH(Integer.parseInt(jso.getString("H")));
+        si.setHr_sv(Integer.parseInt(jso.getString("SV")));
+        si.setRbi_k(Integer.parseInt(jso.getString("K")));
         si.setQp("P");
         si.setPositions(new String[]{"P"});
         si.setPossiblePositions("P");
@@ -271,13 +272,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             tempW/=tempIP;
         }
          s = String.format("%.2f", tempW);
-         tempDone = Double.parseDouble(s);
-        si.setBa_whip(tempDone);
+         //tempDone = Double.parseDouble(s);
+        si.setBa_whip(s);
         //si.setPositions(null);
         //si.setSb_era(jso.getString("SB"));
         
         si.setNotes(jso.getString("NOTES"));
-        si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
+        si.setYearOfBirth(Integer.parseInt(jso.getString("YEAR_OF_BIRTH")));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
 
             // ADD IT TO THE COURSE
@@ -355,33 +356,35 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
      * This method saves all the data associated with a course to
      * a JSON file.
      * 
-     * @param courseToSave The course whose data we are saving.
+     * @param draftToSave
      * 
      * @throws IOException Thrown when there are issues writing
      * to the JSON file.
      */
     //@Override
+    @Override
     public void saveDraft(Draft draftToSave) throws IOException {
+        System.out.println(" THE RIGHT STUFF");
         // BUILD THE FILE PATH
-        String courseListing = "" + draftToSave.getTitle();
-        String jsonFilePath = PATH_DRAFTS + SLASH + courseListing + JSON_EXT;
+        String draftListing = "" + draftToSave.getTitle();
+        String jsonFilePath = PATH_DRAFTS + SLASH + draftListing + JSON_EXT;
         
         // INIT THE WRITER
         OutputStream os = new FileOutputStream(jsonFilePath);
         JsonWriter jsonWriter = Json.createWriter(os);  
         
         // MAKE A JSON ARRAY FOR THE PAGES ARRAY
-        JsonArray hittersJsonArray = makePlayerJsonArray(draftToSave.getHitters());
+       // JsonArray hittersJsonArray = makePlayerJsonArray(draftToSave.getHitters());
         
         // AND AN OBJECT FOR THE INSTRUCTOR
         //JsonObject instructorJsonObject = makeInstructorJsonObject(draftToSave.getInstructor());
         
         
         // THE LECTURE DAYS ARRAY
-        JsonArray pitchersJsonArray = makePlayerJsonArray(draftToSave.getPitchers());
+        //JsonArray pitchersJsonArray = makePlayerJsonArray(draftToSave.getPitchers());
         
         // THE SCHEDULE ITEMS ARRAY
-        //JsonArray playersJsonArray = makeScheduleItemsJsonArray(courseToSave.getScheduleItems());
+        JsonArray playersJsonArray = makePlayerJsonArray(draftToSave.getPlayers());
         
         // THE LECTURES ARRAY
         JsonArray teamsJsonArray = makeTeamJsonArray(draftToSave.getTeams());
@@ -390,19 +393,19 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         JsonArray availablePlayersJsonArray = makePlayerJsonArray(draftToSave.getAvailablePlayers());
         
         // NOW BUILD THE COURSE USING EVERYTHING WE'VE ALREADY MADE
-        JsonObject courseJsonObject = Json.createObjectBuilder()
+        JsonObject draftJsonObject = Json.createObjectBuilder()
                                     // DRAFT ITEMS
                                     .add(JSON_DRAFT_TITLE, draftToSave.getTitle())
-                                    .add(JSON_HITTERS_ARRAY, draftToSave.getTitle())
-                                    .add(JSON_PITCHERS_ARRAY, draftToSave.getTitle())
-                                    .add(JSON_PLAYERS_ARRAY, draftToSave.getTitle())
-                                    .add(JSON_AVAILABLE_PLAYERS_ARRAY, draftToSave.getTitle())
-                                    .add(JSON_TEAMS_ARRAY, draftToSave.getTitle())
+                                    //.add(JSON_HITTERS_ARRAY, hittersJsonArray)
+                                    //.add(JSON_PITCHERS_ARRAY,pitchersJsonArray)
+                                    .add(JSON_PLAYERS_ARRAY, playersJsonArray)
+                                    .add(JSON_AVAILABLE_PLAYERS_ARRAY, availablePlayersJsonArray)
+                                    .add(JSON_TEAMS_ARRAY, teamsJsonArray)
 
                 .build();
-        
+        System.out.println(" THE RIGHT STUFF BUILT");
         // AND SAVE EVERYTHING AT ONCE
-        jsonWriter.writeObject(courseJsonObject);
+        jsonWriter.writeObject(draftJsonObject);
     }
     
     /**
@@ -546,10 +549,12 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         draftToLoad.setTitle(json.getString("title"));
         draftToLoad.getPlayers().clear();
         draftToLoad.setPlayers(loadPlayerArrayFromJSONFile(jsonFilePath, "players"));
+        //draftToLoad.setPlayers(loadPlayerArrayFromJSONFile(jsonFilePath, "pitchers"));
         draftToLoad.getTeams().clear();
         draftToLoad.setTeams(loadTeamArrayFromJSONFile(jsonFilePath, "teams"));
         draftToLoad.getAvailablePlayers().clear();
         draftToLoad.setAvailablePlayers(loadPlayerArrayFromJSONFile(jsonFilePath,"availablePlayers"));
+        System.out.println("MADE it TO THE END");
            
         }
 
@@ -565,7 +570,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             Player si = new Player();
            // si.setNotes("test");
             // IF IT IS A HITTER
-            if(jso.getString("playerType").equalsIgnoreCase("hitter")){
+            if(jso.getString("PLAYER_TYPE").equalsIgnoreCase("hitter")){
                 si.setTeam(jso.getString("TEAM"));
         //System.out.println(si.getTeam()+" team name");
         
@@ -573,13 +578,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setFirstName(jso.getString("FIRST_NAME"));
                 si.setQp(jso.getString("QP"));
                 //System.out.println(jso.getString("QP"));
-                si.setAB(jso.getString("AB"));
+                si.setAB((""+jso.getInt("AB")));
                 //System.out.println(jso.getString("AB"));
-                si.setH(jso.getString("H"));
-                si.setR_W(jso.getString("R"));
-                si.setHr_sv(jso.getString("HR"));
-                si.setRbi_k(jso.getString("RBI"));
-                si.setSb_era(Double.parseDouble(jso.getString("SB")));
+                si.setH(jso.getInt("H"));
+                si.setR_W(jso.getInt("R"));
+                si.setHr_sv(jso.getInt("HR"));
+                si.setRbi_k(jso.getInt("RBI"));
+                //si.setSb_era(jso.getString("SB"));
                 si.setPlayerType("hitter");
                 //si.setPossiblePositions(jso.getString("QP"));
                 if(jso.getString("QP").contains("_")){
@@ -588,13 +593,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 else{si.setPositions(new String[]{jso.getString("QP")});}
                 //si.setPositions(jso.getString("QP").split("_"));
                 si.setNotes(jso.getString("NOTES"));
-                si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
-                si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
+                si.setYearOfBirth(jso.getInt("YEAR_OF_BIRTH"));
+                si.setPlaceOfBirth(jso.getString("PLACE_OF_BIRTH"));
                 si.setAvailability(jso.getBoolean("AVAILABILITY"));
-                si.setAvailability(jso.getBoolean("CURRENT_POSITION"));
-                si.setAvailability(jso.getBoolean("TAKEN"));
-                si.setAvailability(jso.getBoolean("PLAYER_TYPE"));
-                si.setAvailability(jso.getBoolean("SALARY"));
+                si.setCurrentPosition(jso.getString("CURRENT_POSITION"));
+                si.setTaken(jso.getBoolean("TAKEN"));
+                si.setPlayerType(jso.getString("PLAYER_TYPE"));
+                si.setSalary(jso.getString("SALARY"));
                 
             // ADD IT TO THE COURSE
                 playerList.add(si); 
@@ -606,26 +611,26 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setLastName(jso.getString("LAST_NAME"));
                 si.setFirstName(jso.getString("FIRST_NAME"));
                 si.setIP(jso.getString("IP"));
-                si.setER(jso.getString("ER"));
-                si.setBB(jso.getString("BB"));
+                si.setER(jso.getInt("ER"));
+                si.setBB(jso.getInt("BB"));
                 si.setPlayerType("pitcher");
-                si.setR_W(jso.getString("W"));
-                si.setH(jso.getString("H"));
-                si.setHr_sv(jso.getString("SV"));
-                si.setRbi_k(jso.getString("K"));
+                si.setR_W(jso.getInt("W"));
+                si.setH(jso.getInt("H"));
+                si.setHr_sv(jso.getInt("SV"));
+                si.setRbi_k(jso.getInt("K"));
                 si.setQp("P");
                 si.setPossiblePositions("P");
                 //si.setPositions(null);
                 //si.setSb_era(jso.getString("SB"));
         
                 si.setNotes(jso.getString("NOTES"));
-                si.setYearOfBirth(jso.getString("YEAR_OF_BIRTH"));
-                si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
+                si.setYearOfBirth(jso.getInt("YEAR_OF_BIRTH"));
+                si.setPlaceOfBirth(jso.getString("PLACE_OF_BIRTH"));
                 si.setAvailability(jso.getBoolean("AVAILABILITY"));
-                si.setAvailability(jso.getBoolean("CURRENT_POSITION"));
-                si.setAvailability(jso.getBoolean("TAKEN"));
-                si.setAvailability(jso.getBoolean("PLAYER_TYPE"));
-                si.setAvailability(jso.getBoolean("SALARY"));
+                si.setCurrentPosition(jso.getString("CURRENT_POSITION"));
+                si.setTaken(jso.getBoolean("TAKEN"));
+                si.setPlayerType(jso.getString("PLAYER_TYPE"));
+                si.setSalary(jso.getString("SALARY"));
                 
                 // ADD IT TO THE COURSE
                 playerList.add(si);}
@@ -657,11 +662,11 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 to.setS_BaseNeeded(jso.getInt("s_BaseNeeded"));
                 to.setT_BaseNeeded(jso.getInt("t_BaseNeeded"));
                 to.setU_Needed(jso.getInt("u_Needed"));
-                to.setSS_Needed(jso.getInt("aa_Needed"));
+                to.setSS_Needed(jso.getInt("ss_Needed"));
                 to.setOF_Needed(jso.getInt("of_Needed"));
                 to.setOwner(jso.getString("owner"));
-                to.setTaxiSquad(loadPlayerArrayFromJSONFile(jsonFilePath,"taxi_squad"));
-                to.setStartingLineup(loadPlayerArrayFromJSONFile(jsonFilePath,"starting_lineup"));
+                //to.setTaxiSquad(loadPlayerArrayFromJSONFile(jsonFilePath,"taxi_squad"));
+                //to.setStartingLineup(loadPlayerArrayFromJSONFile(jsonFilePath,"starting_lineup"));
                 
                 teamList.add(to);
             }
