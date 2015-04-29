@@ -19,6 +19,7 @@ import static WBDK.gui.YesNoCancelDialog.CANCEL;
 import java.io.File;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -48,11 +49,12 @@ public class PlayersItemDialog extends Stage{
     GridPane gridPane;
     Scene dialogScene;
     Label headingLabel;
-    Label descriptionLabel;
+    Label pageHeadingLabel;
+    Label salaryLabel;
     Label ft_Label;
     Label pos_Label;
     Label contract_Label;
-    TextField descriptionTextField;
+    TextField salaryTextField;
     //Label dateLabel;
     //DatePicker datePicker;
     //Label urlLabel;
@@ -75,7 +77,8 @@ public class PlayersItemDialog extends Stage{
     Team fakeTeam;
     
     public PlayersItemDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog) {
-        
+        fakeTeam = new Team();
+        playerItem = new Player();
         this.draft = draft;
      // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
@@ -118,18 +121,19 @@ public class PlayersItemDialog extends Stage{
     }
 
     public Player showEditPlayerItemDialog(Player itemToEdit) {
+        playerItem = new Player();
         // NOW THE DESCRIPTION 
-        descriptionLabel = new Label("Salary: ");
+        salaryLabel = new Label("Salary: ");
        // descriptionLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         
         playerNameLabel = new Label();
         playerPosLabel = new Label();
         
-        descriptionTextField = new TextField();
-        descriptionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+        salaryTextField = new TextField();
+        salaryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             //StringProperty temp = null;
            // temp.set(newValue);
-            playerItem.setNotes(newValue);
+            itemToEdit.setSalary(Double.parseDouble(newValue));
         });
         
         
@@ -137,14 +141,26 @@ public class PlayersItemDialog extends Stage{
         // SET UP THE FANTASY HBOX
         ft_Label = new Label("Fantasy Team: ");
         ft_ComboBox = new ComboBox();
+        ft_ComboBox.setValue(fakeTeam);
+        ft_ComboBox.setItems(draft.getTeams());
         
         // SET UP THE CONTRACT HBOX
         contract_Label = new Label("Contract: ");
         contract_ComboBox = new ComboBox();
         
         // SET UP THE POSITION HBOX
-        pos_Label = new Label("Fantasy Team: ");
+        pos_Label = new Label("Position: ");
         pos_ComboBox = new ComboBox();
+        ft_ComboBox.setOnAction((event) -> {
+            fakeTeam = (Team) ft_ComboBox.getSelectionModel().getSelectedItem();
+            pos_ComboBox.setItems(fakeTeam.getPositionsNeeded(itemToEdit.getPositions()));
+            System.out.println("AN EVENT IS HAPPENING team name should be"+ fakeTeam.getName() );
+            });
+        pos_ComboBox.setOnAction((event) -> {
+            itemToEdit.setCurrentPosition((String) pos_ComboBox.getSelectionModel().getSelectedItem());
+            });
+        
+
         // SET THE DIALOG TITLE
         setTitle(EDIT_PLAYER_TITLE);
         ImageView iv = new ImageView();
@@ -173,19 +189,20 @@ public class PlayersItemDialog extends Stage{
         gridPane.add(pos_ComboBox, 1,4,1,1);
         gridPane.add(contract_Label, 0,5,1,1);
         gridPane.add(contract_ComboBox, 1,5,1,1);
-        gridPane.add(descriptionLabel, 0, 6, 1, 1);
-        gridPane.add(descriptionTextField, 1, 6, 1, 1);
+        gridPane.add(salaryLabel, 0, 6, 1, 1);
+        gridPane.add(salaryTextField, 1, 6, 1, 1);
         gridPane.add(completeButton, 1, 7, 1, 1);
         gridPane.add(cancelButton, 2, 7, 1, 1);
                 
         
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
-        playerItem = new Player();
         
-        fakeTeam = new Team();
+        //playerItem = new Player();
+        playerItem = itemToEdit;
+        //fakeTeam = new Team();
         
         // LOAD THE UI STUFF
-        descriptionTextField.setText(playerItem.getNotes());
+        //salaryTextField.setText(playerItem.getNotes());
         
         
         // AND OPEN IT UP
@@ -329,7 +346,7 @@ public class PlayersItemDialog extends Stage{
     }
 
     public Team showAddTeamDialog() {
-        
+        fakeTeam = new Team("Default Name","Default Owner");
         Label teamName = new Label("Name: ");
         Label ownerName = new Label("Owner: ");
         TextField teamNameText = new TextField();
@@ -337,8 +354,9 @@ public class PlayersItemDialog extends Stage{
         HBox nameBox = new HBox();
         HBox ownerBox =  new HBox();
         HBox completeCancelBox = new HBox();
+        headingLabel = new Label("Fantasy Team Details");
         
-        headingLabel.setText("Fantasy Team Details");
+        //headingLabel.setText("Fantasy Team Details");
         
         
         teamNameText.textProperty().addListener((observable, oldValue, newValue) -> {

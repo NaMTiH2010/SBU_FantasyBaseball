@@ -281,6 +281,36 @@ public class Player {
     public void setERA() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    public Player clone(Player op){
+        Player tc = new Player();
+        tc.setContractStatus(op.getContractStatus());
+        tc.setCurrentPosition(op.getCurrentPosition());
+        tc.setAvailability(op.getAvailability());
+        tc.setFantasyTeam(op.getFantasyTeam());
+        tc.setFirstName(op.getFirstName());
+        tc.setLastName(op.getLastName());
+        tc.setAB(""+op.getAB());
+        tc.setBB(""+op.getBB());
+        tc.setER(""+op.getER());
+        tc.setH(""+op.getH());
+        tc.setQp(op.getQP());
+        tc.setPositions(op.getPositions());
+        tc.setTeam(op.getTeam());
+        tc.setPossiblePositions(op.getPossiblePositions());
+        tc.setNotes(op.getNotes());
+        tc.setPlaceOfBirth(op.getPlaceOfBirth());
+        tc.setR_W(""+op.getR_W());
+        tc.setHr_sv(""+op.getHR_SV());
+        tc.setRbi_k(""+op.getRBI_K());
+        tc.setSb_era(op.getSB_ERA());
+        tc.setBa_whip(op.getBA_WHIP());
+        tc.setYearOfBirth(""+op.getYearOfBirth());
+        tc.setSalary(op.getSalary());
+        tc.setTaken(op.getTaken());
+        tc.setPlayerType(op.getPlayerType());
+        tc.setIP(""+op.getIP());
+        
+        return tc;
+    }
 }
 

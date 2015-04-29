@@ -257,6 +257,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setHr_sv(jso.getString("SV"));
         si.setRbi_k(jso.getString("K"));
         si.setQp("P");
+        si.setPositions(new String[]{"P"});
         si.setPossiblePositions("P");
         Double tempW = Double.parseDouble(jso.getString("W"));
         Double tempH = Double.parseDouble(jso.getString("H"));

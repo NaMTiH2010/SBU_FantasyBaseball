@@ -45,6 +45,7 @@ public class FantasyTeamsEditController {
             
             // AND ADD IT AS A ROW TO THE TABLE
             draft.getTeams().add(ti);
+            //System.out.println(draft.getTeams().get(0).getName());
         }
         else {
             // THE USER MUST HAVE PRESSED CANCEL, SO

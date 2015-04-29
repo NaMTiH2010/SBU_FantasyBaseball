@@ -34,14 +34,19 @@ public class PlayersEditController {
     public void handleEditPlayerItemRequest(PlayersPage_GUI gui, Player itemToEdit) {
      WBDK_DataManager cdm = gui.getDataManager();
         Draft draft = cdm.getDraft();
-        sid.showEditPlayerItemDialog(itemToEdit);
+        //Player si = new Player();
+        Player si = sid.showEditPlayerItemDialog(itemToEdit);
+        
         // DID THE USER CONFIRM?
-        if (sid.wasCompleteSelected()) {
+        if ( sid.wasCompleteSelected()) {
             // UPDATE THE SCHEDULE ITEM
-            Player si = sid.getPlayerItem();
-            //System.out.println(si.getNotes()+" asdfasdfasdflj;sajflsadjf");
-            //itemToEdit.setNotes(si.notesProperty().toString());
-             itemToEdit.setNotes(si.getNotes());
+            
+            //si = sid.getPlayerItem();
+            
+            sid.getFakeTeam().addStartingLineupPlayer(si);
+            itemToEdit.setTaken(true);
+            draft.updateAvailableList();
+            System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
         }
         else {
             System.out.println("THIS SHOULDNT BE HAPPENING");
@@ -59,7 +64,8 @@ public class PlayersEditController {
         if (sid.wasCompleteSelected()) {
             // GET THE LECTURE ITEM
             
-            Player si = sid.getPlayerItem();
+            Player si = new Player();
+            si = sid.getPlayerItem();
             // AND ADD IT AS A ROW TO THE TABLE
             draft.getPlayers().add(si);
             draft.updateAvailableList();

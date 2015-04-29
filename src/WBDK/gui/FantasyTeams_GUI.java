@@ -11,6 +11,7 @@ import WBDK.controller.FileController;
 import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
+import WBDK.data.Team;
 import WBDK.data.WBDK_DataManager;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
@@ -80,7 +81,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // INIT THE DIALOGS
         initDialogs();
         
-        initFantasyTeamsTablesTable();
+        
         
         initBottomNavbar();
         
@@ -90,7 +91,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
         // TO THE WINDOW YET
         initWorkspace();
-        
+        initFantasyTeamsTablesTable();
         
 
         // NOW SETUP THE EVENT HANDLERS
@@ -147,16 +148,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         teamsComboBoxLabel = initGridLabel(topGridPane2, WBDK_PropertyType.SELECT_FANTASY_TEAM_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1); 
         draftNameTextbox = initGridTextField(topGridPane, 30, "", true, 3, 1, 1, 1);
         teamsDropDown = initGridComboBox(topGridPane2, 1, 1, 1, 1);
-        
+        teamsDropDown.setValue(getDataManager().getDraft().getDefaultTeam());
         topWorkspaceH1Pane.getChildren().add(topGridPane2);
-       
+        teamsDropDown.setItems(getDataManager().getDraft().getTeams());
+        
         topWorkspacePane.getChildren().add(topGridPane);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
         topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
         
-        startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);
-        topWorkspacePane.getChildren().add(startingLineUpTable);
-        taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
+       
     }
     
     public void reloadDraft(Draft draft) {
@@ -189,7 +189,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         
         // AND LINK THE COLUMNS TO THE DATA
         proTeamColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
-        
+        setPositionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("currentPosition"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
         yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("yearOfBirth"));
@@ -221,8 +221,16 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         startingLineUpTable.getColumns().add(estimatedValueColumn);
         startingLineUpTable.getColumns().add(notesColumn);
         
-        startingLineUpTable.setItems(getDataManager().getDraft().getAvailablePlayers()); //getPlayers());
-        
+         //getPlayers());
+         startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);
+         startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
+         topWorkspacePane.getChildren().add(startingLineUpTable); 
+         taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
+         
+         teamsDropDown.setOnAction((event) -> {
+             startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
+            });
+       
     }
         // INIT ALL THE EVENT HANDLERS
     @Override
@@ -258,6 +266,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         
         addTeamButton.setOnAction(e -> {
             teamsController.handleAddTeamRequest(this);
+            //reloadDraft(getDataManager().getDraft());
         });
         removeTeamButton.setOnAction(e -> {
             fileController.handleRemoveTeamRequest(this);
@@ -266,6 +275,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // BOTTOMTOOLBAR
         draftPage_Button.setOnAction(e -> {
             try {
+                getDataManager().getDraft().setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
                 fileController.handleDraftPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -273,6 +283,8 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         mlbPage_Button.setOnAction(e -> {
             try {
+                getDataManager().getDraft().setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                
                 fileController.handleMLBPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -280,6 +292,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         fantasyTeamsPage_Button.setOnAction(e -> {
             try {
+                getDataManager().getDraft().setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
                 fileController.handleFantasyTeamsPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -287,6 +300,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         fantasyStandingsPage_Button.setOnAction(e -> {
             try {
+                getDataManager().getDraft().setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
                 fileController.handleFantasyStandingsPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -294,6 +308,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         });
         playersPage_Button.setOnAction(e -> {
             try {
+                getDataManager().getDraft().setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
                 fileController.handlePlayersPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);

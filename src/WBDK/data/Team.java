@@ -16,6 +16,8 @@ public class Team {
     //ObservableList<String> availablePositions;
     ObservableList<Player> startingLineup;
     ObservableList<Player> taxiSquad;
+    ObservableList<String> positionsNeeded;
+    ObservableList<String> viablePositions;
     String name;
     String owner;
     int p_Needed = 9;
@@ -32,10 +34,39 @@ public class Team {
     public Team(String name, String owner){
         this.name = name;
         this.owner = owner;
+        positionsNeeded = FXCollections.observableArrayList();
+        startingLineup = FXCollections.observableArrayList();
+        taxiSquad = FXCollections.observableArrayList();
+        
+        positionsNeeded.add("P");
+        positionsNeeded.add("C");
+        positionsNeeded.add("1B");
+        positionsNeeded.add("2B");
+        positionsNeeded.add("3B");
+        positionsNeeded.add("CI");
+        positionsNeeded.add("MI");
+        positionsNeeded.add("U");
+        positionsNeeded.add("SS");
+        positionsNeeded.add("OF");
+        
     }
 
     public Team() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name = "";
+        owner = "";
+        positionsNeeded = FXCollections.observableArrayList();
+        startingLineup = FXCollections.observableArrayList();
+        taxiSquad = FXCollections.observableArrayList();
+        positionsNeeded.add("P");
+        positionsNeeded.add("C");
+        positionsNeeded.add("1B");
+        positionsNeeded.add("2B");
+        positionsNeeded.add("3B");
+        positionsNeeded.add("CI");
+        positionsNeeded.add("MI");
+        positionsNeeded.add("U");
+        positionsNeeded.add("SS");
+        positionsNeeded.add("OF");
     }
     public void setOF_Needed(int of_Needed){
         this.of_Needed = of_Needed;
@@ -121,37 +152,32 @@ public class Team {
     
     
     public void addStartingLineupPlayer(Player player){
-        if(player.getCurrentPosition().equalsIgnoreCase("c")){
+        if(player.getCurrentPosition().equalsIgnoreCase("c"))
             c_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("1b")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("1b"))
             f_BaseNeeded-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("ci")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("ci"))
             ci_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("3b")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("3b"))
             t_BaseNeeded-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("2b")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("2b"))
             s_BaseNeeded-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("mi")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("mi"))
             mi_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("ss")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("ss"))
             ss_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("of")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("of"))
             of_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("u")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("u"))
             u_Needed-=1;
-        }
-        else if(player.getCurrentPosition().equalsIgnoreCase("p")){
+        else if(player.getCurrentPosition().equalsIgnoreCase("p"))
             p_Needed-=1;
-        }
+        
+        
         startingLineup.add(player);
+        //player.setAvailability(false);
+        //player.setTaken(true);
+        updatePositionsNeeded();
         sortStartingLineup();
     }
     public void removeStartingLineupPlayer(Player player){
@@ -193,72 +219,95 @@ public class Team {
         ObservableList<Player> temp = FXCollections.observableArrayList();
         boolean changed;
         boolean sortOver = false;
-        Player tempPlayer;
+        Player tempPlayer;// = new Player();
         if(startingLineup.size()>1){
             while(sortOver == false){
                 changed = false;
                 for(int i=0; i<startingLineup.size()-1;i++){
-                    if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("p") &&
-                    !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("p"))
+                    if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("p") && (
+                            startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("u")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("of")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ss")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("mi")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("2b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("3b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ci")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("1b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c")
+                            ))
                     {
-                        tempPlayer = startingLineup.get(i+1);
+                        System.out.println("Round p Player "+i+" = "+startingLineup.get(i).getFirstName());
+                        System.out.println(" Round p Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
+                        tempPlayer = startingLineup.get(i);
                         startingLineup.set(i, startingLineup.get(i+1));
                         startingLineup.set(i+1, tempPlayer);
+                        System.out.println("Round p Player "+i+" = "+startingLineup.get(i).getFirstName());
+                        System.out.println(" Round p Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
                         changed = true;
                     }
                     
                     else if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("u") &&
-                            ( !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("p")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("u") )
-                            )
+                            ( startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("of")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ss")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("mi")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("2b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("3b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ci")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("1b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c")
+                            ))
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                System.out.println("Round u Player "+i+" = "+startingLineup.get(i).getFirstName());
+                                System.out.println(" Round u Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
+                                System.out.println("Round u Player "+i+" = "+startingLineup.get(i).getFirstName());
+                                System.out.println(" Round u Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
                             }
                     else if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("of") &&
-                            ( !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("p")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("u")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("of"))
-                            )
+                            (   startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ss")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("mi")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("2b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("3b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ci")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("1b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c")
+                            ))
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
                             }
                     else if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("ss") &&
-                            ( !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("p")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("u")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("of")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ss"))
-                            )
+                            ( startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("mi")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("2b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("3b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ci")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("1b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c")
+                            ))
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                System.out.println("Round ss Player "+i+" = "+startingLineup.get(i).getFirstName());
+                                System.out.println(" Round ss Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
+                                System.out.println("Round ss Player "+i+" = "+startingLineup.get(i).getFirstName());
+                                System.out.println(" Round ss Player "+(i+1)+" = "+startingLineup.get(i+1).getFirstName());
                             }
                     else if(startingLineup.get(i).getCurrentPosition().equalsIgnoreCase("mi") &&
-                            ( !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("p")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("u")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("of")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ss")
-                            ||
-                            !startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("mi"))
-                            )
+                            ( startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("2b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("3b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("ci")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("1b")
+                            ||  startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c")
+                            ))
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
@@ -273,7 +322,7 @@ public class Team {
                               startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c"))
                             )
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
@@ -286,7 +335,7 @@ public class Team {
                               startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c"))
                             )
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
@@ -297,7 +346,7 @@ public class Team {
                               startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c"))
                             )
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
@@ -306,11 +355,12 @@ public class Team {
                             ( startingLineup.get(i+1).getCurrentPosition().equalsIgnoreCase("c"))
                             )
                             {
-                                tempPlayer = startingLineup.get(i+1);
+                                tempPlayer = startingLineup.get(i);
                                 startingLineup.set(i, startingLineup.get(i+1));
                                 startingLineup.set(i+1, tempPlayer);
                                 changed = true;
                             }
+                   // else{System.out.println(""startingLineup.get(i).getFirstName());}
                 }
                 if(changed == false)
                     sortOver = true;
@@ -324,6 +374,52 @@ public class Team {
        }
        public void setTaxiSquad(ObservableList<Player> temp){
            taxiSquad = temp;
+       }
+    @Override
+       public String toString(){
+           String teamString = name;
+           return teamString;
+       }
+       
+       public void setPositionsNeeded(ObservableList<String> positionsNeeded){
+           this.positionsNeeded = positionsNeeded;
+       }
+
+    private void updatePositionsNeeded() {
+        for(int i =0; i < positionsNeeded.size();i++){
+            if(positionsNeeded.get(i).toString().equalsIgnoreCase("p") && p_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("c") && c_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("u") && u_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("ci") && ci_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("mi") && mi_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("ss") && ss_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("of") && of_Needed<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("1B") && f_BaseNeeded<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("2B") && s_BaseNeeded<=0)
+                positionsNeeded.remove(i);
+            else if(positionsNeeded.get(i).toString().equalsIgnoreCase("3B") && t_BaseNeeded<=0)
+                positionsNeeded.remove(i);
+            else
+                System.out.println("ughhhhhHHHHHHH  posNeeded= "+positionsNeeded.get(i).toString());
+        }    
+    }
+    public ObservableList<String> getPositionsNeeded(String[] playerOptions){
+        viablePositions = FXCollections.observableArrayList();
+           for(int i =0;i<playerOptions.length;i++){
+               for(int j =0;j<positionsNeeded.size();j++){
+                   if(positionsNeeded.get(j).equalsIgnoreCase(playerOptions[i]))
+                       viablePositions.add(playerOptions[i]);
+               }
+           }
+           return viablePositions;
        }
     }
     

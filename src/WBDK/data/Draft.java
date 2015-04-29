@@ -27,6 +27,7 @@ public class Draft {
     FantasyTeams_GUI fantasyTeamsPage;
     MLB_GUI mlb_Page;
     Player player;
+    Team defaultTeam;
     ObservableList<Player> hitters;
     ObservableList<Player> pitchers;
     ObservableList<Player> players;
@@ -44,7 +45,10 @@ public class Draft {
         players = FXCollections.observableArrayList();
         initPlayers(players,hitters,pitchers);
         availablePlayers = FXCollections.observableArrayList();
+        teams = FXCollections.observableArrayList();
+        defaultTeam = new Team();
         updateAvailableList();
+        
         
     }
     
@@ -330,7 +334,7 @@ public class Draft {
     public void updateAvailableList(){
         availablePlayers.clear();
         for(int i = 0; i < players.size();i++){
-            if(players.get(i).getAvailability()==true)
+            if(players.get(i).getAvailability()==true && players.get(i).getTaken()== false)
             availablePlayers.add(players.get(i));
         }
     }
@@ -403,5 +407,11 @@ public class Draft {
     }
     public void setAvailablePlayers(ObservableList<Player> availablePlayers){
         this.availablePlayers = availablePlayers;
+    }
+    public void setDefaultTeam(Team defaultTeam){
+        this.defaultTeam = defaultTeam;
+    }
+    public Team getDefaultTeam(){
+        return defaultTeam;
     }
 }

@@ -380,9 +380,9 @@ public class PlayersPage_GUI extends WBDK_DataView {
                 //TablePosition tp;
                  //OPEN UP THE PLAYER EDITOR
                 //tp = playersTable.getFocusModel().getFocusedCell();
+                Player si = new Player();
                 
-                
-                Player si = playersTable.getSelectionModel().getSelectedItem();
+                 si = playersTable.getSelectionModel().getSelectedItem();
                // System.out.println("ANSWER IS: "+tp.getTableColumn().getId());
                 playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
                 playersController.handleEditPlayerItemRequest(this, si);
