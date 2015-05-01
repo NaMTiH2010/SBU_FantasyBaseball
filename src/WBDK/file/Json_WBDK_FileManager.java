@@ -192,6 +192,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setRbi_k(Integer.parseInt(jso.getString("RBI")));
         si.setSb_era(jso.getString("SB"));
         si.setPlayerType("hitter");
+        /*
         double tempH = Double.parseDouble(jso.getString("H"));
         double tempAB = Double.parseDouble(jso.getString("AB"));
         if(tempH <=0 ||tempAB <=0){
@@ -202,7 +203,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         }
         String s = String.format("%.2f", tempH);
         //Double tempDone = Double.parseDouble(s);
-        si.setBa_whip(s);
+        si.setBa_whip(s);*/
         si.setPossiblePositions(jso.getString("QP"));
         if(jso.getString("QP").contains("_")){
             si.setPositions(jso.getString("QP").split("_"));
@@ -212,7 +213,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(Integer.parseInt(jso.getString("YEAR_OF_BIRTH")));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
-
+        si.calculateValues();
             // ADD IT TO THE COURSE
             playerList.add(si);
         }
@@ -239,6 +240,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setFirstName(jso.getString("FIRST_NAME"));
         si.setIP(jso.getString("IP"));
         si.setER(Integer.parseInt(jso.getString("ER")));
+        /*
         double tempER = Double.parseDouble(jso.getString("ER"));
         double tempIP = Double.parseDouble(jso.getString("IP"));
         tempER*=9;
@@ -250,7 +252,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         }
         String s = String.format("%.2f", tempER);
         //Double tempDone = Double.parseDouble(s);
-        si.setSb_era(s);
+        si.setSb_era(s);*/
         si.setBB(Integer.parseInt(jso.getString("BB")));
         si.setPlayerType("pitcher");
         si.setR_W(Integer.parseInt(jso.getString("W")));
@@ -260,6 +262,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setQp("P");
         si.setPositions(new String[]{"P"});
         si.setPossiblePositions("P");
+        /*
         Double tempW = Double.parseDouble(jso.getString("W"));
         Double tempH = Double.parseDouble(jso.getString("H"));
         
@@ -276,12 +279,13 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         si.setBa_whip(s);
         //si.setPositions(null);
         //si.setSb_era(jso.getString("SB"));
-        
+        */
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(Integer.parseInt(jso.getString("YEAR_OF_BIRTH")));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
 
             // ADD IT TO THE COURSE
+            si.calculateValues();
             playerList.add(si);
         }
          return playerList;   
@@ -584,7 +588,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setR_W(jso.getInt("R"));
                 si.setHr_sv(jso.getInt("HR"));
                 si.setRbi_k(jso.getInt("RBI"));
-                //si.setSb_era(jso.getString("SB"));
+                si.setSb_era(jso.getString("SB"));
                 si.setPlayerType("hitter");
                 //si.setPossiblePositions(jso.getString("QP"));
                 if(jso.getString("QP").contains("_")){
@@ -602,6 +606,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setSalary(jso.getString("SALARY"));
                 
             // ADD IT TO THE COURSE
+                si.calculateValues();
                 playerList.add(si); 
                 }
             else{
@@ -633,6 +638,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 si.setSalary(jso.getString("SALARY"));
                 
                 // ADD IT TO THE COURSE
+                si.calculateValues();
                 playerList.add(si);}
             
         }
@@ -649,8 +655,12 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             JsonArray jsonHittersArray = json.getJsonArray(arrayName);
             
             
+            
+            
             for (int i = 0; i < jsonHittersArray.size(); i++) {
                 JsonObject jso = jsonHittersArray.getJsonObject(i);
+                JsonArray jsonSLArray = jso.getJsonArray("starting_lineup");
+                ObservableList<Player> tSL = FXCollections.observableArrayList();
                 Team to = new Team();
             
                 to.setName(jso.getString("team_name"));
@@ -665,11 +675,86 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                 to.setSS_Needed(jso.getInt("ss_Needed"));
                 to.setOF_Needed(jso.getInt("of_Needed"));
                 to.setOwner(jso.getString("owner"));
+                
+                for(int j=0;j<jsonSLArray.size();j++){
+                    JsonObject jSL = jsonSLArray.getJsonObject(j);
+                    Player si = new Player();
+                    // si.setNotes("test");
+                    // IF IT IS A HITTER
+                    if(jSL.getString("PLAYER_TYPE").equalsIgnoreCase("hitter")){
+                        si.setTeam(jSL.getString("TEAM"));
+                        //System.out.println(si.getTeam()+" team name");
+        
+                        si.setLastName(jSL.getString("LAST_NAME"));
+                        si.setFirstName(jSL.getString("FIRST_NAME"));
+                        si.setQp(jSL.getString("QP"));
+                        //System.out.println(jso.getString("QP"));
+                        si.setAB((""+jSL.getInt("AB")));
+                        //System.out.println(jso.getString("AB"));
+                        si.setH(jSL.getInt("H"));
+                        si.setR_W(jSL.getInt("R"));
+                        si.setHr_sv(jSL.getInt("HR"));
+                        si.setRbi_k(jSL.getInt("RBI"));
+                        //si.setSb_era(jso.getString("SB"));
+                        si.setPlayerType("hitter");
+                        //si.setPossiblePositions(jso.getString("QP"));
+                        if(jSL.getString("QP").contains("_")){
+                            si.setPositions(jSL.getString("QP").split("_"));
+                        }
+                        else{si.setPositions(new String[]{jSL.getString("QP")});}
+                            //si.setPositions(jso.getString("QP").split("_"));
+                            si.setNotes(jSL.getString("NOTES"));
+                            si.setYearOfBirth(jSL.getInt("YEAR_OF_BIRTH"));
+                            si.setPlaceOfBirth(jSL.getString("PLACE_OF_BIRTH"));
+                            si.setAvailability(jSL.getBoolean("AVAILABILITY"));
+                            si.setCurrentPosition(jSL.getString("CURRENT_POSITION"));
+                            si.setTaken(jSL.getBoolean("TAKEN"));
+                            si.setPlayerType(jSL.getString("PLAYER_TYPE"));
+                            si.setSalary(jSL.getString("SALARY"));
+                
+                            // ADD IT TO THE COURSE
+                            //playerList.add(si); 
+                    }
+                    else{
+                        si.setTeam(jSL.getString("TEAM"));
+                        //System.out.println(si.getTeam()+" team name");
+        
+                        si.setLastName(jSL.getString("LAST_NAME"));
+                        si.setFirstName(jSL.getString("FIRST_NAME"));
+                        si.setIP(jSL.getString("IP"));
+                        si.setER(jSL.getInt("ER"));
+                        si.setBB(jSL.getInt("BB"));
+                        si.setPlayerType("pitcher");
+                        si.setR_W(jSL.getInt("W"));
+                        si.setH(jSL.getInt("H"));
+                        si.setHr_sv(jSL.getInt("SV"));
+                        si.setRbi_k(jSL.getInt("K"));
+                        si.setQp("P");
+                        si.setPossiblePositions("P");
+                        //si.setPositions(null);
+                        //si.setSb_era(jso.getString("SB"));
+        
+                        si.setNotes(jSL.getString("NOTES"));
+                        si.setYearOfBirth(jSL.getInt("YEAR_OF_BIRTH"));
+                        si.setPlaceOfBirth(jSL.getString("PLACE_OF_BIRTH"));
+                        si.setAvailability(jSL.getBoolean("AVAILABILITY"));
+                        si.setCurrentPosition(jSL.getString("CURRENT_POSITION"));
+                        si.setTaken(jSL.getBoolean("TAKEN"));
+                        si.setPlayerType(jSL.getString("PLAYER_TYPE"));
+                        si.setSalary(jSL.getString("SALARY"));
+                
+                        // ADD IT TO THE COURSE
+                        //playerList.add(si);}
+            
+        
+                    }
                 //to.setTaxiSquad(loadPlayerArrayFromJSONFile(jsonFilePath,"taxi_squad"));
                 //to.setStartingLineup(loadPlayerArrayFromJSONFile(jsonFilePath,"starting_lineup"));
-                
-                teamList.add(to);
+                tSL.add(si);
             }
+                to.setStartingLineup(tSL);
+                teamList.add(to);
+    }
         return teamList;
     }
 

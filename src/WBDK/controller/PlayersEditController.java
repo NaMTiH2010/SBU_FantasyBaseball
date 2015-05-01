@@ -8,6 +8,7 @@ package WBDK.controller;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
+import WBDK.gui.FantasyTeamsItemDialog;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MessageDialog;
 import WBDK.gui.PlayersItemDialog;
@@ -22,11 +23,13 @@ import javafx.stage.Stage;
  */
 public class PlayersEditController {
     PlayersItemDialog sid;
+    FantasyTeamsItemDialog ftid;
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
 
     public PlayersEditController(Stage primaryStage, Draft draft, MessageDialog messageDialog, YesNoCancelDialog yesNoCancelDialog) {
         sid = new PlayersItemDialog(primaryStage, draft, messageDialog);
+        ftid = new FantasyTeamsItemDialog(primaryStage, draft, messageDialog);
         this.messageDialog = messageDialog;
         this.yesNoCancelDialog = yesNoCancelDialog;
     }
@@ -43,10 +46,10 @@ public class PlayersEditController {
             
             //si = sid.getPlayerItem();
             
-            sid.getFakeTeam().addStartingLineupPlayer(si);
+            ftid.getFakeTeam().addStartingLineupPlayer(si);
             itemToEdit.setTaken(true);
             draft.updateAvailableList();
-            System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
+            System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
         }
         else {
             System.out.println("THIS SHOULDNT BE HAPPENING");

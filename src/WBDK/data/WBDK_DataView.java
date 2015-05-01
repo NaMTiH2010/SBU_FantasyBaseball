@@ -485,9 +485,10 @@ public abstract class WBDK_DataView {
     }
 
   
-    public void reloadCourse(Draft draftToReload) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void reloadDraft(Draft draftToReload) {
+            if (!workspaceActivated) {
+            activateWorkspace();
+            }    }
     public void initBottomNavbar(){ 
         bottomToolbarPane = new FlowPane();
 

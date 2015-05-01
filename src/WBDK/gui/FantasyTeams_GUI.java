@@ -76,6 +76,29 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         super(initPrimaryStage, initSecondaryStage);
     }
 
+    public void initGUI(String windowTitle,Draft draft) throws IOException {
+        // INIT THE DIALOGS
+        initDialogs();
+        
+        
+        
+        initBottomNavbar();
+        
+        // INIT THE TOOLBAR
+        initFileToolbar(false);
+
+        // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
+        // TO THE WINDOW YET
+        initWorkspace(draft);
+        initFantasyTeamsTablesTable();
+        
+
+        // NOW SETUP THE EVENT HANDLERS
+        initEventHandlers(draft);
+
+        // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
+        initWindow(windowTitle,1);
+    }
     @Override
     public void initGUI(String windowTitle) throws IOException {
         // INIT THE DIALOGS
@@ -100,7 +123,6 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow(windowTitle,1);
     }
-    
     @Override
     public void initWorkspace() throws IOException {
         // THE WORKSPACE HAS A FEW REGIONS, THIS 
@@ -110,6 +132,32 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
         
         initTopWorkspace();
+
+        // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
+        // ADD THE COMPONENTS WE'VE JUST INITIALIZED
+        workspacePane = new BorderPane();
+        workspacePane.setTop(topWorkspacePane);
+        //workspacePane.setCenter();
+        workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
+        
+        // AND NOW PUT IT IN THE WORKSPACE
+        workspaceScrollPane = new ScrollPane();
+        workspaceScrollPane.setContent(workspacePane);
+        workspaceScrollPane.setFitToWidth(true);
+
+        // NOTE THAT WE HAVE NOT PUT THE WORKSPACE INTO THE WINDOW,
+        // THAT WILL BE DONE WHEN THE USER EITHER CREATES A NEW
+        // COURSE OR LOADS AN EXISTING ONE FOR EDITING
+        workspaceActivated = false;
+    }
+    public void initWorkspace(Draft draft) throws IOException {
+        // THE WORKSPACE HAS A FEW REGIONS, THIS 
+        // IS FOR BASIC COURSE EDITING CONTROLS
+      
+// THE TOP WORKSPACE HOLDS BOTH THE BASIC COURSE INFO
+        // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
+        
+        initTopWorkspace(draft);
 
         // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
         // ADD THE COMPONENTS WE'VE JUST INITIALIZED
@@ -151,6 +199,41 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         teamsDropDown.setValue(getDataManager().getDraft().getDefaultTeam());
         topWorkspaceH1Pane.getChildren().add(topGridPane2);
         teamsDropDown.setItems(getDataManager().getDraft().getTeams());
+        
+        topWorkspacePane.getChildren().add(topGridPane);
+        topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
+        topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
+        
+        draftNameTextbox.textProperty().addListener((observable, oldValue, newValue) -> {
+            //newValue
+            System.out.println("THE NEW VALUE IS:  "+newValue);
+            dataManager.getDraft().setTitle(newValue);
+        });
+        
+       
+    }
+    private void initTopWorkspace(Draft draft) throws IOException {
+        topWorkspacePane = new VBox();
+        HBox topWorkspaceH1Pane = new HBox();
+        HBox topWorkspaceH2Pane = new HBox();
+        topGridPane = new GridPane();
+        topGridPane2 = new GridPane();
+        
+        topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
+        draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.FANTASY_TEAMS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        
+        
+        
+        addTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
+        removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        draftTextboxLabel = initGridLabel(topGridPane, WBDK_PropertyType.DRAFT_NAME_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
+        teamsComboBoxLabel = initGridLabel(topGridPane2, WBDK_PropertyType.SELECT_FANTASY_TEAM_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1); 
+        draftNameTextbox = initGridTextField(topGridPane, 30, "", true, 3, 1, 1, 1);
+        teamsDropDown = initGridComboBox(topGridPane2, 1, 1, 1, 1);
+        teamsDropDown.setValue(draft.getDefaultTeam());
+        topWorkspaceH1Pane.getChildren().add(topGridPane2);
+        teamsDropDown.setItems(draft.getTeams());
         
         topWorkspacePane.getChildren().add(topGridPane);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
@@ -353,5 +436,125 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         //registerTextFieldController(searchBar);
         
     }
+         // INIT ALL THE EVENT HANDLERS
+    public void initEventHandlers(Draft draft) throws IOException {
+        /*
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            //newValue
+            System.out.println("THE NEW VALUE IS:  "+newValue);
+            dataManager.getDraft().searchIT(newValue);
+        });*/
+
+        // FIRST THE FILE CONTROLS
+        fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
+        teamsController = new FantasyTeamsEditController(primaryStage, draft, messageDialog, yesNoCancelDialog);
+        
+        newDraftButton.setOnAction(e -> {
+            fileController.handleNewDraftRequest(this);
+        });
+        
+        loadDraftButton.setOnAction(e -> {
+            fileController.handleLoadDraftRequest(this);
+        });
+        saveDraftButton.setOnAction(e -> {
+            fileController.handleSaveDraftRequest(this, draft);
+        });/*
+        exportSiteButton.setOnAction(e -> {
+            fileController.handleExportDraftRequest(this,secondaryStage);
+        }); 
+        */
+        exitButton.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        
+        addTeamButton.setOnAction(e -> {
+            teamsController.handleAddTeamRequest(this);
+            //reloadDraft(getDataManager().getDraft());
+        });
+        removeTeamButton.setOnAction(e -> {
+            fileController.handleRemoveTeamRequest(this);
+        });
+        
+        // BOTTOMTOOLBAR
+        draftPage_Button.setOnAction(e -> {
+            try {
+                draft.setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                fileController.handleDraftPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        mlbPage_Button.setOnAction(e -> {
+            try {
+                draft.setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                
+                fileController.handleMLBPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyTeamsPage_Button.setOnAction(e -> {
+            try {
+                draft.setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                fileController.handleFantasyTeamsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyStandingsPage_Button.setOnAction(e -> {
+            try {
+                draft.setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                fileController.handleFantasyStandingsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        playersPage_Button.setOnAction(e -> {
+            try {
+                draft.setDefaultTeam((Team) teamsDropDown.getSelectionModel().getSelectedItem());
+                fileController.handlePlayersPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        // AND NOW THE NOTES ITEM ADDING AND EDITING CONTROLS
+        
+       /* addScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleAddScheduleItemRequest(this);
+        });
+        removeScheduleItemButton.setOnAction(e -> {
+            scheduleController.handleRemoveScheduleItemRequest(this, scheduleItemsTable.getSelectionModel().getSelectedItem());
+        });
+        */
+       
+        //notesColumn.getOnEditStart()
+        /*
+        // AND NOW THE SCHEDULE ITEMS TABLE
+        startingLineUpTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                //TablePosition tp;
+                 //OPEN UP THE PLAYER EDITOR
+                //tp = playersTable.getFocusModel().getFocusedCell();
+                
+                
+                Player si = startingLineUpTable.getSelectionModel().getSelectedItem();
+               // System.out.println("ANSWER IS: "+tp.getTableColumn().getId());
+                playersController = new PlayersEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+                playersController.handleEditPlayerItemRequest(this, si);
+                //System.out.println("scheduleItems = "+ si.getDescription());
+            }
+        }); */
+
+        
+        //registerTextFieldController(searchBar);
+        
+    }
     
+    public Player getSelectedPlayerFromTable(){
+        return (Player)startingLineUpTable.getSelectionModel().getSelectedItem();
+    }
+    public Team getSelectedTeam(){
+        return (Team) teamsDropDown.getSelectionModel().getSelectedItem();
+    }
 }

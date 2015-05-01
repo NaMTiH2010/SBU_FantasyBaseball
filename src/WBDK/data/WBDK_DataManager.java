@@ -37,6 +37,9 @@ public class WBDK_DataManager {
     public Draft getDraft(){
         return this.draft;
     }
+    public void setDraft(Draft draft){
+        this.draft = draft;
+    }
     
     /**
       * Accessor method for getting the file manager, which knows how

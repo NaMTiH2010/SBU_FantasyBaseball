@@ -445,4 +445,10 @@ public class Draft {
     public ObservableList<String> getContracts(){
         return contracts;
     }
+    /*
+    public void calculatePlayerValues() {
+        for(int i=0; i<players.size();i++){
+            players.get(i).calculateValues();
+        }
+    }*/
 }

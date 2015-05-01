@@ -314,5 +314,43 @@ public class Player {
         
         return tc;
     }
+    public void calculateValues(){
+        if(playerType.equalsIgnoreCase("hitter")){
+            if(h != 0){
+                double broke = (((double)h)/ ((double)ab));
+                String fixing = String.format("%.3f", broke);
+                Double fixed = Double.parseDouble(fixing);
+                ba_whip.set(fixed);
+                
+            }
+            else
+                ba_whip.set(0);
+            
+        }
+        else{
+            if(ip != 0 && (bb+h) !=0){
+                double broke = ((double)(bb+h)/ip);
+                String fixing = String.format("%.3f", broke);
+                Double fixed = Double.parseDouble(fixing);
+                ba_whip.set(fixed);
+                
+            }
+            else
+                ba_whip.set(0);
+           
+            if(ip != 0 && er !=0){
+                double broke = (((double)er)*9)/ip;
+                String fixing = String.format("%.3f", broke);
+                Double fixed = Double.parseDouble(fixing);
+                sb_era.set(fixed);
+                
+            }
+            else
+                sb_era.set(0);
+            
+           // ba_whip.set( ((double)(bb+h)/ip));
+            //sb_era.set((((double)er)*9)/ip);
+        }
+    }
 }
 

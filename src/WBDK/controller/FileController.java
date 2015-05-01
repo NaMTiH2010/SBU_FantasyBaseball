@@ -227,6 +227,15 @@ public class FileController {
             draftIO.saveDraft(dataManager.getDraft());
             saved = true;
             
+             // RESET THE DATA, WHICH SHOULD TRIGGER A RESET OF THE UI
+                //WBDK_DataManager dataManager = gui.getDataManager();
+                dataManager.reset(gui);
+                //saved = false;
+
+                // REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
+                // THE APPROPRIATE CONTROLS
+                gui.updateToolbarControls(saved);
+            
             // AND THE INSTRUCTOR INFO
             //Instructor lastInstructor = dataManager.getCourse().getInstructor();
             //draftIO.saveLastInstructor(lastInstructor, JSON_FILE_PATH_LAST_INSTRUCTOR);
@@ -335,13 +344,10 @@ public class FileController {
                 Draft draftToLoad = gui.getDataManager().getDraft();
                 draftIO.loadDraft(draftToLoad, selectedFile.getAbsolutePath());
                 
-                //gui.reloadCourse(draftToLoad);
+                gui.reloadDraft(draftToLoad);
                 saved = true;
-                //gui.updateToolbarControls(saved);
-                System.out.println("Make it this far?");
-                draftToLoad.getFantasyTeamsPage().initGUI("WolfieBall Draft Kit");
-                 System.out.println("Make it this far?");
-                draftToLoad.getFantasyTeamsPage().reloadDraft(draftToLoad);
+                gui.getDataManager().reset(gui);
+                
             } catch (Exception e) {
                 System.out.println("FAIL?");
                 ErrorHandler eH = ErrorHandler.getErrorHandler();

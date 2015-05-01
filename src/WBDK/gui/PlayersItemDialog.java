@@ -84,26 +84,15 @@ public class PlayersItemDialog extends Stage{
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
         initOwner(primaryStage);
-        
-        
-        // FIRST OUR CONTAINER
+    }
+
+    public Player showEditPlayerItemDialog(Player itemToEdit) {
         gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 20, 20, 20));
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        
-      
-        
-        // PUT THE HEADING IN THE GRID, NOTE THAT THE TEXT WILL DEPEND
-        // ON WHETHER WE'RE ADDING OR EDITING
-        headingLabel = new Label("Player Details");
-        headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
-    
-        
-        // AND FINALLY, THE BUTTONS
         completeButton = new Button("Complete");
         cancelButton = new Button(CANCEL);
-        
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button)ae.getSource();
@@ -112,15 +101,10 @@ public class PlayersItemDialog extends Stage{
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
-
-        // AND PUT THE GRID PANE IN THE WINDOW
-        dialogScene = new Scene(gridPane);
-        dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
-        this.setScene(dialogScene);
         
-    }
-
-    public Player showEditPlayerItemDialog(Player itemToEdit) {
+        
+        headingLabel = new Label("Player Details");
+        headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
         playerItem = new Player();
         // NOW THE DESCRIPTION 
         salaryLabel = new Label("Salary: ");
@@ -206,7 +190,10 @@ public class PlayersItemDialog extends Stage{
         // LOAD THE UI STUFF
         //salaryTextField.setText(playerItem.getNotes());
         
-        
+        // AND PUT THE GRID PANE IN THE WINDOW
+        dialogScene = new Scene(gridPane);
+        dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
+        this.setScene(dialogScene);
         // AND OPEN IT UP
         this.showAndWait();
         
@@ -226,6 +213,24 @@ public class PlayersItemDialog extends Stage{
    
 
     public Player showAddPlayerDialog(){
+       gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10, 20, 20, 20));
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+       completeButton = new Button("Complete");
+        cancelButton = new Button(CANCEL);
+        // REGISTER EVENT HANDLERS FOR OUR BUTTONS
+        EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
+            Button sourceButton = (Button)ae.getSource();
+            PlayersItemDialog.this.selection = sourceButton.getText();
+            PlayersItemDialog.this.hide();
+        };
+        completeButton.setOnAction(completeCancelHandler);
+        cancelButton.setOnAction(completeCancelHandler);
+        
+        
+        headingLabel = new Label("Player Details");
+        headingLabel.getStyleClass().add(CLASS_HEADING_LABEL);
         int count =0;
         String positionsString = "";
         // SET THE DIALOG TITLE
@@ -275,6 +280,11 @@ public class PlayersItemDialog extends Stage{
         lastNameText.textProperty().addListener((observable, oldValue, newValue) -> {
             playerItem.setLastName(newValue);
         });
+        
+        // AND PUT THE GRID PANE IN THE WINDOW
+        dialogScene = new Scene(gridPane);
+        dialogScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
+        this.setScene(dialogScene);
         
         // AND OPEN IT UP
         this.showAndWait();
@@ -347,46 +357,7 @@ public class PlayersItemDialog extends Stage{
         return playerItem;
     }
 
-    public Team showAddTeamDialog() {
-        fakeTeam = new Team("Default Name","Default Owner");
-        Label teamName = new Label("Name: ");
-        Label ownerName = new Label("Owner: ");
-        TextField teamNameText = new TextField();
-        TextField ownerNameText = new TextField();
-        HBox nameBox = new HBox();
-        HBox ownerBox =  new HBox();
-        HBox completeCancelBox = new HBox();
-        headingLabel = new Label("Fantasy Team Details");
-        
-        //headingLabel.setText("Fantasy Team Details");
-        
-        
-        teamNameText.textProperty().addListener((observable, oldValue, newValue) -> {
-            fakeTeam.setName(newValue);
-        });
-        ownerNameText.textProperty().addListener((observable, oldValue, newValue) -> {
-            fakeTeam.setOwner(newValue);
-        });
-        nameBox.getChildren().add(teamName);
-        nameBox.getChildren().add(teamNameText);
-        ownerBox.getChildren().add(ownerName);
-        ownerBox.getChildren().add(ownerNameText);
-        completeCancelBox.getChildren().add(completeButton);
-        completeCancelBox.getChildren().add(cancelButton);
-        gridPane.add(headingLabel, 0, 0, 1, 1);
-        gridPane.add(nameBox, 0, 1, 1, 1);
-        
-        gridPane.add(ownerBox, 0, 2, 1, 1);
-        gridPane.add(completeCancelBox, 0, 3, 1, 1);
-        
-        // AND OPEN IT UP
-        this.showAndWait();
-        return fakeTeam;
-    }
-
-    public Team getFakeTeam() {
-        return fakeTeam;
-    }
+   
     
 
     
