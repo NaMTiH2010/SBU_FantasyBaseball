@@ -19,6 +19,7 @@ import static WBDK.WBDK_PropertyType.NEW_COURSE_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.NEW_DRAFT_CREATED_MESSAGE;
 import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static WBDK.WBDK_StartupConstants.PATH_DRAFTS;
+import WBDK.data.Team;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.PlayersPage_GUI;
 import java.io.File;
@@ -236,9 +237,6 @@ public class FileController {
                 // THE APPROPRIATE CONTROLS
                 gui.updateToolbarControls(saved);
             
-            // AND THE INSTRUCTOR INFO
-            //Instructor lastInstructor = dataManager.getCourse().getInstructor();
-            //draftIO.saveLastInstructor(lastInstructor, JSON_FILE_PATH_LAST_INSTRUCTOR);
         } // IF THE USER SAID CANCEL, THEN WE'LL TELL WHOEVER
         // CALLED THIS THAT THE USER IS NOT INTERESTED ANYMORE
         else if (selection.equals(YesNoCancelDialog.CANCEL)) {
@@ -282,9 +280,6 @@ public class FileController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void handleRemoveTeamRequest(FantasyTeams_GUI aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public void handleSaveDraftRequest(WBDK_DataView gui, Draft draft) {
         try {
@@ -355,5 +350,40 @@ public class FileController {
             }
         }
     }
-    
+    public void handleRemoveTeamRequest(FantasyTeams_GUI gui) throws IOException{
+        WBDK_DataManager cdm = gui.getDataManager();
+        Draft draft = cdm.getDraft();
+        //Player player = gui.getSelectedPlayerFromTable();
+        Team team = gui.getSelectedTeam();
+        //ftid.showRemoveTeamDialog();
+        yesNoCancelDialog.show("Delete this Team?");
+        
+        // AND NOW GET THE USER'S SELECTION
+        String selection = yesNoCancelDialog.getSelection();
+
+        // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
+        if (selection.equals(YesNoCancelDialog.YES)) {
+            if(team.getName().equals("")){}
+            else{
+ 
+            for(int i=0;i<team.getStartingLineup().size();i++){
+                team.getStartingLineup().get(i).setAvailability(true);
+                team.getStartingLineup().get(i).setTaken(false);
+                    //team.getStartingLineup().remove(i);
+                }
+            for(int i=0;i<draft.getTeams().size();i++){
+                if(draft.getTeams().get(i).getName().equals(team.getName()))
+                    draft.getTeams().remove(i);
+            }
+            
+            if(draft.getTeams().isEmpty()){
+                gui.flipRemoveButton(true);
+                gui.flipEditButton(true);
+            }
+            draft.updateAvailableList();
+            gui.getDataManager().reset(gui);
+        }
+            
+        }
+     }
 }

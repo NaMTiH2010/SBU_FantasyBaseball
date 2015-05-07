@@ -190,8 +190,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         
         
         addTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
-        removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
-        editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        if(dataManager.getDraft().getTeams().isEmpty()){
+            removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
+            editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
+        }
+        else{
+            removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+            editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+ 
+        }
         draftTextboxLabel = initGridLabel(topGridPane, WBDK_PropertyType.DRAFT_NAME_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
         teamsComboBoxLabel = initGridLabel(topGridPane2, WBDK_PropertyType.SELECT_FANTASY_TEAM_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1); 
         draftNameTextbox = initGridTextField(topGridPane, 30, "", true, 3, 1, 1, 1);
@@ -225,8 +232,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         
         
         addTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.ADD_ICON, WBDK_PropertyType.NEW_COURSE_TOOLTIP, false);
-        removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
-        editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+        if(draft.getTeams().isEmpty()){
+            removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
+            editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, true);
+        }
+        else{
+            removeTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.MINUS_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+            editTeamButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.EDIT_ICON, WBDK_PropertyType.LOAD_COURSE_TOOLTIP, false);
+ 
+        }
         draftTextboxLabel = initGridLabel(topGridPane, WBDK_PropertyType.DRAFT_NAME_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1);
         teamsComboBoxLabel = initGridLabel(topGridPane2, WBDK_PropertyType.SELECT_FANTASY_TEAM_LABEL, CLASS_PROMPT_LABEL, 0, 1, 1, 1); 
         draftNameTextbox = initGridTextField(topGridPane, 30, "", true, 3, 1, 1, 1);
@@ -317,7 +331,8 @@ public class FantasyTeams_GUI extends WBDK_DataView {
          taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
          
          teamsDropDown.setOnAction((event) -> {
-             startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
+             if(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup() != null)
+                startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
             });
        
     }
@@ -358,7 +373,18 @@ public class FantasyTeams_GUI extends WBDK_DataView {
             //reloadDraft(getDataManager().getDraft());
         });
         removeTeamButton.setOnAction(e -> {
-            fileController.handleRemoveTeamRequest(this);
+            try {
+                fileController.handleRemoveTeamRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(FantasyTeams_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        editTeamButton.setOnAction(e -> {
+            try {
+                teamsController.handleEditTeamRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(FantasyTeams_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         // BOTTOMTOOLBAR
@@ -401,6 +427,20 @@ public class FantasyTeams_GUI extends WBDK_DataView {
                 fileController.handlePlayersPageRequest(this);
             } catch (IOException ex) {
                 Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        startingLineUpTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                //TablePosition tp;
+                 //OPEN UP THE PLAYER EDITOR
+                //tp = playersTable.getFocusModel().getFocusedCell();
+                Player si = new Player();
+                
+                 si = startingLineUpTable.getSelectionModel().getSelectedItem();
+               // System.out.println("ANSWER IS: "+tp.getTableColumn().getId());
+                teamsController = new FantasyTeamsEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+                teamsController.handleEditTeamPlayerItemRequest(this, si,(Team)teamsDropDown.getSelectionModel().getSelectedItem());
+                //System.out.println("scheduleItems = "+ si.getDescription());
             }
         });
         
@@ -472,7 +512,11 @@ public class FantasyTeams_GUI extends WBDK_DataView {
             //reloadDraft(getDataManager().getDraft());
         });
         removeTeamButton.setOnAction(e -> {
-            fileController.handleRemoveTeamRequest(this);
+            try {
+                fileController.handleRemoveTeamRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(FantasyTeams_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         // BOTTOMTOOLBAR
@@ -556,5 +600,11 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     }
     public Team getSelectedTeam(){
         return (Team) teamsDropDown.getSelectionModel().getSelectedItem();
+    }
+    public void flipRemoveButton(boolean offOn){
+        removeTeamButton.setDisable(offOn);
+    }
+    public void flipEditButton(boolean offOn){
+        editTeamButton.setDisable(offOn);
     }
 }

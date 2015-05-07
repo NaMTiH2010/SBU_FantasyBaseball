@@ -46,10 +46,11 @@ public class PlayersEditController {
             
             //si = sid.getPlayerItem();
             
-            ftid.getFakeTeam().addStartingLineupPlayer(si);
+            sid.getFakeTeam().addStartingLineupPlayer(si);
             itemToEdit.setTaken(true);
             draft.updateAvailableList();
             System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
+            System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
         }
         else {
             System.out.println("THIS SHOULDNT BE HAPPENING");

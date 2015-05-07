@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -34,6 +35,8 @@ import javax.json.JsonValue;
 public class Json_WBDK_FileManager implements WBDK_FileManager{
     String JSON_EXT = ".json";
     String SLASH = "/";
+    String JSON_PLAYERS_FANTASY_TEAM = "fantasy_team";
+    String DEFAULT_TEAM = "default_team";
     // TEAM VARIABLES TO SAVE
     String JSON_TEAM_NAME = "team_name";
     String JSON_TEAM_STARTING_LINEUP_ARRAY = "starting_lineup";
@@ -92,9 +95,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void loadTeam(Team TeamToLoad, String coursePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     /*public void saveDraft(Draft draftToSave) throws IOException {
         // BUILD THE FILE PATH
@@ -393,6 +394,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         // THE LECTURES ARRAY
         JsonArray teamsJsonArray = makeTeamJsonArray(draftToSave.getTeams());
         
+        
         // THE HWS ARRAY
         JsonArray availablePlayersJsonArray = makePlayerJsonArray(draftToSave.getAvailablePlayers());
         
@@ -405,6 +407,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
                                     .add(JSON_PLAYERS_ARRAY, playersJsonArray)
                                     .add(JSON_AVAILABLE_PLAYERS_ARRAY, availablePlayersJsonArray)
                                     .add(JSON_TEAMS_ARRAY, teamsJsonArray)
+                                    .add(DEFAULT_TEAM, makeTeamJsonObject(draftToSave.getDefaultTeam()))
 
                 .build();
         System.out.println(" THE RIGHT STUFF BUILT");
@@ -473,6 +476,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
     private JsonObject makePlayerJsonObject(Player player) {
         if(player.getPlayerType().equalsIgnoreCase("pitcher")){
             JsonObject jso = Json.createObjectBuilder()
+                        .add(JSON_PLAYERS_FANTASY_TEAM, player.getFantasyTeam())
                         .add(JSON_POSSIBLE_POSITIONS, player.getPossiblePositions())
                         .add(JSON_TAKEN, player.getTaken())
                         .add(JSON_CURRENT_POSITION, player.getCurrentPosition())
@@ -498,6 +502,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         }
         else{
                 JsonObject jso = Json.createObjectBuilder()
+                        .add(JSON_PLAYERS_FANTASY_TEAM, player.getFantasyTeam())
                         .add(JSON_POSSIBLE_POSITIONS, player.getPossiblePositions())
                         .add(JSON_TAKEN, player.getTaken())
                         .add(JSON_CURRENT_POSITION, player.getCurrentPosition())
@@ -549,7 +554,6 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             System.out.println(jsonFilePath+" Is the FilePath" );
             // LOAD THE JSON FILE WITH ALL THE DATA
             JsonObject json = loadJSONFile(jsonFilePath);
-
         draftToLoad.setTitle(json.getString("title"));
         draftToLoad.getPlayers().clear();
         draftToLoad.setPlayers(loadPlayerArrayFromJSONFile(jsonFilePath, "players"));
@@ -558,6 +562,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         draftToLoad.setTeams(loadTeamArrayFromJSONFile(jsonFilePath, "teams"));
         draftToLoad.getAvailablePlayers().clear();
         draftToLoad.setAvailablePlayers(loadPlayerArrayFromJSONFile(jsonFilePath,"availablePlayers"));
+        draftToLoad.setDefaultTeam(loadJsonTeam(jsonFilePath,DEFAULT_TEAM));
         System.out.println("MADE it TO THE END");
            
         }
@@ -577,7 +582,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             if(jso.getString("PLAYER_TYPE").equalsIgnoreCase("hitter")){
                 si.setTeam(jso.getString("TEAM"));
         //System.out.println(si.getTeam()+" team name");
-        
+                si.setFantasyTeam(jso.getString(JSON_PLAYERS_FANTASY_TEAM));
                 si.setLastName(jso.getString("LAST_NAME"));
                 si.setFirstName(jso.getString("FIRST_NAME"));
                 si.setQp(jso.getString("QP"));
@@ -612,7 +617,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
             else{
                 si.setTeam(jso.getString("TEAM"));
                 //System.out.println(si.getTeam()+" team name");
-        
+                si.setFantasyTeam(jso.getString(JSON_PLAYERS_FANTASY_TEAM));
                 si.setLastName(jso.getString("LAST_NAME"));
                 si.setFirstName(jso.getString("FIRST_NAME"));
                 si.setIP(jso.getString("IP"));
@@ -758,6 +763,107 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         return teamList;
     }
 
+    public Team loadJsonTeam(String jsonFilePath, String arrayName) throws IOException {
+                JsonObject jso = loadJSONFile(jsonFilePath);
+                jso = jso.getJsonObject(arrayName);
+                JsonArray jsonSLArray = jso.getJsonArray("starting_lineup");
+                ObservableList<Player> tSL = FXCollections.observableArrayList();
+                Team to = new Team();
+            
+                to.setName(jso.getString("team_name"));
+                to.setCI_Needed(jso.getInt("ci_Needed"));
+                to.setMI_Needed(jso.getInt("mi_Needed"));
+                to.setP_Needed(jso.getInt("p_Needed"));
+                to.setC_Needed(jso.getInt("c_Needed"));
+                to.setF_BaseNeeded(jso.getInt("f_BaseNeeded"));
+                to.setS_BaseNeeded(jso.getInt("s_BaseNeeded"));
+                to.setT_BaseNeeded(jso.getInt("t_BaseNeeded"));
+                to.setU_Needed(jso.getInt("u_Needed"));
+                to.setSS_Needed(jso.getInt("ss_Needed"));
+                to.setOF_Needed(jso.getInt("of_Needed"));
+                to.setOwner(jso.getString("owner"));
+                
+                for(int j=0;j<jsonSLArray.size();j++){
+                    JsonObject jSL = jsonSLArray.getJsonObject(j);
+                    Player si = new Player();
+                    // si.setNotes("test");
+                    // IF IT IS A HITTER
+                    if(jSL.getString("PLAYER_TYPE").equalsIgnoreCase("hitter")){
+                        si.setTeam(jSL.getString("TEAM"));
+                        //System.out.println(si.getTeam()+" team name");
+        
+                        si.setLastName(jSL.getString("LAST_NAME"));
+                        si.setFirstName(jSL.getString("FIRST_NAME"));
+                        si.setQp(jSL.getString("QP"));
+                        //System.out.println(jso.getString("QP"));
+                        si.setAB((""+jSL.getInt("AB")));
+                        //System.out.println(jso.getString("AB"));
+                        si.setH(jSL.getInt("H"));
+                        si.setR_W(jSL.getInt("R"));
+                        si.setHr_sv(jSL.getInt("HR"));
+                        si.setRbi_k(jSL.getInt("RBI"));
+                        //si.setSb_era(jso.getString("SB"));
+                        si.setPlayerType("hitter");
+                        //si.setPossiblePositions(jso.getString("QP"));
+                        if(jSL.getString("QP").contains("_")){
+                            si.setPositions(jSL.getString("QP").split("_"));
+                        }
+                        else{si.setPositions(new String[]{jSL.getString("QP")});}
+                            //si.setPositions(jso.getString("QP").split("_"));
+                            si.setNotes(jSL.getString("NOTES"));
+                            si.setYearOfBirth(jSL.getInt("YEAR_OF_BIRTH"));
+                            si.setPlaceOfBirth(jSL.getString("PLACE_OF_BIRTH"));
+                            si.setAvailability(jSL.getBoolean("AVAILABILITY"));
+                            si.setCurrentPosition(jSL.getString("CURRENT_POSITION"));
+                            si.setTaken(jSL.getBoolean("TAKEN"));
+                            si.setPlayerType(jSL.getString("PLAYER_TYPE"));
+                            si.setSalary(jSL.getString("SALARY"));
+                
+                            // ADD IT TO THE COURSE
+                            //playerList.add(si); 
+                    }
+                    else{
+                        si.setTeam(jSL.getString("TEAM"));
+                        //System.out.println(si.getTeam()+" team name");
+        
+                        si.setLastName(jSL.getString("LAST_NAME"));
+                        si.setFirstName(jSL.getString("FIRST_NAME"));
+                        si.setIP(jSL.getString("IP"));
+                        si.setER(jSL.getInt("ER"));
+                        si.setBB(jSL.getInt("BB"));
+                        si.setPlayerType("pitcher");
+                        si.setR_W(jSL.getInt("W"));
+                        si.setH(jSL.getInt("H"));
+                        si.setHr_sv(jSL.getInt("SV"));
+                        si.setRbi_k(jSL.getInt("K"));
+                        si.setQp("P");
+                        si.setPossiblePositions("P");
+                        //si.setPositions(null);
+                        //si.setSb_era(jso.getString("SB"));
+        
+                        si.setNotes(jSL.getString("NOTES"));
+                        si.setYearOfBirth(jSL.getInt("YEAR_OF_BIRTH"));
+                        si.setPlaceOfBirth(jSL.getString("PLACE_OF_BIRTH"));
+                        si.setAvailability(jSL.getBoolean("AVAILABILITY"));
+                        si.setCurrentPosition(jSL.getString("CURRENT_POSITION"));
+                        si.setTaken(jSL.getBoolean("TAKEN"));
+                        si.setPlayerType(jSL.getString("PLAYER_TYPE"));
+                        si.setSalary(jSL.getString("SALARY"));
+                
+                        // ADD IT TO THE COURSE
+                        //playerList.add(si);}
+            
+        
+                    }
+                //to.setTaxiSquad(loadPlayerArrayFromJSONFile(jsonFilePath,"taxi_squad"));
+                //to.setStartingLineup(loadPlayerArrayFromJSONFile(jsonFilePath,"starting_lineup"));
+                tSL.add(si);
+            }
+                to.setStartingLineup(tSL);
+                return to;
+    }
+    
+    
     @Override
     public ArrayList<String> loadHitters(String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

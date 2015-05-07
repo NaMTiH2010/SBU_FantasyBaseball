@@ -196,7 +196,7 @@ public class PlayersItemDialog extends Stage{
         this.setScene(dialogScene);
         // AND OPEN IT UP
         this.showAndWait();
-        
+        playerItem.setFantasyTeam(ft_ComboBox.getSelectionModel().getSelectedItem().toString());
         return playerItem;
     }
 
@@ -355,6 +355,10 @@ public class PlayersItemDialog extends Stage{
         
         
         return playerItem;
+    }
+    
+    public Team getFakeTeam() {
+        return fakeTeam;
     }
 
    

@@ -59,7 +59,7 @@ public class Player {
 
     public Player(){
         
-        fantasyTeam = new SimpleStringProperty();
+        fantasyTeam = new SimpleStringProperty("Default");
         team = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
