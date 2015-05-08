@@ -481,6 +481,8 @@ public abstract class WBDK_DataView {
         Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip.toString()));
         button.setTooltip(buttonTooltip);
         toolbar.getChildren().add(button);
+        button.setMinHeight(40);
+        button.setMinWidth(40);
         return button;
     }
 

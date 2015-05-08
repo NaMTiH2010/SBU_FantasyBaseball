@@ -17,6 +17,9 @@ public enum WBDK_PropertyType {
         
         // APPLICATION ICONS
         NEW_COURSE_ICON,
+        FILLEDSTAR_ICON,
+        PLAY_ICON,
+        PAUSE_ICON,
         LOAD_COURSE_ICON,
         SAVE_COURSE_ICON,
         VIEW_SCHEDULE_ICON,

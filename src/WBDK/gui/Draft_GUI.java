@@ -14,9 +14,14 @@ import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
 import WBDK.file.WBDK_FileManager;
 import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
+import javafx.geometry.Orientation;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -25,6 +30,16 @@ import javafx.stage.Stage;
  * @author MatthewLuce
  */
 public class Draft_GUI extends WBDK_DataView {
+    Button playButton;
+    Button pauseButton;
+    Button starButton;
+    TableView draftListTable;
+    TableColumn pickNumber;
+    TableColumn first;
+    TableColumn last;
+    TableColumn team;
+    TableColumn contract;
+    TableColumn salary;
     
     public Draft_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
@@ -86,10 +101,46 @@ public class Draft_GUI extends WBDK_DataView {
     
     private void initTopWorkspace() {
         topWorkspacePane = new VBox();
-        HBox topWorkspaceH1Pane = new HBox();
+        //HBox topWorkspaceH1Pane = new HBox();
+        TilePane topWorkspaceH1Pane = new TilePane(Orientation.HORIZONTAL);
+        topWorkspaceH1Pane.setHgap(1);
+        //topWorkspaceH1Pane.se
+        //topWorkspaceH1Pane
+        playButton = new Button();
+        pauseButton = new Button();
+        starButton = new Button();
+        
+        
+        
+        starButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.FILLEDSTAR_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
+        playButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.PLAY_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
+        pauseButton = initChildButton(topWorkspaceH1Pane, WBDK_PropertyType.PAUSE_ICON, WBDK_PropertyType.NEW_DRAFT_TOOLTIP, false);
+        
+        draftListTable = new TableView();
+        pickNumber = new TableColumn("Pick#");
+        first = new TableColumn("First Name");
+        last = new TableColumn("Last Name");
+        team = new TableColumn("Team");
+        contract = new TableColumn("Contract");
+        salary = new TableColumn("Salary ($)");
+        
+        draftListTable.getColumns().add(pickNumber);
+        draftListTable.getColumns().add(first);
+        draftListTable.getColumns().add(last);
+        draftListTable.getColumns().add(team);
+        draftListTable.getColumns().add(contract);
+        draftListTable.getColumns().add(salary);
+        
+       // topWorkspaceH1Pane.getChildren().add(starButton);
+        //topWorkspaceH1Pane.getChildren().add(playButton);
+        //topWorkspaceH1Pane.getChildren().add(pauseButton);
+        
+        
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
-        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.DRAFT_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.DRAFT_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
+        topWorkspacePane.getChildren().add(draftListTable);
+        
     }
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {

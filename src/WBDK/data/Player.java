@@ -18,7 +18,7 @@ import javafx.collections.ObservableList;
  *
  * @author MatthewLuce
  */
-public class Player {
+public class Player implements Comparable<Player>{
     final StringProperty fantasyTeam;
     String[] positions;
     String contractStatus;
@@ -350,6 +350,15 @@ public class Player {
             
            // ba_whip.set( ((double)(bb+h)/ip));
             //sb_era.set((((double)er)*9)/ip);
+        }
+    }
+    @Override
+    public int compareTo(Player other) {
+        if(this.lastName.get().equalsIgnoreCase(other.lastName.get())) {
+            return this.getFirstName().toLowerCase().compareTo(other.getFirstName().toLowerCase());
+        } 
+        else {
+            return this.getLastName().toLowerCase().compareTo(other.getLastName().toLowerCase());
         }
     }
 }

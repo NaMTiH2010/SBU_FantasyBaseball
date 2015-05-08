@@ -15,6 +15,8 @@ import WBDK.file.WBDK_FileManager;
 import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +27,22 @@ import javafx.stage.Stage;
  * @author MatthewLuce
  */
 public class FantasyStandings_GUI extends WBDK_DataView {
+    TableView fantStandTable;
+    TableColumn teamNameColumn;
+    TableColumn playersNeededColumn;
+    TableColumn moneyLeftColumn;
+    TableColumn costPerPlayerColumn;
+    TableColumn r_Column;
+    TableColumn hr_Column;
+    TableColumn rbi_Column;
+    TableColumn sb_Column;
+    TableColumn ba_Column;
+    TableColumn w_Column;
+    TableColumn sv_Column;
+    TableColumn k_Column;
+    TableColumn era_Column;
+    TableColumn whip_Column;
+    TableColumn totalPointsColumn;
     public FantasyStandings_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
     }
@@ -84,9 +102,43 @@ public class FantasyStandings_GUI extends WBDK_DataView {
     private void initTopWorkspace() {
         topWorkspacePane = new VBox();
         HBox topWorkspaceH1Pane = new HBox();
+        
+        fantStandTable = new TableView();
+        teamNameColumn = new TableColumn("Team Name");
+        playersNeededColumn = new TableColumn("Players Needed");
+        moneyLeftColumn = new TableColumn("($)Left");
+        costPerPlayerColumn = new TableColumn("($)PP");
+        r_Column = new TableColumn("R");
+        hr_Column = new TableColumn("HR");
+        rbi_Column = new TableColumn("RBI");
+        sb_Column = new TableColumn("SB");
+        ba_Column = new TableColumn("BA");
+        w_Column = new TableColumn("W");
+        sv_Column = new TableColumn("SV");
+        k_Column = new TableColumn("K");
+        era_Column = new TableColumn("ERA");
+        whip_Column = new TableColumn("WHIP");
+        totalPointsColumn = new TableColumn("Total Points");
+        
+        fantStandTable.getColumns().add(teamNameColumn);
+        fantStandTable.getColumns().add(playersNeededColumn);
+        fantStandTable.getColumns().add(moneyLeftColumn);
+        fantStandTable.getColumns().add(costPerPlayerColumn);
+        fantStandTable.getColumns().add(r_Column);
+        fantStandTable.getColumns().add(hr_Column);
+        fantStandTable.getColumns().add(rbi_Column);
+        fantStandTable.getColumns().add(sb_Column);
+        fantStandTable.getColumns().add(ba_Column);
+        fantStandTable.getColumns().add(w_Column);
+        fantStandTable.getColumns().add(sv_Column);
+        fantStandTable.getColumns().add(k_Column);
+        fantStandTable.getColumns().add(era_Column);
+        fantStandTable.getColumns().add(whip_Column);
+        fantStandTable.getColumns().add(totalPointsColumn);
+        
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
-        draftHeadingLabel = initChildLabel(topWorkspaceH1Pane, WBDK_PropertyType.FANTASY_STANDINGS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
-        topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
+        draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.FANTASY_STANDINGS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
+        topWorkspacePane.getChildren().add(fantStandTable);
     }
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {
