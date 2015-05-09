@@ -69,8 +69,8 @@ public class Player implements Comparable<Player>{
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         r_w = new SimpleIntegerProperty();
         hr_sv = new SimpleIntegerProperty();
-        rbi_k = new SimpleIntegerProperty();;
-        sb_era = new SimpleDoubleProperty();;
+        rbi_k = new SimpleIntegerProperty();
+        sb_era = new SimpleDoubleProperty();
         ba_whip = new SimpleDoubleProperty();
         currentPosition = "default";
         salary = 0.0;

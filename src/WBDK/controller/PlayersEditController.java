@@ -9,12 +9,10 @@ import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.WBDK_DataManager;
 import WBDK.gui.FantasyTeamsItemDialog;
-import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MessageDialog;
 import WBDK.gui.PlayersItemDialog;
 import WBDK.gui.PlayersPage_GUI;
 import WBDK.gui.YesNoCancelDialog;
-import java.io.IOException;
 import javafx.stage.Stage;
 
 /**
@@ -41,14 +39,16 @@ public class PlayersEditController {
         Player si = sid.showEditPlayerItemDialog(itemToEdit);
         
         // DID THE USER CONFIRM?
-        if ( sid.wasCompleteSelected()) {
+        if ( sid.wasCompleteSelected() && sid.getFoolProofChoices()) {
             // UPDATE THE SCHEDULE ITEM
             
             //si = sid.getPlayerItem();
             
             sid.getFakeTeam().addStartingLineupPlayer(si);
+            //sid.getFakeTeam().computeTotals();
             itemToEdit.setTaken(true);
             draft.updateAvailableList();
+            
             System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
             System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
         }

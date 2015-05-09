@@ -10,10 +10,8 @@ import WBDK.gui.FantasyStandings_GUI;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MLB_GUI;
 import WBDK.gui.PlayersPage_GUI;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.RadioButton;
 
 /**
  *
@@ -55,6 +53,7 @@ public class Draft {
         defaultTeam = new Team();
         updateAvailableList();
         makeProTeamsList();
+        title = "DefaultTitle";
         
     }
     
@@ -451,4 +450,12 @@ public class Draft {
             players.get(i).calculateValues();
         }
     }*/
+    public boolean isItTaxiTime(){
+        for(int i=0;i<teams.size();i++){
+            if(teams.get(i).getTaxiTime() == false){
+                return false;
+            }
+        }
+        return true;
+    }
 }

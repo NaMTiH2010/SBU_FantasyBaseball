@@ -10,40 +10,31 @@ import WBDK.controller.FileController;
 import WBDK.controller.PlayersEditController;
 import WBDK.data.Draft;
 import WBDK.data.Player;
-import WBDK.data.Players;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import properties_manager.PropertiesManager;
 
 /**
  *
@@ -286,16 +277,13 @@ public class PlayersPage_GUI extends WBDK_DataView {
             dataManager.getDraft().searchIT(newValue);
         });*/
         // RADIO BUTTONS
-        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-      public void changed(ObservableValue<? extends Toggle> ov,
-          Toggle old_toggle, Toggle new_toggle) {
-        if (group.getSelectedToggle() != null) {
-            
-            updateDraftUsingRadioButton(dataManager.getDraft(),group.getSelectedToggle().getUserData().toString());
-          //System.out.println(group.getSelectedToggle().getUserData().toString());
-        }
-      }
-    });
+        group.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
+            if (group.getSelectedToggle() != null) {
+                
+                updateDraftUsingRadioButton(dataManager.getDraft(),group.getSelectedToggle().getUserData().toString());
+                //System.out.println(group.getSelectedToggle().getUserData().toString());
+            }
+        });
         // FIRST THE FILE CONTROLS
         fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
         

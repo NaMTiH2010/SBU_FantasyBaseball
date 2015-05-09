@@ -17,6 +17,7 @@ import java.io.IOException;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -100,10 +101,18 @@ public class FantasyStandings_GUI extends WBDK_DataView {
     }
     
     private void initTopWorkspace() {
+        
+        if(getDataManager().getDraft().getTeams().size() != 0){
+            for(int i =0; i < getDataManager().getDraft().getTeams().size();i++){
+                getDataManager().getDraft().getTeams().get(i).computeTotals();
+                System.out.println("WORKING INITTTOP");
+            }
+        }
         topWorkspacePane = new VBox();
         HBox topWorkspaceH1Pane = new HBox();
         
         fantStandTable = new TableView();
+        
         teamNameColumn = new TableColumn("Team Name");
         playersNeededColumn = new TableColumn("Players Needed");
         moneyLeftColumn = new TableColumn("($)Left");
@@ -119,6 +128,23 @@ public class FantasyStandings_GUI extends WBDK_DataView {
         era_Column = new TableColumn("ERA");
         whip_Column = new TableColumn("WHIP");
         totalPointsColumn = new TableColumn("Total Points");
+        
+        teamNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        playersNeededColumn.setCellValueFactory(new PropertyValueFactory<>("numPlayersNeeded"));
+        moneyLeftColumn.setCellValueFactory(new PropertyValueFactory<>("moneyLeft"));
+        costPerPlayerColumn.setCellValueFactory(new PropertyValueFactory<>("costPP"));
+        r_Column.setCellValueFactory(new PropertyValueFactory<>("total_R"));
+        hr_Column.setCellValueFactory(new PropertyValueFactory<>("total_HR"));
+        rbi_Column.setCellValueFactory(new PropertyValueFactory<>("total_RBI"));
+        sb_Column.setCellValueFactory(new PropertyValueFactory<>("total_SB"));
+        ba_Column.setCellValueFactory(new PropertyValueFactory<>("total_BA"));
+        w_Column.setCellValueFactory(new PropertyValueFactory<>("total_W"));
+        sv_Column.setCellValueFactory(new PropertyValueFactory<>("total_SV"));
+        k_Column.setCellValueFactory(new PropertyValueFactory<>("total_K"));
+        era_Column.setCellValueFactory(new PropertyValueFactory<>("total_ERA"));
+        whip_Column.setCellValueFactory(new PropertyValueFactory<>("total_WHIP"));
+        //totalPointsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("total_"));
+        
         
         fantStandTable.getColumns().add(teamNameColumn);
         fantStandTable.getColumns().add(playersNeededColumn);
@@ -139,6 +165,7 @@ public class FantasyStandings_GUI extends WBDK_DataView {
         topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
         draftHeadingLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.FANTASY_STANDINGS_PAGE_HEADING_LABEL, CLASS_HEADING_LABEL);
         topWorkspacePane.getChildren().add(fantStandTable);
+        fantStandTable.setItems(getDataManager().getDraft().getTeams());
     }
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {

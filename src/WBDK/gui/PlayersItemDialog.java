@@ -44,6 +44,12 @@ import properties_manager.PropertiesManager;
  * @author MatthewLuce
  */
 public class PlayersItemDialog extends Stage{
+    MessageDialog messageDialog;
+    private boolean foolproofChoices;
+    private boolean fTeamComboChoice;
+    private boolean posComboChoice;
+    private boolean conComboChoice;
+    private boolean salaryTextChoice;
     public static final String COMPLETE = "Complete";
     Player playerItem;
     GridPane gridPane;
@@ -77,6 +83,7 @@ public class PlayersItemDialog extends Stage{
     Team fakeTeam;
     
     public PlayersItemDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog) {
+        this.messageDialog = messageDialog;
         fakeTeam = new Team();
         playerItem = new Player();
         this.draft = draft;
@@ -87,6 +94,11 @@ public class PlayersItemDialog extends Stage{
     }
 
     public Player showEditPlayerItemDialog(Player itemToEdit) {
+        fTeamComboChoice = false;
+        posComboChoice = false;
+        conComboChoice = false;
+        salaryTextChoice = false;
+        foolproofChoices = false;
         gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 20, 20, 20));
         gridPane.setHgap(10);
@@ -95,9 +107,42 @@ public class PlayersItemDialog extends Stage{
         cancelButton = new Button(CANCEL);
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
+            
+            if(contract_ComboBox.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("(Choose Contract)"))
+                conComboChoice = false;
+            else
+                conComboChoice = true;
+            
+            if(ft_ComboBox.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("(Choose Team)")
+                    || ft_ComboBox.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("(empty)"))
+                fTeamComboChoice = false;
+            else
+                fTeamComboChoice = true;
+            if(pos_ComboBox.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("(Choose Position)")
+                    || pos_ComboBox.getSelectionModel().getSelectedItem().toString().equalsIgnoreCase("(empty)")) 
+                posComboChoice = false;
+            else
+                posComboChoice = true;
+            
+            
+            if(fTeamComboChoice == true && posComboChoice == true && conComboChoice == true && salaryTextChoice == true)
+                foolproofChoices = true;
+            
+            if(fakeTeam.getTaxiTime() == true && draft.isItTaxiTime() == false){
+                foolproofChoices = false;
+                messageDialog.show("Starting Lineup is Full.\n"
+                        + " It is Not time to Choose Taxi Squad Players Yet\n"
+                        + "Please Choose Another Team or Hit Cancel");
+                       
+            }
+                
+            
             Button sourceButton = (Button)ae.getSource();
             PlayersItemDialog.this.selection = sourceButton.getText();
-            PlayersItemDialog.this.hide();
+            if(selection.equals(COMPLETE) && foolproofChoices == true)
+                PlayersItemDialog.this.hide();
+            if(selection.equals(CANCEL))
+                PlayersItemDialog.this.hide();
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
@@ -114,10 +159,15 @@ public class PlayersItemDialog extends Stage{
         playerPosLabel = new Label();
         
         salaryTextField = new TextField();
+        salaryTextField.setText("(Choose Salary)");
         salaryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             //StringProperty temp = null;
            // temp.set(newValue);
             itemToEdit.setSalary(newValue);
+            if(newValue.equalsIgnoreCase(""))
+                salaryTextChoice = false;
+            else
+                salaryTextChoice = true;
         });
         
         
@@ -125,22 +175,36 @@ public class PlayersItemDialog extends Stage{
         // SET UP THE FANTASY HBOX
         ft_Label = new Label("Fantasy Team: ");
         ft_ComboBox = new ComboBox();
-        ft_ComboBox.setValue(fakeTeam);
-        ft_ComboBox.setItems(draft.getTeams());
+        
+        ft_ComboBox.setValue("(Choose Team)");
+        //ft_ComboBox.setValue(fakeTeam);
+        if(draft.getTeams().isEmpty())
+            ft_ComboBox.setItems(fakeTeam.getEmptyList());
+        else
+            ft_ComboBox.setItems(draft.getTeams());
         
         // SET UP THE CONTRACT HBOX
         contract_Label = new Label("Contract: ");
         contract_ComboBox = new ComboBox();
         contract_ComboBox.setItems(draft.getContracts());
+        contract_ComboBox.setValue("(Choose Contract)");
         contract_ComboBox.setOnAction((event) -> {
             itemToEdit.setContractStatus((String) contract_ComboBox.getSelectionModel().getSelectedItem());
             });
         // SET UP THE POSITION HBOX
         pos_Label = new Label("Position: ");
         pos_ComboBox = new ComboBox();
+        pos_ComboBox.setValue("(Choose Position)");
+        pos_ComboBox.setItems(fakeTeam.getEmptyList());
+        
         ft_ComboBox.setOnAction((event) -> {
             fakeTeam = (Team) ft_ComboBox.getSelectionModel().getSelectedItem();
-            pos_ComboBox.setItems(fakeTeam.getPositionsNeeded(itemToEdit.getPositions()));
+            if(fakeTeam.getNumPlayersNeeded()>0)
+                pos_ComboBox.setItems(fakeTeam.getPositionsNeeded(itemToEdit.getPositions()));
+            else if(fakeTeam.getTaxiSquad().size()>=8)
+                pos_ComboBox.setItems(fakeTeam.getPositions()); 
+            else
+                pos_ComboBox.setItems(fakeTeam.getEmptyList());
             });
         pos_ComboBox.setOnAction((event) -> {
             itemToEdit.setCurrentPosition((String) pos_ComboBox.getSelectionModel().getSelectedItem());
@@ -360,7 +424,9 @@ public class PlayersItemDialog extends Stage{
     public Team getFakeTeam() {
         return fakeTeam;
     }
-
+public boolean getFoolProofChoices(){
+    return foolproofChoices;
+}
    
     
 

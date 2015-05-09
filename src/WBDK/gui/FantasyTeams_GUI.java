@@ -210,11 +210,12 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         topWorkspacePane.getChildren().add(topGridPane);
         topWorkspacePane.getChildren().add(topWorkspaceH1Pane);
         topWorkspacePane.getChildren().add(topWorkspaceH2Pane);
-        
+        draftNameTextbox.setText(getDataManager().getDraft().getTitle());
         draftNameTextbox.textProperty().addListener((observable, oldValue, newValue) -> {
             //newValue
             System.out.println("THE NEW VALUE IS:  "+newValue);
             dataManager.getDraft().setTitle(newValue);
+            draftNameTextbox.setText(newValue);
         });
         
        
