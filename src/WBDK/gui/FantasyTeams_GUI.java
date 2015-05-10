@@ -55,7 +55,7 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     
     // for creating a our Table in Players page
     TableView<Player> startingLineUpTable;
-    TableView<Player> taxiSquadTable;
+    //TableView<Player> taxiSquadTable;
     TableColumn firstNameColumn;
     TableColumn positions;
     TableColumn lastNameColumn;
@@ -70,6 +70,24 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     TableColumn estimatedValueColumn;
     TableColumn salaryColumn;
     TableColumn setPositionColumn;
+    
+    // FOR TAXI TABLE
+    TableView<Player> taxiSquadTable;
+    TableColumn firstNameTaxiColumn;
+    TableColumn Taxipositions;
+    TableColumn lastNameTaxiColumn;
+    TableColumn proTeamTaxiColumn;
+    TableColumn positionsTaxiColumn;
+    TableColumn contractTaxiColumn;
+    TableColumn r_w_TaxiColumn;
+    TableColumn hr_sv_TaxiColumn;
+    TableColumn rbi_k_TaxiColumn;
+    TableColumn sb_era_TaxiColumn;
+    TableColumn ba_whip_TaxiColumn;
+    TableColumn estimatedValueTaxiColumn;
+    TableColumn salaryTaxiColumn;
+    TableColumn setPositionTaxiColumn;
+    
     FantasyTeamsEditController teamsController;
     
     public FantasyTeams_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
@@ -270,18 +288,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         
     }
         private void initFantasyTeamsTablesTable(){
-        // SET UP TABLE
+        // SET UP  STARTING LINEUP TABLE
         startingLineUpTable = new TableView();
-        taxiSquadTable = new TableView();
         
         // SET UP COLUMNS
         setPositionColumn = new TableColumn("Position");
-        
         firstNameColumn = new TableColumn("First");
         lastNameColumn = new TableColumn("Last");
         proTeamColumn = new TableColumn("Pro Team");
         positionsColumn = new TableColumn("Positions");
-        
         r_w_Column = new TableColumn("R/W");
         hr_sv_Column = new TableColumn("HR/SV");
         rbi_k_Column = new TableColumn("RBI/K");
@@ -290,14 +305,11 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         estimatedValueColumn = new TableColumn("Estimated Value");
         contractColumn = new TableColumn("Contract");
         salaryColumn = new TableColumn("Salary");
-       
-        
         // AND LINK THE COLUMNS TO THE DATA
         proTeamColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
         setPositionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("currentPosition"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
-        
         positionsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
         r_w_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("r_w"));
         hr_sv_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("hr_sv"));
@@ -307,10 +319,6 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estValue"));
         contractColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("contractStatus"));
         salaryColumn.setCellValueFactory(new PropertyValueFactory<String, String>("salary"));
-       
-        
-        //playersTable.getOnMouseClicked();
-        
         // ADD COLUMNS TO TABLE
         startingLineUpTable.getColumns().add(setPositionColumn); 
         startingLineUpTable.getColumns().add(firstNameColumn);
@@ -331,11 +339,65 @@ public class FantasyTeams_GUI extends WBDK_DataView {
          startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);
          startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
          topWorkspacePane.getChildren().add(startingLineUpTable); 
-         taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
          
+// TAXI SQUAD TABLE
+         taxiSquadLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.TAXI_SQUAD_LABEL, CLASS_SUBHEADING_LABEL);
+         taxiSquadTable = new TableView();
+         
+         // SET UP COLUMNS
+        setPositionTaxiColumn = new TableColumn("Position");
+        firstNameTaxiColumn = new TableColumn("First");
+        lastNameTaxiColumn = new TableColumn("Last");
+        proTeamTaxiColumn = new TableColumn("Pro Team");
+        positionsTaxiColumn = new TableColumn("Positions");
+        r_w_TaxiColumn = new TableColumn("R/W");
+        hr_sv_TaxiColumn = new TableColumn("HR/SV");
+        rbi_k_TaxiColumn = new TableColumn("RBI/K");
+        sb_era_TaxiColumn = new TableColumn("SB/ERA");
+        ba_whip_TaxiColumn = new TableColumn("BA/WHIP");
+        estimatedValueTaxiColumn = new TableColumn("Estimated Value");
+        contractTaxiColumn = new TableColumn("Contract");
+        salaryTaxiColumn = new TableColumn("Salary");
+        // AND LINK THE COLUMNS TO THE DATA
+        proTeamTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
+        setPositionTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("currentPosition"));
+        firstNameTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
+        lastNameTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
+        positionsTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
+        r_w_TaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("r_w"));
+        hr_sv_TaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("hr_sv"));
+        rbi_k_TaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("rbi_k"));
+        sb_era_TaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("sb_era"));
+        ba_whip_TaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("ba_whip"));
+        estimatedValueTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estValue"));
+        contractTaxiColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("contractStatus"));
+        salaryTaxiColumn.setCellValueFactory(new PropertyValueFactory<String, String>("salary"));
+        // ADD COLUMNS TO TABLE
+        taxiSquadTable.getColumns().add(setPositionTaxiColumn); 
+        taxiSquadTable.getColumns().add(firstNameTaxiColumn);
+        taxiSquadTable.getColumns().add(lastNameTaxiColumn);
+        taxiSquadTable.getColumns().add(proTeamTaxiColumn);
+        taxiSquadTable.getColumns().add(positionsTaxiColumn);
+        
+        taxiSquadTable.getColumns().add(r_w_TaxiColumn);
+        taxiSquadTable.getColumns().add(hr_sv_TaxiColumn);
+        taxiSquadTable.getColumns().add(rbi_k_TaxiColumn);
+        taxiSquadTable.getColumns().add(sb_era_TaxiColumn);
+        taxiSquadTable.getColumns().add(ba_whip_TaxiColumn);
+        taxiSquadTable.getColumns().add(estimatedValueTaxiColumn);
+        taxiSquadTable.getColumns().add(contractTaxiColumn);
+        taxiSquadTable.getColumns().add(salaryTaxiColumn);
+        
+         //getPlayers());
+         //startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);
+         taxiSquadTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getTaxiSquad());
+         topWorkspacePane.getChildren().add(taxiSquadTable);
+         
+/////
          teamsDropDown.setOnAction((event) -> {
              if(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup() != null)
                 startingLineUpTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getStartingLineup());
+                taxiSquadTable.setItems(((Team)teamsDropDown.getSelectionModel().getSelectedItem()).getTaxiSquad());
             });
        
     }

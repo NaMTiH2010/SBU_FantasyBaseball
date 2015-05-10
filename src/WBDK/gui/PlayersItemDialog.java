@@ -128,7 +128,7 @@ public class PlayersItemDialog extends Stage{
             if(fTeamComboChoice == true && posComboChoice == true && conComboChoice == true && salaryTextChoice == true)
                 foolproofChoices = true;
             
-            if(fakeTeam.getTaxiTime() == true && draft.isItTaxiTime() == false){
+            if( fakeTeam.getTaxiTime() == true && draft.isItTaxiTime() == false){
                 foolproofChoices = false;
                 messageDialog.show("Starting Lineup is Full.\n"
                         + " It is Not time to Choose Taxi Squad Players Yet\n"
@@ -201,7 +201,7 @@ public class PlayersItemDialog extends Stage{
             fakeTeam = (Team) ft_ComboBox.getSelectionModel().getSelectedItem();
             if(fakeTeam.getNumPlayersNeeded()>0)
                 pos_ComboBox.setItems(fakeTeam.getPositionsNeeded(itemToEdit.getPositions()));
-            else if(fakeTeam.getTaxiSquad().size()>=8)
+            else if(fakeTeam.getTaxiSquad().size() < 8)
                 pos_ComboBox.setItems(fakeTeam.getPositions()); 
             else
                 pos_ComboBox.setItems(fakeTeam.getEmptyList());

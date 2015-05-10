@@ -82,6 +82,22 @@ public class PlayersPage_GUI extends WBDK_DataView {
         TableColumn estimatedValueColumn;
         TableColumn notesColumn;
         
+        // TAXI TABLE
+        TableView<Player> taxiTable;
+        TableColumn firstNameTaxiColumn;
+        TableColumn Taxipositions;
+        TableColumn lastNameTaxiColumn;
+        TableColumn proTeamTaxiColumn;
+        TableColumn positionsTaxiColumn;
+        TableColumn yearOfBirthTaxiColumn;
+        TableColumn r_w_TaxiColumn;
+        TableColumn hr_sv_TaxiColumn;
+        TableColumn rbi_k_TaxiColumn;
+        TableColumn sb_era_TaxiColumn;
+        TableColumn ba_whip_TaxiColumn;
+        TableColumn estimatedValueTaxiColumn;
+        TableColumn notesTaxiColumn;
+        
         static final String COL_TEAM_NAME = "Team";
         
         PlayersEditController playerController;

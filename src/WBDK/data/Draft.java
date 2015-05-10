@@ -770,9 +770,9 @@ public class Draft {
         // CALCULATE EACH PLAYERS ESTIMATED VALUE //median hitter (or pithcher) salary * (X * 2/player rank)
             for(j=0;j<players.size();j++){
                 if(players.get(j).getPlayerType().equalsIgnoreCase("pitcher")){
-                    System.out.println("pitcherSalary = "+ medianPitcherSalary+"\n"
+                    /*System.out.println("pitcherSalary = "+ medianPitcherSalary+"\n"
                             + " pitchersNeeded = "+ totalPitchersNeeded+"\n"
-                            + "playerRank = "+ players.get(j).getFinalRank());
+                            + "playerRank = "+ players.get(j).getFinalRank());*/
                     estimatedValue = (medianPitcherSalary * (totalPitchersNeeded * 2 / (players.get(j).getFinalRank())));
                     String fixing = String.format("%.2f", estimatedValue);
                     Double fixed = Double.parseDouble(fixing);

@@ -163,58 +163,58 @@ public class Team {
         return of_Needed;
     }    
     public void setF_BaseNeeded(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.f_BaseNeeded = of_Needed;
     }
     public int getF_BaseNeeded(){
-        return of_Needed;
+        return f_BaseNeeded;
     }
     public void setS_BaseNeeded(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.s_BaseNeeded = of_Needed;
     }
     public int getS_BaseNeeded(){
-        return of_Needed;
+        return s_BaseNeeded;
     }
     public void setT_BaseNeeded(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.t_BaseNeeded = of_Needed;
     }
     public int getT_BaseNeeded(){
-        return of_Needed;
+        return t_BaseNeeded;
     }
     public void setP_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.p_Needed = of_Needed;
     }
     public int getP_Needed(){
-        return of_Needed;
+        return p_Needed;
     }
     public void setC_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.c_Needed = of_Needed;
     }
     public int getC_Needed(){
-        return of_Needed;
+        return c_Needed;
     }
     public void setMI_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.mi_Needed = of_Needed;
     }
     public int getMI_Needed(){
-        return of_Needed;
+        return mi_Needed;
     }
     public void setCI_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.ci_Needed = of_Needed;
     }
     public int getCI_Needed(){
-        return of_Needed;
+        return ci_Needed;
     }
     public void setU_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.u_Needed = of_Needed;
     }
     public int getU_Needed(){
-        return of_Needed;
+        return u_Needed;
     }
     public void setSS_Needed(int of_Needed){
-        this.of_Needed = of_Needed;
+        this.ss_Needed = of_Needed;
     }
     public int getSS_Needed(){
-        return of_Needed;
+        return ss_Needed;
     }
     public String getName(){
         return name.get();
@@ -264,13 +264,19 @@ public class Team {
 
         moneyLeft.set((int) (moneyLeft.get()-Double.parseDouble(player.getSalary())));
         numPlayersNeeded.set(numPlayersNeeded.get()-1);
-        if(numPlayersNeeded.get() <= 0)
+        
+        if(numPlayersNeeded.get() <= 0){
             taxiTime = true;
+        }
+        
             startingLineup.add(player);
     }
-        else if(taxiSquad.size()>= 8){
-            taxiSquad.add(player);
+        else if(taxiSquad.size() < 8){
+            
             moneyLeft.set((int) (moneyLeft.get()-Double.parseDouble(player.getSalary())));
+            if(moneyLeft.get() > 0)
+                taxiSquad.add(player);
+            //else{messageDialog.}
         }
         else
             System.out.println("roster is full");

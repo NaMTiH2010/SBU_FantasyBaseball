@@ -6,11 +6,17 @@
 package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
+import WBDK.controller.DraftPageEditController;
+import WBDK.controller.FileController;
 import WBDK.data.Draft;
+import WBDK.data.Player;
+import WBDK.data.Team;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -27,6 +33,9 @@ import javafx.stage.Stage;
  * @author MatthewLuce
  */
 public class Draft_GUI extends WBDK_DataView {
+    String posNeeded;
+    int i;
+    int j;
     Button playButton;
     Button pauseButton;
     Button starButton;
@@ -37,7 +46,8 @@ public class Draft_GUI extends WBDK_DataView {
     TableColumn team;
     TableColumn contract;
     TableColumn salary;
-    
+    Draft theDraft;
+    DraftPageEditController draftPageController;
     public Draft_GUI(Stage initPrimaryStage, Stage initSecondaryStage) {
         super(initPrimaryStage, initSecondaryStage);
     }
@@ -74,7 +84,7 @@ public class Draft_GUI extends WBDK_DataView {
       
 // THE TOP WORKSPACE HOLDS BOTH THE BASIC COURSE INFO
         // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
-        
+        theDraft = getDataManager().getDraft();
         initTopWorkspace();
         
         
@@ -121,6 +131,7 @@ public class Draft_GUI extends WBDK_DataView {
         contract = new TableColumn("Contract");
         salary = new TableColumn("Salary ($)");
         
+        pickNumber.setCellValueFactory(new PropertyValueFactory<>("pickNum"));
         team.setCellValueFactory(new PropertyValueFactory<String, String>("fantasyTeam"));
         first.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         last.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
@@ -134,6 +145,7 @@ public class Draft_GUI extends WBDK_DataView {
         draftListTable.getColumns().add(contract);
         draftListTable.getColumns().add(salary);
         
+        draftListTable.setItems(theDraft.getDraftTablePlayers());
        // topWorkspaceH1Pane.getChildren().add(starButton);
         //topWorkspaceH1Pane.getChildren().add(playButton);
         //topWorkspaceH1Pane.getChildren().add(pauseButton);
@@ -145,10 +157,92 @@ public class Draft_GUI extends WBDK_DataView {
         topWorkspacePane.getChildren().add(draftListTable);
         
     }
+    @Override
     public void reloadDraft(Draft draft) {
         if (!workspaceActivated) {
             activateWorkspace();
         }
+        }
+
+    /**
+     *
+     */
+    @Override
+       public void initEventHandlers(){ 
+           // FIRST THE FILE CONTROLS
+        fileController = new FileController(messageDialog, yesNoCancelDialog, fileManager, siteExporter);
         
-    }
+        newDraftButton.setOnAction(e -> {
+            fileController.handleNewDraftRequest(this);
+        });
+        
+        loadDraftButton.setOnAction(e -> {
+            fileController.handleLoadDraftRequest(this);
+        });
+        saveDraftButton.setOnAction(e -> {
+            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
+        });/*
+        exportSiteButton.setOnAction(e -> {
+            fileController.handleExportDraftRequest(this,secondaryStage);
+        }); 
+        */
+        exitButton.setOnAction(e -> {
+            fileController.handleExitRequest(this);
+        });
+        
+        // BOTTOMTOOLBAR
+        draftPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleDraftPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        mlbPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleMLBPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyTeamsPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleFantasyTeamsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        fantasyStandingsPage_Button.setOnAction(e -> {
+            try {
+                fileController.handleFantasyStandingsPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        playersPage_Button.setOnAction(e -> {
+            try {
+                fileController.handlePlayersPageRequest(this);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayersPage_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+           
+           draftPageController = new DraftPageEditController(primaryStage, dataManager.getDraft(), messageDialog, yesNoCancelDialog);
+           
+            starButton.setOnAction(e -> {
+                System.out.println("is this working");
+                draftPageController.handleAddPlayerSemiAutomatic(this);
+                //fileController.handleNewDraftRequest(this);
+                
+            });
+            playButton.setOnAction(e -> {
+                //fileController.handleNewDraftRequest(this);
+            });
+            pauseButton.setOnAction(e -> {
+                //fileController.handleNewDraftRequest(this);
+            });
+       }
+        
+        
+    
 }

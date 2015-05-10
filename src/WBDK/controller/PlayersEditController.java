@@ -41,8 +41,10 @@ public class PlayersEditController {
         // DID THE USER CONFIRM?
         if ( sid.wasCompleteSelected() && sid.getFoolProofChoices()) {
             // UPDATE THE SCHEDULE ITEM
-            if(si.getContractStatus().equalsIgnoreCase("S2"))
+            if(si.getContractStatus().equalsIgnoreCase("S2")){
+                si.setPickNum(draft.getDraftTablePlayers().size()+1);
                 draft.getDraftTablePlayers().add(si);
+            }
             //si = sid.getPlayerItem();
             
             sid.getFakeTeam().addStartingLineupPlayer(si);
