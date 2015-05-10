@@ -41,14 +41,15 @@ public class PlayersEditController {
         // DID THE USER CONFIRM?
         if ( sid.wasCompleteSelected() && sid.getFoolProofChoices()) {
             // UPDATE THE SCHEDULE ITEM
-            
+            if(si.getContractStatus().equalsIgnoreCase("S2"))
+                draft.getDraftTablePlayers().add(si);
             //si = sid.getPlayerItem();
             
             sid.getFakeTeam().addStartingLineupPlayer(si);
             //sid.getFakeTeam().computeTotals();
             itemToEdit.setTaken(true);
             draft.updateAvailableList();
-            
+            draft.findEstimatedValue();
             System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
             System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
         }

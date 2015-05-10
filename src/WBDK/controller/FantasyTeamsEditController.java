@@ -5,17 +5,13 @@
  */
 package WBDK.controller;
 
-import static WBDK.WBDK_PropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import WBDK.data.Draft;
 import WBDK.data.Player;
 import WBDK.data.Team;
 import WBDK.data.WBDK_DataManager;
-import WBDK.data.WBDK_DataView;
 import WBDK.gui.FantasyTeamsItemDialog;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MessageDialog;
-import WBDK.gui.PlayersItemDialog;
-import WBDK.gui.PlayersPage_GUI;
 import WBDK.gui.YesNoCancelDialog;
 import java.io.IOException;
 import javafx.stage.Stage;
@@ -55,6 +51,7 @@ public class FantasyTeamsEditController {
             //System.out.println(draft.getTeams().get(0).getName());
             gui.flipRemoveButton(false);
             gui.flipEditButton(false);
+            draft.findEstimatedValue();
         }
         else {
             // THE USER MUST HAVE PRESSED CANCEL, SO

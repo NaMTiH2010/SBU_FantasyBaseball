@@ -19,13 +19,25 @@ import javafx.collections.ObservableList;
  * @author MatthewLuce
  */
 public class Player implements Comparable<Player>{
+    private int r_Rank;
+    private int w_Rank;
+    private int hr_Rank;
+    private int sv_Rank;
+    private int rbi_Rank;
+    private int k_Rank;
+    private int sb_Rank;
+    private int era_Rank;
+    private int ba_Rank;
+    private int whip_Rank;
+    private int finalRank;
     final StringProperty fantasyTeam;
+    final IntegerProperty pickNum;
     String[] positions;
-    String contractStatus;
+    final StringProperty contractStatus;
     String possiblePositions;
     final StringProperty team;
     public static final String DEFAULT_TEAM_NAME = "<ENTER TEAM NAME>";
-    
+    final DoubleProperty estValue;
     final StringProperty firstName;
     public static final String DEFAULT_FIRST_NAME = "<ENTER FIRST NAME>";
     final StringProperty lastName;
@@ -42,7 +54,7 @@ public class Player implements Comparable<Player>{
     final DoubleProperty sb_era;
     final DoubleProperty ba_whip;
     final IntegerProperty yearOfBirth;
-    double salary;
+    final DoubleProperty salary;
     boolean availability = true;
     boolean taken = false;
     String playerType;
@@ -58,22 +70,25 @@ public class Player implements Comparable<Player>{
     int h;
 
     public Player(){
-        
+        salary = new SimpleDoubleProperty(0);
+        contractStatus = new SimpleStringProperty("Default");
         fantasyTeam = new SimpleStringProperty("Default");
         team = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         firstName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         lastName = new SimpleStringProperty(DEFAULT_TEAM_NAME);
         qp = new SimpleStringProperty(DEFAULT_QP);
+        pickNum = new SimpleIntegerProperty();
         yearOfBirth = new SimpleIntegerProperty();
         notes = new SimpleStringProperty("default");
         placeOfBirth = new SimpleStringProperty(DEFAULT_TEAM_NAME);
-        r_w = new SimpleIntegerProperty();
-        hr_sv = new SimpleIntegerProperty();
-        rbi_k = new SimpleIntegerProperty();
-        sb_era = new SimpleDoubleProperty();
-        ba_whip = new SimpleDoubleProperty();
+        r_w = new SimpleIntegerProperty(0);
+        hr_sv = new SimpleIntegerProperty(0);
+        rbi_k = new SimpleIntegerProperty(0);
+        sb_era = new SimpleDoubleProperty(0);
+        ba_whip = new SimpleDoubleProperty(0);
         currentPosition = "default";
-        salary = 0.0;
+        //salary = 0.0;
+        estValue = new SimpleDoubleProperty(0);
         
     }
     /////////////////////////////////////////////_Both_/////////////////////////
@@ -105,10 +120,10 @@ public class Player implements Comparable<Player>{
     }
     
     public void setContractStatus(String contractStatus){
-        this.contractStatus = contractStatus;
+        this.contractStatus.set(contractStatus); 
     }
     public String getContractStatus(){
-        return contractStatus;
+        return contractStatus.get();
     }
     
     public void setPlayerType(String playerType){
@@ -137,10 +152,10 @@ public class Player implements Comparable<Player>{
     }
     
     public void setSalary(String salary ){
-        this.salary = Double.parseDouble(salary);
+        this.salary.set(Double.parseDouble(salary)); 
     }
     public String getSalary(){
-        return ""+salary;
+        return ""+salary.get();
     }
     
     public void setAvailability(boolean availability ){
@@ -360,6 +375,87 @@ public class Player implements Comparable<Player>{
         else {
             return this.getLastName().toLowerCase().compareTo(other.getLastName().toLowerCase());
         }
+    }
+    public void setRank_r(int temp){
+        r_Rank = temp;
+    }
+    public void setRank_w(int temp){
+        w_Rank = temp;
+    }
+    public void setRank_hr(int temp){
+        hr_Rank = temp;
+    }
+    public void setRank_sv(int temp){
+        sv_Rank = temp;
+    }
+    public void setRank_rbi(int temp){
+        rbi_Rank = temp;
+    }
+    public void setRank_k(int temp){
+        k_Rank = temp;
+    }
+    public void setRank_sb(int temp){
+        sb_Rank = temp;
+    }
+    public void setRank_era(int temp){
+        era_Rank = temp;
+    }
+    public void setRank_ba(int temp){
+        ba_Rank = temp;
+    }
+    public void setRank_whip(int temp){
+        whip_Rank = temp;
+    }
+    
+    
+    
+    public int getRank_r(){
+        return r_Rank;
+    }
+    public int getRank_w(){
+        return w_Rank;
+    }
+    public int getRank_hr(){
+        return hr_Rank;
+    }
+    public int getRank_sv(){
+        return sv_Rank;
+    }
+    public int getRank_rbi(){
+        return rbi_Rank;
+    }
+    public int getRank_k(){
+        return k_Rank;
+    }
+    public int getRank_sb(){
+        return sb_Rank;
+    }
+    public int getRank_era(){
+        return era_Rank;
+    }
+    public int getRank_ba(){
+        return ba_Rank;
+    }
+    public int getRank_whip(){
+        return whip_Rank;
+    }
+    public int getFinalRank(){
+        return finalRank;
+    }
+    public void setFinalRank(int temp){
+        finalRank = temp;
+    }
+    public void setEstimatedValue(double temp){
+        estValue.set(temp);
+    }
+    public double getEstValue(){
+        return estValue.get();
+    }
+    public int getPickNum(){
+        return pickNum.get();
+    }
+    public void setPickNum(int pickNum){
+        this.pickNum.set(pickNum);
     }
 }
 

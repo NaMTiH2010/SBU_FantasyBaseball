@@ -61,14 +61,14 @@ public class FantasyTeams_GUI extends WBDK_DataView {
     TableColumn lastNameColumn;
     TableColumn proTeamColumn;
     TableColumn positionsColumn;
-    TableColumn yearOfBirthColumn;
+    TableColumn contractColumn;
     TableColumn r_w_Column;
     TableColumn hr_sv_Column;
     TableColumn rbi_k_Column;
     TableColumn sb_era_Column;
     TableColumn ba_whip_Column;
     TableColumn estimatedValueColumn;
-    TableColumn notesColumn;
+    TableColumn salaryColumn;
     TableColumn setPositionColumn;
     FantasyTeamsEditController teamsController;
     
@@ -281,14 +281,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         lastNameColumn = new TableColumn("Last");
         proTeamColumn = new TableColumn("Pro Team");
         positionsColumn = new TableColumn("Positions");
-        yearOfBirthColumn = new TableColumn("Year Of Birth");
+        
         r_w_Column = new TableColumn("R/W");
         hr_sv_Column = new TableColumn("HR/SV");
         rbi_k_Column = new TableColumn("RBI/K");
         sb_era_Column = new TableColumn("SB/ERA");
         ba_whip_Column = new TableColumn("BA/WHIP");
         estimatedValueColumn = new TableColumn("Estimated Value");
-        notesColumn = new TableColumn("Notes");
+        contractColumn = new TableColumn("Contract");
+        salaryColumn = new TableColumn("Salary");
        
         
         // AND LINK THE COLUMNS TO THE DATA
@@ -296,17 +297,17 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         setPositionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("currentPosition"));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
-        yearOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("yearOfBirth"));
+        
         positionsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("qp"));
         r_w_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("r_w"));
         hr_sv_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("hr_sv"));
         rbi_k_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("rbi_k"));
         sb_era_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("sb_era"));
         ba_whip_Column.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("ba_whip"));
-        //estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estimatedValue"));
-        notesColumn.setCellValueFactory(new PropertyValueFactory<String, String>("notes"));
+        estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estValue"));
+        contractColumn.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("contractStatus"));
+        salaryColumn.setCellValueFactory(new PropertyValueFactory<String, String>("salary"));
        
-        notesColumn.setEditable(true);
         
         //playersTable.getOnMouseClicked();
         
@@ -316,14 +317,15 @@ public class FantasyTeams_GUI extends WBDK_DataView {
         startingLineUpTable.getColumns().add(lastNameColumn);
         startingLineUpTable.getColumns().add(proTeamColumn);
         startingLineUpTable.getColumns().add(positionsColumn);
-        startingLineUpTable.getColumns().add(yearOfBirthColumn);
+        
         startingLineUpTable.getColumns().add(r_w_Column);
         startingLineUpTable.getColumns().add(hr_sv_Column);
         startingLineUpTable.getColumns().add(rbi_k_Column);
         startingLineUpTable.getColumns().add(sb_era_Column);
         startingLineUpTable.getColumns().add(ba_whip_Column);
         startingLineUpTable.getColumns().add(estimatedValueColumn);
-        startingLineUpTable.getColumns().add(notesColumn);
+        startingLineUpTable.getColumns().add(contractColumn);
+        startingLineUpTable.getColumns().add(salaryColumn);
         
          //getPlayers());
          startingLineUpLabel = initChildLabel(topWorkspacePane, WBDK_PropertyType.STARTING_LINEUP_LABEL, CLASS_SUBHEADING_LABEL);

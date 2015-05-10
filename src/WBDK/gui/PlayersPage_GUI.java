@@ -220,6 +220,9 @@ public class PlayersPage_GUI extends WBDK_DataView {
        
         
         // AND LINK THE COLUMNS TO THE DATA
+        estimatedValueColumn.setCellValueFactory(new PropertyValueFactory<String, String>("estValue"));
+        
+        
         proTeamColumn.setCellValueFactory(new PropertyValueFactory<String, String>("team"));
         
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));

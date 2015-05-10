@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -119,6 +120,12 @@ public class Draft_GUI extends WBDK_DataView {
         team = new TableColumn("Team");
         contract = new TableColumn("Contract");
         salary = new TableColumn("Salary ($)");
+        
+        team.setCellValueFactory(new PropertyValueFactory<String, String>("fantasyTeam"));
+        first.setCellValueFactory(new PropertyValueFactory<String, String>("firstName"));
+        last.setCellValueFactory(new PropertyValueFactory<String, String>("lastName"));
+        contract.setCellValueFactory(new PropertyValueFactory<Integer, Integer>("contractStatus"));
+        salary.setCellValueFactory(new PropertyValueFactory<String, String>("salary"));
         
         draftListTable.getColumns().add(pickNumber);
         draftListTable.getColumns().add(first);

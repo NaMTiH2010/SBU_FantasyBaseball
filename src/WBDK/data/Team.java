@@ -680,8 +680,7 @@ public class Team {
         private double formatDouble(double d){
             //String broke = ""+d;
             String fixing = String.format("%.2f", d);
-            
-                Double fixed = Double.parseDouble(fixing);
+            Double fixed = Double.parseDouble(fixing);
                 return fixed;
         }
         private double numOfHitters(){
@@ -706,7 +705,13 @@ public class Team {
         public boolean getTaxiTime(){
             return taxiTime;
         }
-                
+        public int getHittersNeeded(){
+            int totalNeeded = 0;
+           totalNeeded+= (c_Needed +f_BaseNeeded +
+            s_BaseNeeded + t_BaseNeeded + ci_Needed +
+            mi_Needed + u_Needed +ss_Needed + of_Needed) ;
+           return totalNeeded;
+        }       
     }
     
 

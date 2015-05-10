@@ -185,7 +185,7 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         
         si.setLastName(jso.getString("LAST_NAME"));
         si.setFirstName(jso.getString("FIRST_NAME"));
-        si.setQp(jso.getString("QP"));
+        
         si.setAB(jso.getString("AB"));
         si.setH(Integer.parseInt(jso.getString("H")));
         si.setR_W(Integer.parseInt(jso.getString("R")));
@@ -205,12 +205,33 @@ public class Json_WBDK_FileManager implements WBDK_FileManager{
         String s = String.format("%.2f", tempH);
         //Double tempDone = Double.parseDouble(s);
         si.setBa_whip(s);*/
-        si.setPossiblePositions(jso.getString("QP"));
-        if(jso.getString("QP").contains("_")){
+        if(jso.getString("QP").contains("1B") || jso.getString("QP").contains("3B")){
+            if(jso.getString("QP").contains("2B") || jso.getString("QP").contains("SS"))
+                si.setPossiblePositions((jso.getString("QP")+"_MI_CI_U"));
+            else
+               si.setPossiblePositions((jso.getString("QP")+"_CI_U")); 
+        }
+        else if(jso.getString("QP").contains("2B") || jso.getString("QP").contains("SS")){
+                si.setPossiblePositions((jso.getString("QP")+"_MI_U"));
+        }
+        else
+                si.setPossiblePositions((jso.getString("QP")+"_U"));
+            
+        /*if(jso.getString("QP").contains("_")){
             si.setPositions(jso.getString("QP").split("_"));
         }
         else{si.setPositions(new String[]{jso.getString("QP")});}
-        si.setPositions(jso.getString("QP").split("_"));
+        */
+        
+        
+        if(si.getPossiblePositions().contains("_")){
+            si.setPositions(si.getPossiblePositions().split("_"));
+        }
+        else{si.setPositions(new String[]{jso.getString("QP")});}
+        si.setQp(si.getPossiblePositions());
+        
+        
+        //si.setPositions(jso.getString("QP").split("_"));
         si.setNotes(jso.getString("NOTES"));
         si.setYearOfBirth(Integer.parseInt(jso.getString("YEAR_OF_BIRTH")));
         si.setPlaceOfBirth(jso.getString("NATION_OF_BIRTH"));
