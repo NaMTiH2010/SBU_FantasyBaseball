@@ -54,6 +54,7 @@ public class PlayersEditController {
             
             if(!(draft.isItTaxiTime()))
                 draft.findEstimatedValue();
+                draft.assignPoints();
             
             System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
             System.out.println("What is this teams name: "+sid.getFakeTeam().getName());

@@ -10,6 +10,7 @@ import WBDK.gui.FantasyStandings_GUI;
 import WBDK.gui.FantasyTeams_GUI;
 import WBDK.gui.MLB_GUI;
 import WBDK.gui.PlayersPage_GUI;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,6 +19,7 @@ import javafx.collections.ObservableList;
  * @author MatthewLuce
  */
 public class Draft {
+    boolean isPaused;
     int i;
     int j;
     String title;
@@ -795,13 +797,299 @@ public class Draft {
     public ObservableList<Player> getDraftTablePlayers() {
         return draftTablePlayers;
     }
+    public int getNumberOfPlayersNeeded(){
+        
+        if(teams.isEmpty()){
+            return 0;
+        }
+        int numNonEmptySL = 0;
+        int numNonEmptyTS = 0;
+        int totalPlayersNeeded = 0;
+        
+        for(i=0;i<teams.size();i++){
+            totalPlayersNeeded += ((23*teams.size()) - teams.get(i).getStartingLineup().size());
+            totalPlayersNeeded += ((8*teams.size()) - teams.get(i).getTaxiSquad().size());
+        }
+       return totalPlayersNeeded;
+    }
+    public boolean isPaused(){
+        return isPaused;
+    }
       /*      
      public void updateDraftTablePlayers(){
          for(i=0;i<draftTablePlayers.size();i++){
              if(draftTablePlayers.get(i).getContractStatus())
          }
      } */   
-            
-            
-     
+
+    public void setPaused(boolean b) {
+        isPaused = b;
+    }
+    public void assignPoints(){
+        ArrayList<Team> tempList = new ArrayList();
+        Team tempTeam = new Team();
+        for(i=0;i<teams.size();i++){
+            teams.get(i).setTotalPoints(0);
+            tempList.add(teams.get(i));
+        }
+        // R Points
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST R POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_R() > tempTeam.getTotal_R())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // HR Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST HR POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_HR() > tempTeam.getTotal_HR())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        
+        // RBI Points
+        
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST RBI POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_RBI() > tempTeam.getTotal_RBI())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // SB Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST SB POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_SB() > tempTeam.getTotal_SB())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+       // BA Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST BA POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_BA() > tempTeam.getTotal_BA())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // W Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST W POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_W() > tempTeam.getTotal_W())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // K Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST K POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_K() > tempTeam.getTotal_K())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // SV Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST RBI POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_SV() > tempTeam.getTotal_SV())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // ERA Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST ERA POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_ERA() > tempTeam.getTotal_ERA())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+        // WHIP Points
+        for(i=0;i<teams.size();i++){
+            tempList.add(teams.get(i));
+        }
+        while(!tempList.isEmpty()){
+            tempTeam = tempList.get(0);
+            // FIND THE TEAM WITH THE MOST WHIP POINTS
+            if(tempList.size() == 1){
+                tempList.get(0).setTotalPoints((tempList.get(0).getTotalPoints()+1));
+                tempList.clear();
+            }
+            else{
+           for(i=0;i<tempList.size();i++){
+                if(tempList.get(i).getTotal_WHIP() > tempTeam.getTotal_WHIP())
+                    tempTeam = tempList.get(i);
+            }
+           
+           tempTeam.setTotalPoints((tempTeam.getTotalPoints()+tempList.size()));
+           
+            // REMOVE THE TEAM WITH POINTS FROM THE LIST
+           for(i=0;i<tempList.size();i++){
+               if(tempList.get(i).getName().equals(tempTeam.getName()))
+                   tempList.remove(i);
+           }
+        }
+        }
+}
 }

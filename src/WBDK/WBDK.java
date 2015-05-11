@@ -146,6 +146,7 @@ public class WBDK extends Application {// ITEMS FOR THE PROGESS BAR
         Locale.setDefault(Locale.US);
         launch(args);
     }
+    
 }
 
 

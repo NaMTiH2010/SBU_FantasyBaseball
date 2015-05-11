@@ -7,12 +7,9 @@ package WBDK.gui;
 
 import WBDK.WBDK_PropertyType;
 import WBDK.data.Draft;
-import WBDK.data.WBDK_DataManager;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
-import WBDK.file.WBDK_FileManager;
-import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -143,7 +140,7 @@ public class FantasyStandings_GUI extends WBDK_DataView {
         k_Column.setCellValueFactory(new PropertyValueFactory<>("total_K"));
         era_Column.setCellValueFactory(new PropertyValueFactory<>("total_ERA"));
         whip_Column.setCellValueFactory(new PropertyValueFactory<>("total_WHIP"));
-        //totalPointsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("total_"));
+        totalPointsColumn.setCellValueFactory(new PropertyValueFactory<String, String>("totalPoints"));
         
         
         fantStandTable.getColumns().add(teamNameColumn);

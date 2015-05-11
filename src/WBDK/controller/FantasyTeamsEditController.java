@@ -54,6 +54,7 @@ public class FantasyTeamsEditController {
             gui.flipRemoveButton(false);
             gui.flipEditButton(false);
             draft.findEstimatedValue();
+            draft.assignPoints();
         }
         else {
             // THE USER MUST HAVE PRESSED CANCEL, SO

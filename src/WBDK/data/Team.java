@@ -29,6 +29,7 @@ public class Team {
    private StringProperty name;
    private String owner;
     // variables for fantasy standings screen
+   private final IntegerProperty totalPoints;
    private final IntegerProperty moneyLeft;
    private final IntegerProperty costPP;
    private final IntegerProperty numPlayersNeeded;
@@ -95,6 +96,7 @@ public class Team {
          
         this.name = new SimpleStringProperty();
         this.name.set(name);
+        totalPoints = new SimpleIntegerProperty(0);
         moneyLeft = new SimpleIntegerProperty(260);
         costPP = new SimpleIntegerProperty(0);
         numPlayersNeeded = new SimpleIntegerProperty(23);
@@ -116,7 +118,7 @@ public class Team {
         positionsNeeded = FXCollections.observableArrayList();
         startingLineup = FXCollections.observableArrayList();
         taxiSquad = FXCollections.observableArrayList();
-        
+        totalPoints = new SimpleIntegerProperty(0);
         positions = FXCollections.observableArrayList();
         
         positions.add("P");
@@ -728,7 +730,13 @@ public class Team {
             s_BaseNeeded + t_BaseNeeded + ci_Needed +
             mi_Needed + u_Needed +ss_Needed + of_Needed) ;
            return totalNeeded;
-        }       
+        }
+        public int getTotalPoints(){
+            return totalPoints.get();
+        }
+        public void setTotalPoints(int points){
+            totalPoints.set(points);
+        }
     }
     
 

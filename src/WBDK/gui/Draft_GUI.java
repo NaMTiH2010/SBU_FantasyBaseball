@@ -236,9 +236,17 @@ public class Draft_GUI extends WBDK_DataView {
                 
             });
             playButton.setOnAction(e -> {
+                System.out.println("is this working");
+                theDraft.setPaused(false);
+            try {
+                draftPageController.start(theDraft, secondaryStage, this);
                 //fileController.handleNewDraftRequest(this);
+            } catch (Exception ex) {
+                Logger.getLogger(Draft_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             });
             pauseButton.setOnAction(e -> {
+                theDraft.setPaused(true);
                 //fileController.handleNewDraftRequest(this);
             });
        }
