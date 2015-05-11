@@ -737,6 +737,62 @@ public class Team {
         public void setTotalPoints(int points){
             totalPoints.set(points);
         }
+
+        public void setMoneyLeft(int aInt) {
+            moneyLeft.set(aInt);
+        }
+
+    public void setCostPP(int aInt) {
+        costPP.set(aInt);
+    }
+
+    public void setNumPlayersNeeded(int aInt) {
+        numPlayersNeeded.set(aInt);
+    }
+
+    public void setTotal_R(int aInt) {
+        total_R.set(aInt);
+    }
+
+    public void setTotal_HR(int aInt) {
+        total_HR.set(aInt);    
+    }
+
+    public void setTotal_RBI(int aInt) {
+        total_RBI.set(aInt);
+    }
+
+    public void setTotal_SB(int aInt) {
+        total_SB.set(aInt);
+    }
+
+    public void setTotal_SV(int aInt) {
+        total_SV.set(aInt);
+    }
+
+    public void setTotal_K(int aInt) {
+        total_K.set(aInt);
+    }
+
+    public void setTotal_BA(String aInt) {
+        total_BA.set(formatDouble(Double.parseDouble(aInt),3));
+    }
+
+    public void setTotal_W(int aInt) {
+        total_W.set(aInt);
+    }
+
+    public void setTotal_ERA(String aInt) {
+        total_ERA.set(formatDouble(Double.parseDouble(aInt),2));
+    }
+
+    public void setTotal_WHIP(String aInt) {
+        total_WHIP.set(formatDouble(Double.parseDouble(aInt),2));
+    }
+
+    public void setTaxiTime(boolean aBoolean) {
+        taxiTime = aBoolean;
+    }
     }
     
 

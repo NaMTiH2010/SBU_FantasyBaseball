@@ -1092,4 +1092,10 @@ public class Draft {
         }
         }
 }
+
+    public void setDraftTablePlayers(ObservableList<Player> list) {
+        draftTablePlayers = list;
+    }
+
+    
 }

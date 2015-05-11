@@ -221,12 +221,13 @@ public class DraftPageEditController {
                                      if(draft.isPaused())
                                          secondaryStage.hide();
                             perc = (j+1)/max;
+                            bar.setProgress(perc);
+                            indicator.setProgress(perc);
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
                                     
-                                    bar.setProgress(perc);
-                                    indicator.setProgress(perc);
+                                    
                                     ////////////////////////////////////////////
                                     handleAddPlayerSemiAutomatic(gui);
                                     ////////////////////////////////////////////
