@@ -15,7 +15,6 @@ import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

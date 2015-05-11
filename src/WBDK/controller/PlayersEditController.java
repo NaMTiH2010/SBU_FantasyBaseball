@@ -51,7 +51,10 @@ public class PlayersEditController {
             //sid.getFakeTeam().computeTotals();
             itemToEdit.setTaken(true);
             draft.updateAvailableList();
-            draft.findEstimatedValue();
+            
+            if(!(draft.isItTaxiTime()))
+                draft.findEstimatedValue();
+            
             System.out.println("What is this teams name: "+ftid.getFakeTeam().getName());
             System.out.println("What is this teams name: "+sid.getFakeTeam().getName());
         }

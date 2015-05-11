@@ -605,12 +605,12 @@ public class Team {
         public double getTotal_BA(){
             double total = 0;
             if(startingLineup.size() != 0){
-            for(i = 0; i < startingLineup.size();i++){
-                if(startingLineup.get(i).getPlayerType().equalsIgnoreCase("hitter"))
-                    total += startingLineup.get(i).getBA_WHIP();
-            }
-            
-            return ((double)total)/numOfHitters();
+                for(i = 0; i < startingLineup.size();i++){
+                    if(startingLineup.get(i).getPlayerType().equalsIgnoreCase("hitter"))
+                        total += startingLineup.get(i).getBA_WHIP();
+                }
+                if( total !=0 && numOfHitters() !=0)
+                    return formatDouble(((double)total)/numOfHitters(),3);
             }
             return 0;
         }
@@ -651,7 +651,8 @@ public class Team {
                 if(startingLineup.get(i).getPlayerType().equalsIgnoreCase("pitcher"))
                     total += Double.parseDouble(startingLineup.get(i).getSB_ERA());
             }
-            return total / numOfPitchers() ;
+            if( total !=0 && numOfPitchers() !=0)
+                return formatDouble(total / numOfPitchers(),2) ;
         }
           return 0;  
         }
@@ -662,8 +663,8 @@ public class Team {
                 if(startingLineup.get(i).getPlayerType().equalsIgnoreCase("pitcher"))
                     total+= startingLineup.get(i).getBA_WHIP();
             }
-            
-            return total/numOfPitchers();
+            if( total !=0 && numOfPitchers() !=0)
+                return formatDouble(total/numOfPitchers(),2);
         }
             return 0;
         }
@@ -677,18 +678,28 @@ public class Team {
             total_SB.set(getTotal_SB());
             total_SV.set(getTotal_SV());
             total_K.set(getTotal_K());
-            total_BA.set(formatDouble(getTotal_BA()));
-            total_W.set(formatDouble(getTotal_W()));
-            total_ERA.set(formatDouble(getTotal_ERA()));
-            total_WHIP.set(formatDouble(getTotal_WHIP()));
-            System.out.println(" format double should be working but it is: "+ formatDouble(getTotal_WHIP()));
+            total_BA.set(formatDouble(getTotal_BA(),3));
+            total_W.set(formatDouble(getTotal_W(),2));
+            total_ERA.set(formatDouble(getTotal_ERA(),2));
+            total_WHIP.set(formatDouble(getTotal_WHIP(),2));
+            System.out.println(" format double should be working but it is: "+ formatDouble(getTotal_WHIP(),2));
         }
-        private double formatDouble(double d){
+        private double formatDouble(double d,int num){
             //String broke = ""+d;
+            if(num == 3){
+                String fixing = String.format("%.3f", d);
+            Double fixed = Double.parseDouble(fixing);
+                return fixed;
+            }
+            else{
             String fixing = String.format("%.2f", d);
             Double fixed = Double.parseDouble(fixing);
                 return fixed;
+            }
+            
         }
+            
+        
         private double numOfHitters(){
             double total = 0;
             for(i=0; i< startingLineup.size();i++){

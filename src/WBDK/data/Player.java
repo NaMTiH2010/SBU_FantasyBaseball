@@ -333,7 +333,7 @@ public class Player implements Comparable<Player>{
         if(playerType.equalsIgnoreCase("hitter")){
             if(h != 0){
                 double broke = (((double)h)/ ((double)ab));
-                String fixing = String.format("%.3f", broke);
+                String fixing = String.format("%.2f", broke);
                 Double fixed = Double.parseDouble(fixing);
                 ba_whip.set(fixed);
                 
@@ -355,7 +355,7 @@ public class Player implements Comparable<Player>{
            
             if(ip != 0 && er !=0){
                 double broke = (((double)er)*9)/ip;
-                String fixing = String.format("%.3f", broke);
+                String fixing = String.format("%.2f", broke);
                 Double fixed = Double.parseDouble(fixing);
                 sb_era.set(fixed);
                 

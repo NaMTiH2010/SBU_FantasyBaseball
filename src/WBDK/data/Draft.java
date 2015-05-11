@@ -768,6 +768,7 @@ public class Draft {
             medianHitterSalary = (allMoney / (2*totalHittersNeeded));
             medianPitcherSalary = (allMoney / (2* totalPitchersNeeded));
         // CALCULATE EACH PLAYERS ESTIMATED VALUE //median hitter (or pithcher) salary * (X * 2/player rank)
+            
             for(j=0;j<players.size();j++){
                 if(players.get(j).getPlayerType().equalsIgnoreCase("pitcher")){
                     /*System.out.println("pitcherSalary = "+ medianPitcherSalary+"\n"
@@ -776,14 +777,16 @@ public class Draft {
                     estimatedValue = (medianPitcherSalary * (totalPitchersNeeded * 2 / (players.get(j).getFinalRank())));
                     String fixing = String.format("%.2f", estimatedValue);
                     Double fixed = Double.parseDouble(fixing);
-                    players.get(j).setEstimatedValue(fixed);
+                    if(totalPitchersNeeded > 0)
+                         players.get(j).setEstimatedValue(fixed);
                 }
                 else{
                     if(players.get(j).getPlayerType().equalsIgnoreCase("hitter")){
                     estimatedValue = (medianHitterSalary * (totalHittersNeeded * 2 / (players.get(j).getFinalRank())));
                     String fixing = String.format("%.2f", estimatedValue);
                     Double fixed = Double.parseDouble(fixing);
-                    players.get(j).setEstimatedValue(fixed);
+                    if(totalHittersNeeded > 0)
+                        players.get(j).setEstimatedValue(fixed);
                 }
                 }
             }
@@ -792,8 +795,12 @@ public class Draft {
     public ObservableList<Player> getDraftTablePlayers() {
         return draftTablePlayers;
     }
-            
-            
+      /*      
+     public void updateDraftTablePlayers(){
+         for(i=0;i<draftTablePlayers.size();i++){
+             if(draftTablePlayers.get(i).getContractStatus())
+         }
+     } */   
             
             
      

@@ -27,6 +27,8 @@ public class FantasyTeamsEditController {
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
     PropertiesManager properties;
+    int i;
+    int j;
 
     public FantasyTeamsEditController(Stage primaryStage, Draft draft, MessageDialog messageDialog, YesNoCancelDialog yesNoCancelDialog) {
         //sid = new PlayersItemDialog(primaryStage, draft, messageDialog);
@@ -80,69 +82,92 @@ public class FantasyTeamsEditController {
      WBDK_DataManager cdm = gui.getDataManager();
         Draft draft = cdm.getDraft();
         //Player si = new Player();
+        String origContract = itemToEdit.getContractStatus();
+        String origTeam = itemToEdit.getFantasyTeam();
         Player si = ftid.showEditTeamPlayerItemDialog(itemToEdit);
         
         // DID THE USER CONFIRM?
         if ( ftid.wasCompleteSelected()) {
-            // UPDATE THE SCHEDULE ITEM
-                        
+            
             String playersNewFantasyTeam = si.getFantasyTeam();
             
-
+            // IF THE PLAYER IS NOW BACK IN THE FREE AGENT POOL
             if(playersNewFantasyTeam.equalsIgnoreCase("free agent")){
                 System.out.println("case 1 free agent "+ originalTeam.getName());
-                for(int j = 0; j< draft.getPlayers().size();j++){
+                // PUT HIM BACK INTO THE FREE AGENT POOL
+                for( j = 0; j< draft.getPlayers().size();j++){
                     if(draft.getPlayers().get(j).getFirstName().equalsIgnoreCase(si.getFirstName())
-                            && draft.getPlayers().get(j).getFirstName().equalsIgnoreCase(si.getFirstName()))
+                            && draft.getPlayers().get(j).getLastName().equalsIgnoreCase(si.getLastName()))
                         
                         draft.getPlayers().get(j).setAvailability(true);
                         draft.getPlayers().get(j).setTaken(false);
                 }
+                // DELETE HIM OFF THE STARTING LINEUP
+                for( i=0;i<originalTeam.getStartingLineup().size();i++){
+                        if(originalTeam.getStartingLineup().get(i).getFirstName().equalsIgnoreCase(si.getFirstName())){
+                            System.out.println("found him");
+                            originalTeam.getStartingLineup().remove(i);
+                        }
+                }
+                // DELETE HIM FROM DRAFT TABLE
+                for(j=0;j<draft.getDraftTablePlayers().size();j++){
+                    if(draft.getDraftTablePlayers().get(j).getFirstName().equalsIgnoreCase(si.getFirstName())
+                            && draft.getPlayers().get(j).getLastName().equalsIgnoreCase(si.getLastName())){
+                        draft.getDraftTablePlayers().remove(j);
+                    }
+                }
                 
-                for(int i=0;i<originalTeam.getStartingLineup().size();i++){
-                    //if(draft.getTeams().get(i).getName().equalsIgnoreCase(ftid.getOrigTeam())){
-                    //for(int j=0;j<draft.getTeams().get(i).getStartingLineup().size();j++){
-                        if(originalTeam.getStartingLineup().get(i).getFirstName().equalsIgnoreCase(si.getFirstName())){
-                            System.out.println("found him");
-                            originalTeam.getStartingLineup().remove(i);
-                        }
-                    //}
-                //}
             }
-        }
-        else if(playersNewFantasyTeam.equalsIgnoreCase(ftid.getOrigTeam())){
-            System.out.println("case 2 same team");
-        }
-        else{
-            for(int i=0;i<originalTeam.getStartingLineup().size();i++){
-                    //if(draft.getTeams().get(i).getName().equalsIgnoreCase(ftid.getOrigTeam())){
-                    //for(int j=0;j<draft.getTeams().get(i).getStartingLineup().size();j++){
-                        if(originalTeam.getStartingLineup().get(i).getFirstName().equalsIgnoreCase(si.getFirstName())){
-                            System.out.println("found him");
-                            originalTeam.getStartingLineup().remove(i);
-                        }
-            ftid.getFakeTeam().addStartingLineupPlayer(si);
-        }
+            
+            // IF THE PLAYER DID NOT SWITCH TEAMS OR GO TO FREE AGENTS
+        else if(playersNewFantasyTeam.equalsIgnoreCase(origTeam)){System.out.println("case 2 same team");}
         
-            //si = sid.getPlayerItem();
-            
-            
-            //itemToEdit.setTaken(true);
-            
+        // IF THE PLAYER SWITCHED TEAMS
+        else{
+            for( i=0;i<originalTeam.getStartingLineup().size();i++){
+                        if(originalTeam.getStartingLineup().get(i).getFirstName().equalsIgnoreCase(si.getFirstName())){
+                            System.out.println("found him");
+                            originalTeam.getStartingLineup().remove(i);
+                        }
         }
-            for(int i=0;i<draft.getTeams().size();i++){
-            if(draft.getTeams().get(i).getName().equalsIgnoreCase("free agent")){
-                draft.getTeams().remove(i);
+        ftid.getFakeTeam().addStartingLineupPlayer(si);
+        for( i =0;i<draft.getDraftTablePlayers().size();i++){
+            if(si.getFirstName().equalsIgnoreCase(draft.getDraftTablePlayers().get(i).getFirstName()) &&
+                    si.getLastName().equalsIgnoreCase(draft.getDraftTablePlayers().get(i).getLastName())){
+                draft.getDraftTablePlayers().get(i).setFantasyTeam(si.getFantasyTeam());
             }
+                
         }
-            draft.updateAvailableList();
-            System.out.println("What is this teams name: "+ftid.getFakeTeam().getName() +"the fantasy team is "+ playersNewFantasyTeam);
+        }            //System.out.println("What is this teams name: "+ftid.getFakeTeam().getName() +"the fantasy team is "+ playersNewFantasyTeam);
         }
         else {
             System.out.println("THIS SHOULDNT BE HAPPENING");
             // THE USER MUST HAVE PRESSED CANCEL, SO
             // WE DO NOTHING
-        }        
+        }
+        // CONTRACT STATUS DID NOT CHANGE
+        if(origContract.equalsIgnoreCase(itemToEdit.getContractStatus())){}
+        // CONTRACT STATUS WENT FROM S2 TO SOMETHING ELSE
+        else if(origContract.equalsIgnoreCase("S2") && !(itemToEdit.getContractStatus().equalsIgnoreCase("S2"))){
+            for( i=0;i<draft.getDraftTablePlayers().size();i++){
+                if(itemToEdit.getFirstName().equalsIgnoreCase(draft.getDraftTablePlayers().get(i).getFirstName())
+                        && itemToEdit.getLastName().equalsIgnoreCase(draft.getDraftTablePlayers().get(i).getLastName()))
+                    draft.getDraftTablePlayers().remove(i);
+            }
+        }
+        // CONTRACT STATUS WENT FROM S1 OR X TO S2
+        else if(!(origContract.equalsIgnoreCase("S2")) && itemToEdit.getContractStatus().equalsIgnoreCase("S2")){
+            draft.getDraftTablePlayers().add(si);
+        }
+        
+        for( i=0;i<draft.getTeams().size();i++){
+            if(draft.getTeams().get(i).getName().equalsIgnoreCase("free agent")){
+                draft.getTeams().remove(i);
+            }
+        }
+        draft.updateAvailableList();
+        //draft.getFantasyTeamsPage();
+            //gui.reloadDraft(draft);
     }
      
      

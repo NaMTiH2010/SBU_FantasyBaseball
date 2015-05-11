@@ -71,6 +71,7 @@ public class FantasyTeamsItemDialog extends Stage{
     Draft draft;
     Team fakeTeam;
     String originalTeam;
+    boolean finished;
     
     public FantasyTeamsItemDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog) {
         fakeTeam = new Team();
@@ -244,6 +245,7 @@ public class FantasyTeamsItemDialog extends Stage{
     }
     
     public Player showEditTeamPlayerItemDialog(Player itemToEdit) {
+        finished = false;
        // originalTeam = itemToEdit.getFantasyTeam();
         gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 20, 20, 20));
@@ -253,9 +255,16 @@ public class FantasyTeamsItemDialog extends Stage{
         cancelButton = new Button(CANCEL);
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
-            Button sourceButton = (Button)ae.getSource();
-            FantasyTeamsItemDialog.this.selection = sourceButton.getText();
-            FantasyTeamsItemDialog.this.hide();
+            if(itemToEdit.getSalary().matches("-?\\d+(\\.\\d+)?")){
+                Button sourceButton = (Button)ae.getSource();
+                FantasyTeamsItemDialog.this.selection = sourceButton.getText();
+                FantasyTeamsItemDialog.this.hide();
+            }
+            
+            //if(finished){ 
+                
+            //}
+            
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
@@ -272,6 +281,7 @@ public class FantasyTeamsItemDialog extends Stage{
         playerPosLabel = new Label();
         
         salaryTextField = new TextField();
+        salaryTextField.setText(itemToEdit.getSalary());
         salaryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             //StringProperty temp = null;
            // temp.set(newValue);
@@ -294,6 +304,7 @@ public class FantasyTeamsItemDialog extends Stage{
         // SET UP THE CONTRACT HBOX
         contract_Label = new Label("Contract: ");
         contract_ComboBox = new ComboBox();
+        contract_ComboBox.setValue(itemToEdit.getContractStatus());
         contract_ComboBox.setItems(draft.getContracts());
         contract_ComboBox.setOnAction((event) -> {
             itemToEdit.setContractStatus((String) contract_ComboBox.getSelectionModel().getSelectedItem());
@@ -301,6 +312,7 @@ public class FantasyTeamsItemDialog extends Stage{
         // SET UP THE POSITION HBOX
         pos_Label = new Label("Position: ");
         pos_ComboBox = new ComboBox();
+        pos_ComboBox.setValue(itemToEdit.getCurrentPosition());
         ft_ComboBox.setOnAction((event) -> {
             fakeTeam = (Team) ft_ComboBox.getSelectionModel().getSelectedItem();
             itemToEdit.setFantasyTeam(fakeTeam.getName());

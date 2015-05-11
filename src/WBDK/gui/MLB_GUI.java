@@ -9,18 +9,12 @@ import WBDK.WBDK_PropertyType;
 import WBDK.data.Draft;
 import WBDK.data.MLB_Team;
 import WBDK.data.Player;
-import WBDK.data.WBDK_DataManager;
 import WBDK.data.WBDK_DataView;
 import static WBDK.data.WBDK_DataView.CLASS_BORDERED_PANE;
 import static WBDK.data.WBDK_DataView.CLASS_HEADING_LABEL;
-import WBDK.file.WBDK_FileManager;
-import WBDK.file.WBDK_SiteExporter;
 import java.io.IOException;
-import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -127,6 +121,7 @@ public class MLB_GUI extends WBDK_DataView {
         mlbTable.getColumns().add(lastNameCol);
         mlbTable.getColumns().add(positionsCol);
         
+        mlbProTeamList.clear();
         for(int i =0; i < getDataManager().getDraft().getPlayers().size();i++){
             if(getDataManager().getDraft().getPlayers().get(i).getTeam().equalsIgnoreCase("atl"))
                 mlbProTeamList.add(getDataManager().getDraft().getPlayers().get(i));
